@@ -2,6 +2,7 @@ import Image from "next/image";
 import Hero from "@/Components/Sections/Hero";
 import Pourquoi from "@/Components/Sections/Pourquoi";
 import Programme from "@/Components/Sections/Programme";
+import Temoignage from "@/Components/Sections/Temoignage";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
         <iframe className="w-full rounded-md h-full" src="https://www.youtube.com/embed/rLsjtEClNYU" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen frameBorder="0"></iframe>
       </div>
       <Programme />
+      <Temoignage />
     </>
   );
 }
