@@ -26,7 +26,7 @@ function Temoignage() {
     ]
 
     return ( 
-        <div className="flex flex-col h-[95vh] w-full px-48 gap-12 justify-center items-center">
+        <div className="flex flex-col h-screen pb-16 w-full px-48 gap-12 justify-center items-center">
             <h1 className="text-4xl font-bold">Témoignages</h1>
             <div className="grid grid-cols-2 gap-10">
                 {

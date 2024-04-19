@@ -3,6 +3,7 @@ import Hero from "@/Components/Sections/Hero";
 import Pourquoi from "@/Components/Sections/Pourquoi";
 import Programme from "@/Components/Sections/Programme";
 import Temoignage from "@/Components/Sections/Temoignage";
+import Enseignants from "@/Components/Sections/Enseignants";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       </div>
       <Programme />
       <Temoignage />
+      <Enseignants />
     </>
   );
 }

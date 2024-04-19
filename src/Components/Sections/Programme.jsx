@@ -40,7 +40,7 @@ function Programme() {
         }
     ]
     return ( 
-        <div className="relative flex flex-col h-[95vh] w-full px-48 gap-[3.25rem] justify-center items-center">
+        <div className="relative flex flex-col h-screen w-full px-48 gap-[3.25rem] justify-center items-center">
             <h1 className="text-4xl font-bold">Programme De Formation</h1>
             <div className="flex justify-between w-full z-10">
                 <SemesterCard semester={Programme[0].semester} points={Programme[0].points}/>
