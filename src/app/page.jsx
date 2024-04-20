@@ -18,7 +18,7 @@ export default function Home() {
       <Enseignants />
       <div className="w-full flex h-56 px-28 justify-between items-center">
         <h1 className="font-bold text-3xl">Investissez dans votre avenir en toute confiance.</h1>
-        <Button className="text-base" href='/Formation' >Postulez Maintenant</Button>
+        <Button className="text-base" href='/Inscription' >Postulez Maintenant</Button>
       </div>
     </>
   );

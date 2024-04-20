@@ -41,14 +41,17 @@ export default function NavBar() {
 
     return ( 
         <div className={translation+' transition-transform duration-300 transform flex justify-between py-5 items-center px-12 border-b shadow-sm sticky top-0 bg-white z-50'}>
-            <Image src={ensa_logo} width={45} alt="logo"/>
+            <Link href='/'><Image src={ensa_logo} width={45} alt="logo"/></Link>
             <ul>
                 <Link href='/' className='text-sm hover:text-red-600 inline-block mx-5'>Home</Link>
                 <Link href='/#Programme' className='text-sm hover:text-red-600 inline-block mx-5'>Programme</Link>
                 <Link href='/#Enseignants' className='text-sm hover:text-red-600 inline-block mx-5'>Enseignants</Link>
                 <Link href='/' className='text-sm hover:text-red-600 inline-block mx-5'>Forum</Link>
             </ul>
-            <Button href='#'>Log in</Button>
+            <div className='inline-flex gap-2'>
+              <Button className='px-7' href='/Inscription#SignUp'>S'inscrire</Button>
+              <Button variant="ghost" href='/Login'>Log in</Button>
+            </div>
         </div>
      );
 }
