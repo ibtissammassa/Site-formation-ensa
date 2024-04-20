@@ -6,15 +6,14 @@ import Temoignage from "@/Components/Sections/Temoignage";
 import Enseignants from "@/Components/Sections/Enseignants";
 import { Button } from "@/Components/ui/button";
 import Footer from "@/Components/Sections/Footer";
+import TeaserVideo from "@/Components/Sections/TeaserVideo";
 
 export default function Home() {
   return (
     <>
       <Hero />
       <Pourquoi />
-      <div className="h-[90vh] py-10 px-56 flex items-center justify-center w-full">
-        <iframe className="w-full rounded-md h-full" src="https://www.youtube.com/embed/rLsjtEClNYU" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen frameBorder="0"></iframe>
-      </div>
+      <TeaserVideo />
       <Programme />
       <Temoignage />
       <Enseignants />
