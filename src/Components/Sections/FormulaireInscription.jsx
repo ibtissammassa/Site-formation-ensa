@@ -1,7 +1,7 @@
 function FormulaireInscription() {
     return ( 
-        <div>
-            
+        <div id="SignUp">
+
         </div>
      );
 }
