@@ -7,7 +7,7 @@ import ensa_logo from '../../../public/ensa_agadir_logo.svg'
 
 export default function NavBar() {
     return ( 
-        <div className='flex justify-between py-5 items-center px-12 '>
+        <div className='flex justify-between py-5 items-center px-12 border-b shadow-sm'>
             <Image src={ensa_logo} width={45} alt="logo"/>
             <ul>
                 <Link href='/' className='text-sm hover:text-red-600 inline-block mx-5'>Home</Link>

@@ -5,7 +5,6 @@ import Programme from "@/Components/Sections/Programme";
 import Temoignage from "@/Components/Sections/Temoignage";
 import Enseignants from "@/Components/Sections/Enseignants";
 import { Button } from "@/Components/ui/button";
-import Footer from "@/Components/Sections/Footer";
 import TeaserVideo from "@/Components/Sections/TeaserVideo";
 
 export default function Home() {
@@ -14,14 +13,13 @@ export default function Home() {
       <Hero />
       <Pourquoi />
       <TeaserVideo />
-      <Programme />
+      <Programme format='cards' />
       <Temoignage />
       <Enseignants />
       <div className="w-full flex h-56 px-28 justify-between items-center">
         <h1 className="font-bold text-3xl">Investissez dans votre avenir en toute confiance.</h1>
-        <Button className="text-base" href='#' >Postulez Maintenant</Button>
+        <Button className="text-base" href='/Formation' >Postulez Maintenant</Button>
       </div>
-      <Footer />
     </>
   );
 }
