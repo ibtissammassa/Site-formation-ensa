@@ -68,7 +68,7 @@ function Enseignants() {
     ]
     
     return ( 
-        <div className="flex flex-col bg-red-600 text-white h-screen w-full px-44 gap-12 justify-center items-center">
+        <div id="Enseignants" className="flex flex-col bg-red-600 text-white h-screen w-full px-44 gap-12 justify-center items-center">
             <h1 className="text-4xl font-bold">Nos Enseignants</h1>
             {/* <div className="flex gap-8">
                 {

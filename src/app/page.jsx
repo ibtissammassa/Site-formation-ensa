@@ -18,7 +18,7 @@ export default function Home() {
       <Programme />
       <Temoignage />
       <Enseignants />
-      <div className="w-full flex h-52 px-28 justify-between items-center">
+      <div className="w-full flex h-56 px-28 justify-between items-center">
         <h1 className="font-bold text-3xl">Investissez dans votre avenir en toute confiance.</h1>
         <Button className="text-base" href='#' >Postulez Maintenant</Button>
       </div>

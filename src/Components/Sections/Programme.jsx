@@ -40,14 +40,17 @@ function Programme() {
         }
     ]
     return ( 
-        <div className="relative flex flex-col h-screen w-full px-48 gap-[3.25rem] justify-center items-center">
-            <h1 className="text-4xl font-bold">Programme De Formation</h1>
+        <div id="Programme" className="relative flex flex-col h-screen w-full px-48 gap-[3.15rem] justify-center items-center">
+            <div className="flex flex-col gap-3 items-center">
+                <h1 className="text-4xl font-bold">Programme De Formation</h1>
+                <p className="text-slate-700">Protégez et Innovez : La Cybersécurité au Service de l'Intelligence Artificielle</p>
+            </div>
             <div className="flex justify-between w-full z-10">
                 <SemesterCard semester={Programme[0].semester} points={Programme[0].points}/>
                 <Image src={red_horiz_line} alt="red-horiz-line"/>
                 <SemesterCard semester={Programme[1].semester} points={Programme[1].points}/>
             </div>
-            <Image className="absolute top-[53%] right-1/4 z-0" src={red_vert_line} alt="red-vert-line"/>
+            <Image className="absolute top-[55%] right-1/4 z-0" src={red_vert_line} alt="red-vert-line"/>
             <div className="flex justify-between w-full z-10">
                 <SemesterCard semester={Programme[3].semester} points={Programme[3].points}/>
                 <Image src={red_horiz_line} alt="red-horiz-line"/>

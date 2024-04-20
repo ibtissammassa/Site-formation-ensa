@@ -6,9 +6,9 @@ function Footer() {
         <>
               <hr className="border-4 border-red-600 mb-2" />
       <hr className="border-2 border-red-600" />
-        <div className="h-[70vh]  flex flex-col items-center justify-between py-6 bg-red-50">
+        <div className="h-[75vh]  flex flex-col items-center justify-between py-6 bg-red-50">
             <div className="flex px-28 w-full justify-between items-center h-full">
-                <div className="w-2/5 flex flex-col gap-2">
+                <div className="w-2/5 flex flex-col gap-3">
                     <Image src={ensa_logo} width={135} alt="logo"/>
                     <h2 className="font-bold ">Cybersecurity & Intelligence Artificielle - ENSAA</h2>
                     <p className="text-sm text-slate-700">

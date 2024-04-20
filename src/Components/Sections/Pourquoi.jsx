@@ -10,23 +10,26 @@ function Pourquoi() {
         {
             img:prq1,
             title:"Apprentissage Pratique",
-            description:"Nous croyons que la meilleure méthode d'apprentissage consiste à mettre les mains à la pâte. C'est pourquoi nos cours combinent la théorie essentielle avec des exercices pratiques. Vous aurez l'occasion de mettre en pratique tout ce que vous apprenez et de l'appliquer à des situations réelles."
+            description:"Nous privilégions l'apprentissage actif : théorie fondamentale et exercices pratiques se complètent dans nos cours. Vous expérimenterez et appliquerez vos connaissances dans des contextes concrets."
         },
         {
             img:prq2,
             title:"Certification Universitaire",
-            description:"À la fin de cette formation, vous aurez l'opportunité de recevoir un diplôme universitaire délivré par l'Université Ibn Zohr. Ce diplôme atteste de vos compétences et de votre réussite dans le domaine étudié, vous ouvrant ainsi de nouvelles portes dans votre parcours professionnel."
+            description:"À la fin de cette formation, vous obtiendrez un diplôme universitaire de l'Université Ibn Zohr, reconnaissant vos compétences et ouvrant de nouvelles opportunités dans votre parcours."
         },
         {
             img:prq3,
             title:"Formation Académique",
-            description:"Dans cette formation académique, vous serez encadré par des professeurs universitaires compétents. Leur expertise dans leur domaine respectif vous garantit un enseignement de qualité et une guidance précise tout au long de votre parcours d'apprentissage."
+            description:"Dans cette formation, bénéficiez d'un encadrement par des professeurs universitaires compétents. Leur expertise assure un enseignement de qualité et une guidance précise tout au long de votre apprentissage."
         }
     ]
 
     return ( 
-        <div className="flex flex-col h-[95vh] px-40 text-center gap-12 justify-center items-center">
-            <h1 className="text-4xl font-bold">Pourquoi Choisir Notre Formation ?</h1>
+        <div className="flex my-5 flex-col h-[95vh] px-40 text-center gap-12 justify-center items-center">
+            <div className="flex flex-col gap-3 items-center">
+                <h1 className="text-4xl font-bold">Pourquoi Choisir Notre Formation ?</h1>
+                <p className="text-slate-700"> Les Voies Innovantes de Notre Formation en Cybersecurity & Intelligence Artificielle</p>
+            </div>
             <div className="flex gap-10">
                 {
                     objectifs.map((objectif,index) => (
