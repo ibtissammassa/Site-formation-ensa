@@ -48,7 +48,7 @@ export default function NavBar() {
                 <Link href='/#Enseignants' className='text-sm hover:text-red-600 inline-block mx-5'>Enseignants</Link>
                 <Link href='/' className='text-sm hover:text-red-600 inline-block mx-5'>Forum</Link>
             </ul>
-            <Button href='#'>Sign in</Button>
+            <Button href='#'>Log in</Button>
         </div>
      );
 }
