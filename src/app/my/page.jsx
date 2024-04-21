@@ -1,6 +1,6 @@
-import CarteActiviteARendre from "@/Components/ui/CarteActiviteARendre";
-import CarteCours from "@/Components/ui/CarteCours";
-import { ScrollArea } from "@/Components/ui/scroll-area";
+import CarteActiviteARendre from "../../Components/ui/CarteActiviteARendre";
+import CarteCours from "../../Components/ui/CarteCours";
+import { ScrollArea } from "../../Components/ui/scroll-area";
 
 function My() {
   const todos = [

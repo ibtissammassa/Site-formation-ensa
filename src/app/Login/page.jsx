@@ -1,4 +1,4 @@
-import { FormulaireLogin } from "@/Components/Forms/FormulaireLogin";
+import { FormulaireLogin } from "../../Components/Forms/FormulaireLogin";
 
 function LoginPage() {
   return (

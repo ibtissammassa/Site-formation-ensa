@@ -1,9 +1,9 @@
 import formation from "../../../public/Formation.png";
 import Image from "next/image";
-import FormationCard from "@/Components/Sections/FormationCard";
-import ProcessusInscription from "@/Components/Sections/ProcessusInscription";
-import FormulaireInscription from "@/Components/Forms/FormulaireInscription";
-import Programme from "@/Components/Sections/Programme";
+import FormationCard from "../../Components/Sections/FormationCard";
+import ProcessusInscription from "../../Components/Sections/ProcessusInscription";
+import FormulaireInscription from "../../Components/Forms/FormulaireInscription";
+import Programme from "../../Components/Sections/Programme";
 
 function Formation() {
     return ( 

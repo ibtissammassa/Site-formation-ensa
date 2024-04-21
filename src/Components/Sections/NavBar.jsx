@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import { Button } from "../ui/button";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import menu from "../../../public/menu.svg";
