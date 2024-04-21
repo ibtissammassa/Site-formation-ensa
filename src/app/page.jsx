@@ -1,11 +1,11 @@
 import Image from "next/image";
-import Hero from "@/Components/Sections/Hero";
-import Pourquoi from "@/Components/Sections/Pourquoi";
-import Programme from "@/Components/Sections/Programme";
-import Temoignage from "@/Components/Sections/Temoignage";
-import Enseignants from "@/Components/Sections/Enseignants";
-import { Button } from "@/Components/ui/button";
-import TeaserVideo from "@/Components/Sections/TeaserVideo";
+import Hero from "../Components/Sections/Hero";
+import Pourquoi from "../Components/Sections/Pourquoi";
+import Programme from "../Components/Sections/Programme";
+import Temoignage from "../Components/Sections/Temoignage";
+import Enseignants from "../Components/Sections/Enseignants";
+import { Button } from "../Components/ui/button";
+import TeaserVideo from "../Components/Sections/TeaserVideo";
 
 export default function Home() {
   return (
