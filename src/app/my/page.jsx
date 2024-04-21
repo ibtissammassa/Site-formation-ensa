@@ -1,9 +1,5 @@
 function My() {
-    return ( 
-        <div>
-            
-        </div>
-     );
+  return <div>espace connecté</div>;
 }
 
 export default My;
