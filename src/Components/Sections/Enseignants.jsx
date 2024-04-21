@@ -1,4 +1,4 @@
-import EnseignantCard from "@/components/ui/EnseignantCard";
+import EnseignantCard from "@/Components/ui/EnseignantCard";
 import JohnDoe from "../../../public/JohnDoe.png";
 import {
   Carousel,
@@ -6,7 +6,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
+} from "@/Components/ui/carousel";
 
 function Enseignants() {
     const enseignants = [
