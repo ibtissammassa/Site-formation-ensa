@@ -13,7 +13,7 @@ export default function Home() {
       <Hero />
       <Pourquoi />
       <TeaserVideo />
-      <Programme format='cards' />
+      <Programme format="cards" />
       <Temoignage />
       <Enseignants />
       <div className="w-full gap-3 flex flex-col lg:flex-row h-56 px-8 md:px-12 lg:px-28 2xl:px-40 justify-center lg:justify-between items-start lg:items-center">

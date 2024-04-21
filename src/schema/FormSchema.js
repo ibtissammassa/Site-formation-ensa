@@ -1,0 +1,77 @@
+import { z } from "zod";
+
+export const FormInscriptionSchema = z.object({
+  nom: z.string(),
+  prenom: z.string(),
+  numeroTele: z.string(),
+  cin: z
+    .string()
+    .regex(new RegExp("^[a-zA-Z]{2}\\d{3,5}"), { message: "Invalid CIN" }),
+  email: z.string().email(),
+  confirmationEmail: z.string().email(),
+  motDePass: z.string().catch((error) => {
+    console.log(error);
+  }),
+  confirmationMotDePass: z.string(),
+});
+//   .superRefine(({ motDePass }, checkPassComplexity) => {
+//     const containsUppercase = (ch) => /[A-Z]/.test(ch);
+//     const containsLowercase = (ch) => /[a-z]/.test(ch);
+//     const containsSpecialChar = (ch) =>
+//       /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/.test(ch);
+//     let countOfUpperCase = 0,
+//       countOfLowerCase = 0,
+//       countOfNumbers = 0,
+//       countOfSpecialChar = 0;
+//     for (let i = 0; i < motDePass.length; i++) {
+//       let ch = motDePass.charAt(i);
+//       if (!isNaN(+ch)) countOfNumbers++;
+//       else if (containsUppercase(ch)) countOfUpperCase++;
+//       else if (containsLowercase(ch)) countOfLowerCase++;
+//       else if (containsSpecialChar(ch)) countOfSpecialChar++;
+//     }
+//     if (countOfNumbers < 1) {
+//       checkPassComplexity.addIssue({
+//         code: "custom",
+//         message: "password does not have a number",
+//       });
+//     } else if (countOfUpperCase < 1) {
+//       checkPassComplexity.addIssue({
+//         code: "custom",
+//         message: "password does not have uppercase character",
+//       });
+//     } else if (countOfLowerCase < 1) {
+//       checkPassComplexity.addIssue({
+//         code: "custom",
+//         message: "password does not have lowercase character",
+//       });
+//     } else if (countOfSpecialChar < 1) {
+//       checkPassComplexity.addIssue({
+//         code: "custom",
+//         message: "password does not have special character",
+//       });
+//     }
+//   });
+//   .superRefine(({ email, confirmationEmail }, emailConfirmaionMatching) => {
+//     if (!email.match(confirmationEmail)) {
+//       emailConfirmaionMatching.addIssue({
+//         code: "custom",
+//         message: "email doesn't match",
+//       });
+//     }
+//   })
+//   .superRefine(
+//     ({ motDePass, confirmationMotDePass }, modDePassConfirmaionMatching) => {
+//       if (!motDePass.match(confirmationMotDePass)) {
+//         modDePassConfirmaionMatching.addIssue({
+//           code: "custom",
+//           message: "passsword doesn't match",
+//         });
+//       }
+//     }
+//   );
+
+export const FormConnectionSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});

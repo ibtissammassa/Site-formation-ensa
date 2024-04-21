@@ -1,13 +1,12 @@
 import EnseignantCard from "../ui/EnseignantCard";
 import JohnDoe from "../../../public/JohnDoe.png";
 import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-  } from "@/components/ui/carousel"
-  
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 function Enseignants() {
     const enseignants = [
