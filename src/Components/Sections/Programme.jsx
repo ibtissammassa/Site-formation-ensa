@@ -63,7 +63,7 @@ function Programme({format}) {
         }
         {
             (format == 'simple') && 
-            <div className='px-6 flex flex-col gap-3'>
+            <div className='lg:px-6 px-2 flex flex-col gap-3'>
                 <h2 className='font-bold text-xl'>Programme de formation</h2>
                 <div className="flex flex-col gap-5">
                     <div className="flex flex-col gap-3">
