@@ -1,4 +1,4 @@
-import TemoignageCard from "../ui/TemoignageCard";
+import TemoignageCard from "@/Components/ui/TemoignageCard";
 import JohnDoe from "../../../public/JohnDoe.png";
 
 function Temoignage() {

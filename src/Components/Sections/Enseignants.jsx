@@ -1,4 +1,4 @@
-import EnseignantCard from "../ui/EnseignantCard";
+import EnseignantCard from "@/components/ui/EnseignantCard";
 import JohnDoe from "../../../public/JohnDoe.png";
 import {
   Carousel,

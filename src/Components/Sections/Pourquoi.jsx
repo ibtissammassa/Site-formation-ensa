@@ -1,4 +1,4 @@
-import PourquoiCard from "../ui/PourquoiCard";
+import PourquoiCard from "@/Components/ui/PourquoiCard";
 
 //images
 import prq1 from '../../../public/prq1.png';

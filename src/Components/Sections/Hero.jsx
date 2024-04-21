@@ -1,6 +1,6 @@
 import ibnzohr from '../../../public/ibnzohr_logo.svg'
 import Image from 'next/image';
-import { Button } from '../ui/button';
+import { Button } from '@/Components/ui/button';
 
 function Hero() {
     return ( 

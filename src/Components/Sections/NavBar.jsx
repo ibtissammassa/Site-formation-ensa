@@ -1,14 +1,14 @@
 "use client";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import menu from "../../../public/menu.svg";
 import close from "../../../public/close.svg";
 import ensa_logo from "../../../public/ensa_agadir_logo.svg";
-import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import CarteProfile from "../ui/CarteProfile";
+import { Avatar, AvatarImage, AvatarFallback } from "@/Components/ui/avatar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/Components/ui/popover";
+import CarteProfile from "@/Components/ui/CarteProfile";
 
 export default function NavBar() {
   const [showNav, setShowNav] = useState(true);

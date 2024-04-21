@@ -1,4 +1,4 @@
-import SemesterCard from "../ui/SemesterCard";
+import SemesterCard from "@/Components/ui/SemesterCard";
 import red_horiz_line from "../../../public/red-horiz-line.svg";
 import red_vert_line from "../../../public/red-vertic-line.svg";
 import Image from "next/image";

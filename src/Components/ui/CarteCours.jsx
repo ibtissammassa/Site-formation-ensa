@@ -1,5 +1,5 @@
-import { Avatar, AvatarImage, AvatarFallback } from "./avatar";
-import { Progress } from "./progress";
+import { Avatar, AvatarImage, AvatarFallback } from "@/Components/ui/avatar";
+import { Progress } from "@/Components/ui/progress";
 
 function CarteCours({ data }) {
   const { coverImage, profImage, profName, courseName, progress } = data;
