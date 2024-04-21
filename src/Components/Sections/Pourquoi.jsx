@@ -25,12 +25,12 @@ function Pourquoi() {
     ]
 
     return ( 
-        <div className="flex my-5 flex-col h-[95vh] px-40 text-center gap-12 justify-center items-center">
+        <div className="flex my-24 lg:my-5 flex-col lg:h-[95vh] 2xl:px-80 lg:px-40 px-8 text-center gap-12 justify-center items-center">
             <div className="flex flex-col gap-3 items-center">
-                <h1 className="text-4xl font-bold">Pourquoi Choisir Notre Formation ?</h1>
-                <p className="text-slate-700"> Les Voies Innovantes de Notre Formation en Cybersecurity & Intelligence Artificielle</p>
+                <h1 className="md:text-4xl text-3xl font-bold">Pourquoi Choisir Notre Formation ?</h1>
+                <p className="text-slate-700 text-sm md:text-base"> Les Voies Innovantes de Notre Formation en Cybersecurity & Intelligence Artificielle</p>
             </div>
-            <div className="flex gap-10">
+            <div className="flex items-center gap-10 md:flex-row flex-col">
                 {
                     objectifs.map((objectif,index) => (
                         <PourquoiCard key={index} img={objectif.img} title={objectif.title} description={objectif.description} />

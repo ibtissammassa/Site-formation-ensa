@@ -18,14 +18,14 @@ function ProcessusInscription() {
         }
     ]
     return ( 
-        <div className="px-6 flex flex-col gap-5">
+        <div className="lg:px-6 px-2 flex flex-col gap-5">
             <h2 className='font-bold text-xl'>Processus d’inscription</h2>
             <div className="flex flex-col gap-4">
                 {
                     processus.map((process, index) => (
-                        <div key={index} className='inline-flex gap-6 items-center shadow-md rounded-md p-5 px-7 border'>
+                        <div key={index} className='inline-flex gap-6 items-center shadow-md rounded-md p-5 lg:px-7 border'>
                             <h1 className='font-bold text-red-600 text-5xl'>{process.num}</h1>
-                            <h2 className="font-bold">{process.title}</h2>
+                            <h2 className="font-bold text-sm lg:text-base">{process.title}</h2>
                         </div>
                     ))
                 }

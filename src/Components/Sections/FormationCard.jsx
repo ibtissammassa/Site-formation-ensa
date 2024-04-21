@@ -33,8 +33,8 @@ function FormationCard() {
         }
     ]
     return ( 
-        <div className='w-full border rounded-md p-7 flex flex-col gap-8 shadow-lg'>
-            <div className="flex justify-between w-full text-xl font-semibold">
+        <div className='w-full md:my-0 my-7 border rounded-md lg:p-7 p-6 flex flex-col gap-8 shadow-lg'>
+            <div className="flex justify-between w-full md:text-xl text-lg font-semibold">
                 <h2 className="">Prix de formation </h2>
                 <h2 className="text-red-600">25000 mad/ans</h2>
             </div>
