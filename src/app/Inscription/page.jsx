@@ -7,7 +7,7 @@ import Programme from '@/Components/Sections/Programme';
 
 function Formation() {
     return ( 
-        <div className="px-28 py-8 flex gap-9 flex-col">
+        <div className="px-28 2xl:px-80 py-8 flex gap-9 flex-col">
             <div className="flex flex-col gap-3">
                 <h1 className="text-4xl font-bold">Cybersecurity & Intelligence Artificielle</h1>
                 <p className="text-slate-700 text-sm">Sécurité Informatique & Intelligence Artificielle : Renforcer les Défenses Numériques pour Demain</p>

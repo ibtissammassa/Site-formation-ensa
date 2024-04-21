@@ -26,12 +26,12 @@ function Temoignage() {
     ]
 
     return ( 
-        <div className="flex flex-col h-screen my-16 pb-16 w-full px-48 gap-7 justify-center items-center">
-            <div className="flex flex-col gap-3 items-center">
-                <h1 className="text-4xl font-bold">Témoignages</h1>
-                <p className="text-slate-700">Expériences Inspirantes : Témoignages de Réussite en Cybersecurity & Intelligence Artificielle</p>
+        <div className="flex flex-col lg:h-screen my-24 lg:my-16 pb-16 w-full px-8 lg:px-48 2xl:px-80 gap-7 justify-center items-center">
+            <div className="flex flex-col gap-3 text-center items-center">
+                <h1 className="md:text-4xl text-3xl font-bold">Témoignages</h1>
+                <p className="text-slate-700 text-sm md:text-base">Expériences Inspirantes : Témoignages de Réussite en Cybersecurity & Intelligence Artificielle</p>
             </div>
-            <div className="grid grid-cols-2 gap-10">
+            <div className="grid md:grid-cols-2 gap-10">
                 {
                     temoignages.map((temoignage, index) => (
                         <TemoignageCard key={index} text={temoignage.text} name={temoignage.name} img={temoignage.img} />

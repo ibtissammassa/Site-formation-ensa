@@ -68,20 +68,13 @@ function Enseignants() {
     ]
     
     return ( 
-        <div id="Enseignants" className="flex flex-col bg-red-600 text-white h-screen w-full px-44 gap-12 justify-center items-center">
-            <h1 className="text-4xl font-bold">Nos Enseignants</h1>
-            {/* <div className="flex gap-8">
-                {
-                    enseignants.map((enseignant, index) => (
-                        <EnseignantCard key={index} name={enseignant.name} img={enseignant.img} description={enseignant.description} degree={enseignant.degree} />
-                    ))
-                }
-            </div> */}
-            <Carousel className="w-full" >
+        <div id="Enseignants" className="flex flex-col bg-red-600 text-white py-28 lg:py-0 lg:h-screen w-full px-8 lg:px-44 2xl:px-80 gap-12 justify-center items-center">
+            <h1 className="md:text-4xl text-3xl text-center font-bold">Nos Enseignants</h1>
+            <Carousel className="lg:w-full w-4/5" >
                 <CarouselPrevious />
                 <CarouselContent>
                     {enseignants.map((enseignant, index) => (
-                        <CarouselItem className="basis-1/3" key={index}>
+                        <CarouselItem className="md:basis-1/2 lg:basis-1/3" key={index}>
                             <EnseignantCard name={enseignant.name} img={enseignant.img} description={enseignant.description} degree={enseignant.degree} />
                         </CarouselItem>
                     ))}
