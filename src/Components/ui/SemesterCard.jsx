@@ -1,5 +1,3 @@
-
-
 function SemesterCard({semester,points}) {
     return ( 
         <div className="border-2 rounded-3xl bg-white md:w-[400px] md:h-56 h-48 border-red-600 p-6 ">
