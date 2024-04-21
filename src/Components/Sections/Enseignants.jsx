@@ -74,7 +74,7 @@ function Enseignants() {
                 <CarouselPrevious />
                 <CarouselContent>
                     {enseignants.map((enseignant, index) => (
-                        <CarouselItem className="md:basis-1/2 lg:basis-1/3" key={index}>
+                        <CarouselItem className="2xl:basis-1/4 md:basis-1/2 lg:basis-1/3" key={index}>
                             <EnseignantCard name={enseignant.name} img={enseignant.img} description={enseignant.description} degree={enseignant.degree} />
                         </CarouselItem>
                     ))}
