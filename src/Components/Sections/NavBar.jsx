@@ -125,7 +125,7 @@ export default function NavBar() {
       <div
         className={
           (showMenu ? "flex " : "hidden ") +
-          "flex-col p-7 gap-5 absolute top-20 py-9 bg-white w-full shadow-md"
+          "flex-col p-7 gap-5 absolute top-20 py-9 bg-white w-full shadow-md z-50"
         }
       >
         <ul className="flex flex-col gap-3">
