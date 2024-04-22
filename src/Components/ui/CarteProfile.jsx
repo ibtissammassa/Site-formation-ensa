@@ -1,5 +1,5 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/Components/ui/avatar";
-import { Button } from "@/Components/ui/button";
+import { Button } from "@/Components/ui/extension/button";
 import { LogOutIcon } from "lucide-react";
 
 function CarteProfile() {
