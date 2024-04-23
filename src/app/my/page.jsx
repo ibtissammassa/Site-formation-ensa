@@ -1,76 +1,13 @@
-import CarteActiviteARendre from "../../Components/ui/CarteActiviteARendre";
-import CarteCours from "../../Components/ui/CarteCours";
-import { ScrollArea } from "../../Components/ui/scroll-area";
+import CarteActiviteARendre from "@/Components/ui/CarteActiviteARendre";
+import CarteCours from "@/Components/ui/CarteCours";
+import { ScrollArea } from "@/Components/ui/scroll-area";
+
+//data
+import { courses } from "@/data/courses";
+import { todos } from "@/data/todos";
 
 function My() {
-  const todos = [
-    {
-      travail: "Rapport de TP",
-      cours: "Cryptography and Block-chaine",
-      delais: "20/03/2024 00:00",
-      rendu: 0,
-    },
-    {
-      travail: "Rapport de TD",
-      cours: "Réseaux informatiques",
-      delais: "05/07/2024 22:30",
-      rendu: 0,
-    },
-    {
-      travail: "Devoire Maison",
-      cours: "Système d’exploitation Linux",
-      delais: "20/03/2024 00:00",
-      rendu: 1,
-    },
-    {
-      travail: "Rapport de TP",
-      cours: "Cryptography and Block-chaine",
-      delais: "20/03/2024 00:00",
-      rendu: 1,
-    },
-    {
-      travail: "Rapport de TP",
-      cours: "Cryptography and Block-chaine",
-      delais: "20/03/2024 00:00",
-      rendu: 1,
-    },
-    {
-      travail: "Rapport de TP",
-      cours: "Cryptography and Block-chaine",
-      delais: "20/03/2024 00:00",
-      rendu: 1,
-    },
-  ];
-  const courses = [
-    {
-      coverImage: "/ensa-agadir.jpg",
-      profImage: "https://github.com/shadcn.png",
-      profName: "Toumanari Mohamed",
-      courseName: "Architecture et Micro-processeur",
-      progress: 10,
-    },
-    {
-      coverImage: "/ensa-agadir.jpg",
-      profImage: "https://github.com/shadcn.png",
-      profName: "Samira Tourabi",
-      courseName: "Système d’exploitation Linux",
-      progress: 0,
-    },
-    {
-      coverImage: "/ensa-agadir.jpg",
-      profImage: "https://github.com/shadcn.png",
-      profName: "Mohamed Eloumari",
-      courseName: "Réseaux informatiques",
-      progress: 50,
-    },
-    {
-      coverImage: "/ensa-agadir.jpg",
-      profImage: "https://github.com/shadcn.png",
-      profName: "Omar Charf",
-      courseName: "Réseaux informatiques",
-      progress: 80,
-    },
-  ];
+
   return (
     <div className="lg:px-28 px-8 2xl:px-80 py-8 flex md:flex-row flex-col gap-2 ">
       <main className="lg:w-2/3 w-full">

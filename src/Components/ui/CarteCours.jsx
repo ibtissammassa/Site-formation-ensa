@@ -1,10 +1,11 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/Components/ui/avatar";
 import { Progress } from "@/Components/ui/progress";
+import Link from "next/link";
 
 function CarteCours({ data }) {
-  const { coverImage, profImage, profName, courseName, progress } = data;
+  const { coverImage, profImage, profName, courseName, progress, slug } = data;
   return (
-    <div className="rounded-md shadow border border-gray-200 lg:w-[320px] w-full">
+    <Link href={'/my/' + slug} className="rounded-md shadow border border-gray-200 lg:w-[320px] w-full">
       <div
         id="card-header"
         className={
@@ -34,7 +35,7 @@ function CarteCours({ data }) {
           <Progress value={progress} className="h-2" />
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
