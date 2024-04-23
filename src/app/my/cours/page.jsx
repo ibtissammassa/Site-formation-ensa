@@ -30,9 +30,11 @@ import {
 import { courses } from "@/data/courses";
 
 function Cours() {
+    const role = "etudiant";
+
     return (
         <div className="lg:px-[2rem] px-8 2xl:px-80 py-8 flex flex-col gap-5 ">
-            {/* <Breadcrumb>
+            <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem>
                         <BreadcrumbLink href="/my/dashboard">Dashboard</BreadcrumbLink>
@@ -42,7 +44,7 @@ function Cours() {
                         <BreadcrumbPage>Cours</BreadcrumbPage>
                     </BreadcrumbItem>
                 </BreadcrumbList>
-            </Breadcrumb> */}
+            </Breadcrumb>
             <div className="w-full flex justify-between">
                 <h1 className="text-3xl font-bold">Cours </h1>
                 <Select>

@@ -32,7 +32,7 @@ function FormationCard() {
             ]
         }
     ]
-    return ( 
+    return (
         <div className='w-full md:my-0 my-7 border rounded-md lg:p-7 p-6 flex flex-col gap-8 shadow-lg'>
             <div className="flex justify-between w-full md:text-xl text-lg font-semibold">
                 <h2 className="">Prix de formation </h2>
@@ -58,7 +58,7 @@ function FormationCard() {
                 }
             </div>
         </div>
-     );
+    );
 }
 
 export default FormationCard;
