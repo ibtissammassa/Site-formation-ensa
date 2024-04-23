@@ -1,11 +1,11 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/Components/ui/avatar";
-import { Progress } from "@/Components/ui/progress";
+import { Progress } from "@/Components/ui/extension/progress";
 import Link from "next/link";
 
 function CarteCours({ data }) {
   const { coverImage, profImage, profName, courseName, progress, slug } = data;
   return (
-    <Link href={'/my/' + slug} className="rounded-md shadow border border-gray-200 lg:w-[320px] w-full">
+    <Link href={'/my/cours/' + slug} className="rounded-md shadow border border-gray-200 lg:w-[310px] w-full">
       <div
         id="card-header"
         className={
@@ -19,7 +19,7 @@ function CarteCours({ data }) {
             <AvatarImage src={profImage} />
             <AvatarFallback>TM</AvatarFallback>
           </Avatar>
-          <span id="nom-prof" className="font-semibold text-white ">
+          <span id="nom-prof" className="font-semibold text-white text-sm">
             {profName}
           </span>
         </div>
@@ -27,7 +27,7 @@ function CarteCours({ data }) {
       </div>
 
       <div className="px-4 py-4 mt-5 ">
-        <h1 id="cours" className="font-bold text-xl">
+        <h1 id="cours" className="font-bold">
           {courseName}
         </h1>
         <div className="flex flex-col items-end mt-2">

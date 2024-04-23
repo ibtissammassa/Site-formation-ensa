@@ -15,7 +15,7 @@ import {
 } from "@/Components/ui/accordion"
 import CarteActiviteARendre from "@/Components/ui/CarteActiviteARendre";
 import { ScrollArea } from "@/Components/ui/scroll-area";
-import file_down from "../../../../public/file-down.svg";
+import file_down from "../../../../../public/file-down.svg";
 
 //data
 import { courses } from "@/data/courses";
@@ -31,11 +31,11 @@ function FormationPage({ params }) {
             <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                        <BreadcrumbLink href="/my/dashboard">Dashboard</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/my">My Courses</BreadcrumbLink>
+                        <BreadcrumbLink href="/my/cours">Cours</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
