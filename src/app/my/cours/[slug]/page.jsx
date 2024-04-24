@@ -16,16 +16,20 @@ import {
 import CarteActiviteARendre from "@/Components/ui/CarteActiviteARendre";
 import { ScrollArea } from "@/Components/ui/scroll-area";
 import file_down from "../../../../../public/file-down.svg";
+import Link from "next/link";
+import { Avatar, AvatarImage, AvatarFallback } from "@/Components/ui/avatar";
+import { Button } from "@/Components/ui/extension/button";
 
 //data
 import { courses } from "@/data/courses";
-import { todos } from "@/data/todos";
-import Link from "next/link";
+import { todos } from "@/data/travailAR";
+import { Trash2 } from "lucide-react";
+
 
 function FormationPage({ params }) {
     const { slug } = params;
-    const { courseName, profName, objectif, chapitres } = courses.find((course) => course.slug === slug);
-
+    const { courseName, profName, profImage, objectif, volume_horaire, date_debut, date_fin, chapitres } = courses.find((course) => course.slug === slug);
+    const role = "prof";
     return (
         <div className="lg:px-28 px-8 2xl:px-80 py-8 flex gap-7 flex-col">
             <Breadcrumb>
@@ -47,7 +51,7 @@ function FormationPage({ params }) {
                 <h1 className="md:text-4xl text-3xl font-bold">{courseName}</h1>
                 <p className="text-slate-700 md:text-sm text-xs">Encadré par: {profName}</p>
             </div>
-            <div className="flex md:flex-row flex-col gap-2 md:justify-between">
+            <div className="flex md:flex-row flex-col gap-5 md:justify-between">
                 <main className="lg:w-[62%] w-full text-left">
                     <Accordion type="single" collapsible className="w-full">
                         <AccordionItem value="item-1">
@@ -86,9 +90,12 @@ function FormationPage({ params }) {
                                                 <h3 className="font-semibold mb-1">Resources du cours :</h3>
                                                 {
                                                     chapitre.ressources.map((ressource, index) => (
-                                                        <div className="inline-flex items-center my-2">
-                                                            <Image src={file_down} width={20} alt="file-down" />
-                                                            <Link href={ressource.url} target="_blank" className="text-sm underline hover:text-red-400 ml-2">{ressource.title}</Link>
+                                                        <div className="flex justify-between items-center" key={index}>
+                                                            <div className="inline-flex items-center my-2">
+                                                                <Image src={file_down} width={20} alt="file-down" />
+                                                                <Link href={ressource.url} target="_blank" className="text-sm underline hover:text-red-400 ml-2">{ressource.title}</Link>
+                                                            </div>
+                                                            {role === "prof" && <Link href='#' target="_blank"><Trash2 className="w-4 hover:text-red-600" /></Link>}
                                                         </div>
                                                     ))
                                                 }
@@ -101,6 +108,49 @@ function FormationPage({ params }) {
                     </Accordion>
                 </main>
                 <aside className="lg:w-1/3 w-full">
+                    <div className="p-4 rounded-md border border-gray-200 shadow-md mb-4 flex flex-col gap-3">
+                        <h1 className="text-lg font-semibold mb-4">Détails de cours</h1>
+                        <div>
+                            <h3 className="font-semibold text-sm">Encadré par:</h3>
+                            <div className="flex flex-row items-center gap-3 my-2">
+                                <Avatar className="w-[40px] h-[40px]">
+                                    <AvatarImage src={profImage} />
+                                    <AvatarFallback>TM</AvatarFallback>
+                                </Avatar>
+                                <span id="nom-prof" className="text-sm">
+                                    {profName}
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="font-semibold text-sm inline-flex gap-5">
+                                <h3 >Volume Horaire :</h3>
+                                <h3>{volume_horaire.total}h</h3>
+                            </div>
+                            <div className="px-4 py-2 w-[50%] flex flex-col gap-2">
+                                <div className="text-sm inline-flex justify-between">
+                                    <p >Cours :</p>
+                                    <p>{volume_horaire.cours}h</p>
+                                </div>
+                                <div className="text-sm inline-flex justify-between">
+                                    <p >TD :</p>
+                                    <p>{volume_horaire.td}h</p>
+                                </div>
+                                <div className="text-sm inline-flex justify-between">
+                                    <p >TP :</p>
+                                    <p>{volume_horaire.tp}h</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="inline-flex gap-5 font-semibold text-sm">
+                            <h3 className="">Date début estimé :</h3>
+                            <h3>{date_debut}</h3>
+                        </div>
+                        <div className="inline-flex gap-5 font-semibold text-sm">
+                            <h3 className="">Date fin estimé : </h3>
+                            <h3>{date_fin}</h3>
+                        </div>
+                    </div>
                     <div className="p-4 rounded-md border border-gray-200 shadow-md">
                         <h1 className="text-lg font-semibold mb-4">Activité A Rendre</h1>
                         <ScrollArea className="h-[400px]">

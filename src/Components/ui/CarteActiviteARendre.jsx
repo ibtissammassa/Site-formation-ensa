@@ -1,9 +1,11 @@
+import Link from "next/link";
+
 function CarteActiviteARendre({ data }) {
-  const { travail, cours, delais, rendu } = data;
+  const { title, slug, cours, delais, rendu } = data;
   return (
     <div className="border-b py-2 flex flex-col gap-2">
       <div className="flex flex-row justify-between">
-        <h1 className="font-bold text-gray-700 text-md">{travail}</h1>
+        <Link href={'/my/travail-a-rendre/' + slug} className="font-bold text-gray-700 text-md hover:underline">{title}</Link>
         {rendu ? <RenduFlag /> : <NonRenduFlag />}
       </div>
       <h2 className="text-sm">{cours}</h2>

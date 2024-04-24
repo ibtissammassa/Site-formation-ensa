@@ -7,7 +7,15 @@ export const courses = [
       courseName: "Architecture et Micro-processeur",
       slug: "architecture-et-micro-processeur",
       progress: 10,
+      date_debut: "2021-10-01",
+      date_fin: "2021-10-30",
       objectif: "Le cours d'Architecture et Microprocesseurs vise à fournir aux étudiants une compréhension approfondie des concepts fondamentaux de l'architecture des ordinateurs et des microprocesseurs. En explorant les principes de conception et le fonctionnement interne des systèmes informatiques, les étudiants acquerront les compétences nécessaires pour concevoir, analyser et optimiser des architectures de microprocesseurs.",
+      volume_horaire:{
+        total: 30,
+        cours: 15,
+        td: 10,
+        tp: 5
+      },
       chapitres: [
         {
             num: 1,
@@ -99,7 +107,15 @@ export const courses = [
       slug: "systeme-d-exploitation-linux",
       progress: 0,
       objectif: "Le cours de Systèmes d'exploitation Linux vise à fournir aux étudiants une compréhension approfondie des concepts fondamentaux des systèmes d'exploitation et des environnements Linux. En explorant les principes de conception et le fonctionnement des systèmes d'exploitation, les étudiants acquerront les compétences nécessaires pour configurer, administrer et optimiser des systèmes Linux.",
-        chapitres: [
+      date_debut: "2021-10-01",
+      date_fin: "2021-10-30",
+      volume_horaire:{
+        total: 30,
+        cours: 15,
+        td: 10,
+        tp: 5
+      },  
+      chapitres: [
             {
                 num: 1,
                 title: "Introduction à Linux",
@@ -190,6 +206,14 @@ export const courses = [
       slug: "reseaux-informatiques",
       progress: 50,
       objectif: "Le cours de Réseaux informatiques vise à fournir aux étudiants une compréhension approfondie des concepts fondamentaux des réseaux informatiques et des protocoles de communication. En explorant les principes de conception et le fonctionnement des réseaux, les étudiants acquerront les compétences nécessaires pour configurer, administrer et optimiser des réseaux informatiques.",
+      date_debut: "2021-10-01",
+      date_fin: "2021-10-30",
+      volume_horaire:{
+        total: 30,
+        cours: 15,
+        td: 10,
+        tp: 5
+      },
       chapitres: [
         {
             num: 1,
@@ -280,6 +304,14 @@ export const courses = [
       courseName: "Réseaux informatiques",
       slug: "reseaux-informatiques",
       progress: 80,
+      date_debut: "2021-10-01",
+      date_fin: "2021-10-30",
+      volume_horaire:{
+        total: 30,
+        cours: 15,
+        td: 10,
+        tp: 5
+      },
       objectif: "Le cours de Réseaux informatiques vise à fournir aux étudiants une compréhension approfondie des concepts fondamentaux des réseaux informatiques et des protocoles de communication. En explorant les principes de conception et le fonctionnement des réseaux, les étudiants acquerront les compétences nécessaires pour configurer, administrer et optimiser des réseaux informatiques.",
         chapitres: [
             {
@@ -371,6 +403,14 @@ export const courses = [
       courseName: "Architecture et Micro-processeur",
       slug: "architecture-et-micro-processeur",
       progress: 10,
+      date_debut: "2021-10-01",
+      date_fin: "2021-10-30",
+      volume_horaire:{
+        total: 30,
+        cours: 15,
+        td: 10,
+        tp: 5
+      },
       objectif: "Le cours d'Architecture et Microprocesseurs vise à fournir aux étudiants une compréhension approfondie des concepts fondamentaux de l'architecture des ordinateurs et des microprocesseurs. En explorant les principes de conception et le fonctionnement interne des systèmes informatiques, les étudiants acquerront les compétences nécessaires pour concevoir, analyser et optimiser des architectures de microprocesseurs.",
       chapitres: [
         {
@@ -462,6 +502,14 @@ export const courses = [
       courseName: "Système d’exploitation Linux",
       slug: "systeme-d-exploitation-linux",
       progress: 0,
+      date_debut: "2021-10-01",
+      date_fin: "2021-10-30",
+      volume_horaire:{
+        total: 30,
+        cours: 15,
+        td: 10,
+        tp: 5
+      },
       objectif: "Le cours de Systèmes d'exploitation Linux vise à fournir aux étudiants une compréhension approfondie des concepts fondamentaux des systèmes d'exploitation et des environnements Linux. En explorant les principes de conception et le fonctionnement des systèmes d'exploitation, les étudiants acquerront les compétences nécessaires pour configurer, administrer et optimiser des systèmes Linux.",
         chapitres: [
             {
@@ -553,6 +601,12 @@ export const courses = [
       courseName: "Réseaux informatiques",
       slug: "reseaux-informatiques",
       progress: 50,
+      volume_horaire:{
+        total: 30,
+        cours: 15,
+        td: 10,
+        tp: 5
+      },
       objectif: "Le cours de Réseaux informatiques vise à fournir aux étudiants une compréhension approfondie des concepts fondamentaux des réseaux informatiques et des protocoles de communication. En explorant les principes de conception et le fonctionnement des réseaux, les étudiants acquerront les compétences nécessaires pour configurer, administrer et optimiser des réseaux informatiques.",
       chapitres: [
         {
@@ -644,6 +698,14 @@ export const courses = [
       courseName: "Réseaux informatiques",
       slug: "reseaux-informatiques",
       progress: 80,
+      date_debut: "2021-10-01",
+      date_fin: "2021-10-30",
+      volume_horaire:{
+        total: 30,
+        cours: 15,
+        td: 10,
+        tp: 5
+      },
       objectif: "Le cours de Réseaux informatiques vise à fournir aux étudiants une compréhension approfondie des concepts fondamentaux des réseaux informatiques et des protocoles de communication. En explorant les principes de conception et le fonctionnement des réseaux, les étudiants acquerront les compétences nécessaires pour configurer, administrer et optimiser des réseaux informatiques.",
         chapitres: [
             {
