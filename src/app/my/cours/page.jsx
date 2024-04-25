@@ -33,7 +33,7 @@ function Cours() {
     const role = "etudiant";
 
     return (
-        <div className="lg:px-[2rem] px-8 2xl:px-80 py-8 flex flex-col gap-5 ">
+        <div className="lg:px-10 px-8 2xl:px-80 py-8 flex flex-col gap-5 ">
             <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem>
@@ -59,7 +59,7 @@ function Cours() {
                 </Select>
             </div>
 
-            <div className="flex flex-row flex-wrap gap-2.5 mb-1">
+            <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 gap-3 mb-1">
                 {courses.map((data, index) => (
                     <CarteCours key={index} data={data} />
                 ))}

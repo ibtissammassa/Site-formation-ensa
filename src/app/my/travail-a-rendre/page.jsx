@@ -22,10 +22,14 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/Components/ui/select"
+import CarteTravailAR from "@/Components/ui/carteTravailAR"
+
+//data
+import { todos } from "@/data/travailAR";
 
 function TravailArendre() {
     return (
-        <div className="lg:px-[2rem] px-8 2xl:px-80 py-8 flex flex-col gap-5 ">
+        <div className="lg:px-20 px-8 2xl:px-80 py-8 flex flex-col gap-5 ">
             <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem>
@@ -37,7 +41,7 @@ function TravailArendre() {
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
-            <div className="w-full flex justify-between">
+            <div className="w-full flex gap-3 md:justify-between md:flex-row flex-col">
                 <h1 className="text-3xl font-bold">Travail a rendre </h1>
                 <Select>
                     <SelectTrigger className="w-[180px]">
@@ -51,10 +55,10 @@ function TravailArendre() {
                 </Select>
             </div>
 
-            <div className="flex flex-row flex-wrap gap-2.5 mb-1">
-                {/* {courses.map((data, index) => (
-                    <CarteCours key={index} data={data} />
-                ))} */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-1">
+                {todos.map((data, index) => (
+                    <CarteTravailAR key={index} data={data} />
+                ))}
             </div>
             <Pagination>
                 <PaginationContent>
