@@ -22,7 +22,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/Components/ui/select"
-import CarteTravailAR from "@/Components/ui/carteTravailAR"
+import CarteTravailAR from "@/Components/ui/CarteTravailAR"
 
 //data
 import { todos } from "@/data/travailAR";
