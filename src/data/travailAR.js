@@ -10,7 +10,7 @@ export const todos =[
     {
         title:"Rapport de TP 2",
         slug: "rapport-de-tp-2",
-        cours: "Introduction à l'architecture des ordinateurs",
+        cours: "Système d’exploitation Linux",
         delais: "20/03/2024 00:00",
         rendu: 0,
         detail : "Ecrire un rapport de tp 1 concernant chapitre 1 de cours, documenté ce que nous avons fais dans la scéance de tp."
