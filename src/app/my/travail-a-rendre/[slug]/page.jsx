@@ -71,19 +71,19 @@ function TravailDetail({ params }) {
                 <aside className="lg:w-1/3 w-full">
                     <div className="p-4 rounded-md border border-gray-200 shadow-md mb-4 flex flex-col gap-3 h-36">
                         <div className="flex flex-row justify-between items-center">
-                            <h3 className="font-bold text-gray-900 hover:underline">Soumettez votre travail</h3>
+                            <h3 className="font-bold text-gray-900">Soumettez votre travail</h3>
                             {rendu ? <RenduFlag /> : <NonRenduFlag />}
                         </div>
                     </div>
                     <div className="p-4 rounded-md border border-gray-200 shadow-md mb-4 flex flex-col gap-3 h-36">
                         <div className="flex flex-row justify-between items-center">
-                            <h3 className="font-bold text-gray-900 hover:underline">Soumettez votre travail</h3>
+                            <h3 className="font-bold text-gray-900">Soumettez votre travail</h3>
                             {rendu ? <RenduFlag /> : <NonRenduFlag />}
                         </div>
                     </div>
                     <div className="p-4 rounded-md border border-gray-200 shadow-md mb-4 flex flex-col gap-3 h-36">
                         <div className="flex flex-row justify-between items-center">
-                            <h3 className="font-bold text-gray-900 hover:underline">Soumettez votre travail</h3>
+                            <h3 className="font-bold text-gray-900">Soumettez votre travail</h3>
                             {rendu ? <RenduFlag /> : <NonRenduFlag />}
                         </div>
                     </div>
