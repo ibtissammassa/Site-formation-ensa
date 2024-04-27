@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from "../../Components/ui/form";
 import { Input } from "../../Components/ui/input";
-import { FormConnectionSchema } from "@/schema/FormSchema";
+import { FormConnectionSchema } from "@/schema/zodFormSchema";
 import axios from "axios";
 import PasswordInput from "../ui/extension/passwordInput";
 import { useState } from "react";

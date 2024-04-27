@@ -26,7 +26,6 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body className={poppins.className + " relative"}>
-        <NavBar />
         {children}
         <Footer />
         <Toaster />
