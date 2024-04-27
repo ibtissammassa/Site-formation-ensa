@@ -9,9 +9,7 @@ export const FormInscriptionSchema = z.object({
     .regex(new RegExp("^[a-zA-Z]{2}\\d{3,5}"), { message: "Invalid CIN" }),
   email: z.string().email(),
   confirmationEmail: z.string().email(),
-  motDePass: z.string().catch((error) => {
-    console.log(error);
-  }),
+  motDePass: z.string(),
   confirmationMotDePass: z.string(),
 });
 //   .superRefine(({ motDePass }, checkPassComplexity) => {
