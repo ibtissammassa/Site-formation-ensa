@@ -1,9 +1,8 @@
 "use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-
+import { Loader2 } from "lucide-react";
+import Link from "next/link";
 import { Button } from "../ui/extension/button";
 import {
   Form,
@@ -16,26 +15,41 @@ import {
 } from "../../Components/ui/form";
 import { Input } from "../../Components/ui/input";
 import { FormConnectionSchema } from "@/schema/FormSchema";
-
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-});
+import axios from "axios";
+import PasswordInput from "../ui/extension/passwordInput";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useToast } from "../ui/use-toast";
 
 export function FormulaireLogin() {
+  const router = useRouter();
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
   const form = useForm({
     resolver: zodResolver(FormConnectionSchema),
-    defaultValues: {
-      username: "",
-    },
   });
 
-  // 2. Define a submit handler.
-  function onSubmit(values) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values) {
+    try {
+      setLoading(true);
+      const responce = await axios.post("/api/login", values);
+      console.log(responce);
+      toast({
+        description: "Bienvenue dans votre espace connecté.",
+        variant: "success",
+      });
+      router.push("/my/dashboard");
+    } catch (error) {
+      if (error.response.status === 400) {
+        form.setError("email", { message: "Vous étes pas inscrit." });
+      } else if (error.response.status === 401) {
+        form.setError("password", { message: "Mot de passe invalide." });
+      } else {
+        console.log(error);
+      }
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -64,14 +78,31 @@ export function FormulaireLogin() {
               <FormItem>
                 <FormLabel>Mot De Passe</FormLabel>
                 <FormControl>
-                  <Input placeholder="***********" {...field} />
+                  <PasswordInput {...field} />
                 </FormControl>
                 <FormDescription>Entrer votre mot de passe.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">Connecter</Button>
+          <div>
+            <Button type="submit" disabled={loading ? true : false}>
+              {" "}
+              {loading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <></>
+              )}
+              Connecter
+            </Button>
+            <p className="text-sm text-gray-600">
+              Vous avez{" "}
+              <Link href="#" className="underline">
+                oublié le mot de passe
+              </Link>
+              ?
+            </p>
+          </div>
         </form>
       </Form>
     </div>

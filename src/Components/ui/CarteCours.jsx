@@ -5,7 +5,10 @@ import Link from "next/link";
 function CarteCours({ data }) {
   const { coverImage, profImage, profName, courseName, progress, slug } = data;
   return (
-    <Link href={'/my/cours/' + slug} className="rounded-md shadow border border-gray-200 lg:w-[310px] w-full">
+    <Link
+      href={"/my/cours/" + slug}
+      className="rounded-md shadow border border-gray-200 w-full"
+    >
       <div
         id="card-header"
         className={

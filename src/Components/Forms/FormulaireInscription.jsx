@@ -1,13 +1,10 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-
-import { Button } from "../ui/extension/button";
+import HorizontalInputGroup from "../ui/extension/horizontalInputGroup";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,16 +13,50 @@ import {
 import { Input } from "../../Components/ui/input";
 import { FormInscriptionSchema } from "@/schema/FormSchema";
 import { useRouter } from "next/navigation";
+import { Button } from "../ui/extension/button";
+import PasswordInput from "../ui/extension/passwordInput";
+import UserRoles from "@/schema/userRoles";
+import axios from "axios";
+import { useToast } from "../ui/use-toast";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 function FormulaireInscription() {
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
   const router = useRouter();
   const form = useForm({
     resolver: zodResolver(FormInscriptionSchema),
   });
 
-  function onSubmit(values) {
-    console.log(values);
-    router.push("/my");
+  async function onSubmit(values) {
+    const { nom, prenom, numeroTele, cin, email, motDePass } = values;
+    const role = UserRoles.UnverifiedStudent;
+    const newUser = {
+      nom,
+      prenom,
+      numeroTele,
+      cin,
+      email,
+      motDePass,
+      role,
+    };
+    try {
+      setLoading(true);
+      await axios.post("/api/user", newUser);
+      toast({
+        description:
+          "Vous avez terminé la pre-inscription avec succes, vouz pouvez accédez votre espace connecté.",
+        variant: "success",
+      });
+      router.push("/Login");
+    } catch (error) {
+      console.log(error);
+      if (error.response.status === 400)
+        form.setError("email", { message: "Ce email est deja enregistré !" });
+    } finally {
+      setLoading(false);
+    }
   }
   return (
     <div id="SignUp" className="border bordre-gray-100 rounded shadow-lg p-4">
@@ -40,7 +71,7 @@ function FormulaireInscription() {
                 <FormItem>
                   <FormLabel>Nom</FormLabel>
                   <FormControl>
-                    <Input placeholder="shadcn" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -53,7 +84,7 @@ function FormulaireInscription() {
                 <FormItem>
                   <FormLabel>Prenom</FormLabel>
                   <FormControl>
-                    <Input placeholder="shadcn" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -68,7 +99,7 @@ function FormulaireInscription() {
                 <FormItem>
                   <FormLabel>Numero de telephone</FormLabel>
                   <FormControl>
-                    <Input placeholder="shadcn" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -81,7 +112,7 @@ function FormulaireInscription() {
                 <FormItem>
                   <FormLabel>CIN</FormLabel>
                   <FormControl>
-                    <Input placeholder="shadcn" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -95,7 +126,7 @@ function FormulaireInscription() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -108,7 +139,7 @@ function FormulaireInscription() {
               <FormItem>
                 <FormLabel>Confirmation Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -121,7 +152,7 @@ function FormulaireInscription() {
               <FormItem>
                 <FormLabel>Mot De Pass</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <PasswordInput {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -134,27 +165,22 @@ function FormulaireInscription() {
               <FormItem>
                 <FormLabel>Confirmaion Mot De Pass</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <PasswordInput {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button type="submit" size="lg" disabled={loading ? true : false}>
+            {loading ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <></>
+            )}
+            {loading ? "Attendez" : "Inscrire"}
+          </Button>
         </form>
       </Form>
-    </div>
-  );
-}
-
-function HorizontalInputGroup({ children }) {
-  return (
-    <div className="sm:flex sm:flex-row sm:gap-4 sm:mb-4">
-      {children.map((element, index) => (
-        <div className="sm:w-1/2" key={index}>
-          {element}
-        </div>
-      ))}
     </div>
   );
 }
