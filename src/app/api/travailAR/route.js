@@ -17,6 +17,15 @@ export async function POST(request) {
       ressources,
     } = requestBody;
 
+    const travail = await TravailAR.findOne({ slug });
+
+    if (travail) {
+      return NextResponse.json(
+        { error: "TravailAR already exists" },
+        { status: 400 }
+      );
+    }
+
     const newTravailAR = new TravailAR({
       title,
       slug,
