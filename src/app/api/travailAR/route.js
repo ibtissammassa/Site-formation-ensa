@@ -2,7 +2,7 @@ import TravailAR from "@/schema/travailARSchema";
 import { NextRequest, NextResponse } from "next/server";
 import { connect } from "@/dbConfig/dbConfig";
 
-connect();
+await connect();
 
 export async function POST(request) {
   try {

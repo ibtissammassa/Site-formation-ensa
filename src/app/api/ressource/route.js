@@ -2,7 +2,7 @@ import { connect } from "@/dbConfig/dbConfig";
 import Ressources from "@/schema/ressourcesSchema";
 import { NextRequest, NextResponse } from "next/server";
 
-connect();
+await connect();
 
 export async function POST(request) {
   try {
