@@ -11,7 +11,7 @@ function Dashboard() {
   return (
     <div className="lg:px-28 px-8 2xl:px-80 py-8 flex md:flex-row flex-col gap-2 ">
       <main className="lg:w-2/3 w-full">
-        <h1 className="text-xl font-bold mb-4">Cours Actuels</h1>
+        <h1 className="text-xl font-bold mb-4">Cours Actuels rachid</h1>
 
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-3 mb-1">
           {courses.map((data, index) => (

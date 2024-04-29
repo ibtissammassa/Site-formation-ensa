@@ -1,23 +1,32 @@
 "use client";
 import { Avatar, AvatarImage, AvatarFallback } from "@/Components/ui/avatar";
 import { Button } from "@/Components/ui/extension/button";
+import { getDataFromToken } from "@/app/actions";
 import axios from "axios";
 import { LogOutIcon, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function CarteProfile() {
-  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState({});
+  const [signingOut, setSigningOut] = useState(false);
   const router = useRouter();
+  useEffect(() => {
+    try {
+      getDataFromToken().then((rs) => setUser(rs));
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }, []);
   const handleLogout = async () => {
     try {
-      setLoading(true);
+      setSigningOut(true);
       await axios.get("/api/logout");
       router.refresh();
     } catch (error) {
       console.log(error.message);
     } finally {
-      setLoading(false);
+      setSigningOut(false);
     }
   };
   return (
@@ -41,9 +50,9 @@ function CarteProfile() {
         variant="ghost"
         className="w-full border-t mt-2"
         onClick={handleLogout}
-        disabled={loading}
+        disabled={signingOut}
       >
-        {loading ? (
+        {signingOut ? (
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
         ) : (
           <LogOutIcon />
