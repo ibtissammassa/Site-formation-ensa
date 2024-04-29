@@ -3,9 +3,9 @@ import { cookies } from "next/headers";
 export default function Template({ children }) {
   const session = cookies().get("token");
   return (
-    <div id="template">
-      <NavBar session={session.value} />
+    <>
+      <NavBar session={session?.value} />
       {children}
-    </div>
+    </>
   );
 }

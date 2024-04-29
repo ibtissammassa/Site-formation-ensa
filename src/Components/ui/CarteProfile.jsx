@@ -2,17 +2,22 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/Components/ui/avatar";
 import { Button } from "@/Components/ui/extension/button";
 import axios from "axios";
-import { LogOutIcon } from "lucide-react";
+import { LogOutIcon, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 function CarteProfile() {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const handleLogout = async () => {
     try {
+      setLoading(true);
       await axios.get("/api/logout");
-      router.push("/Login");
+      router.refresh();
     } catch (error) {
       console.log(error.message);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -36,8 +41,13 @@ function CarteProfile() {
         variant="ghost"
         className="w-full border-t mt-2"
         onClick={handleLogout}
+        disabled={loading}
       >
-        <LogOutIcon />
+        {loading ? (
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
+          <LogOutIcon />
+        )}
         Déconnecté
       </Button>
     </div>
