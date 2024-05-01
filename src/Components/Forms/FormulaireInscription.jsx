@@ -11,7 +11,7 @@ import {
   FormMessage,
 } from "../../Components/ui/form";
 import { Input } from "../../Components/ui/input";
-import { FormInscriptionSchema } from "@/schema/FormSchema";
+import { FormInscriptionSchema } from "@/schema/zodFormSchema";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/extension/button";
 import PasswordInput from "../ui/extension/passwordInput";
@@ -54,6 +54,11 @@ function FormulaireInscription() {
       console.log(error);
       if (error.response.status === 400)
         form.setError("email", { message: "Ce email est deja enregistré !" });
+      else if (error.response.status === 500)
+        form.setError("email", {
+          message:
+            "Une probleme a étais rencontré pendant l'inscription, ressayé puls tards.",
+        });
     } finally {
       setLoading(false);
     }

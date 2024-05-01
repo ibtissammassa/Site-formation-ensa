@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from "../../Components/ui/form";
 import { Input } from "../../Components/ui/input";
-import { FormConnectionSchema } from "@/schema/FormSchema";
+import { FormConnectionSchema } from "@/schema/zodFormSchema";
 import axios from "axios";
 import PasswordInput from "../ui/extension/passwordInput";
 import { useState } from "react";
@@ -33,12 +33,11 @@ export function FormulaireLogin() {
     try {
       setLoading(true);
       const responce = await axios.post("/api/login", values);
-      console.log(responce);
       toast({
         description: "Bienvenue dans votre espace connecté.",
         variant: "success",
       });
-      router.push("/my/dashboard");
+      router.refresh();
     } catch (error) {
       if (error.response.status === 400) {
         form.setError("email", { message: "Vous étes pas inscrit." });
@@ -86,7 +85,7 @@ export function FormulaireLogin() {
             )}
           />
           <div>
-            <Button type="submit" disabled={loading ? true : false}>
+            <Button type="submit" disabled={loading}>
               {" "}
               {loading ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

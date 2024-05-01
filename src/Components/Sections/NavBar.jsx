@@ -12,10 +12,8 @@ import {
 } from "@/Components/ui/popover";
 import CarteProfile from "@/Components/ui/CarteProfile";
 import { Bell, Menu, Settings, X } from "lucide-react";
-import BurgerMenu from "./BurgerMenu";
 
-export default function NavBar() {
-  const session = {};
+export default function NavBar({ session }) {
   const [showNav, setShowNav] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [showMenu, setShowMenu] = useState(false);
