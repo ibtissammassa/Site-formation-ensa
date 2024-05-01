@@ -38,6 +38,7 @@ export function FormulaireLogin() {
         variant: "success",
       });
       router.refresh();
+      router.push("/my/dashboard");
     } catch (error) {
       if (error.response.status === 400) {
         form.setError("email", { message: "Vous étes pas inscrit." });

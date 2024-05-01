@@ -28,6 +28,7 @@ function CarteProfile() {
       setSigningOut(true);
       await axios.get("/api/logout");
       router.refresh();
+      router.push("/");
     } catch (error) {
       console.log(error.message);
     } finally {
@@ -66,7 +67,7 @@ function CarteProfile() {
             ) : (
               <LogOutIcon />
             )}
-            Déconnecté
+            Déconnecter
           </Button>
         </>
       )}

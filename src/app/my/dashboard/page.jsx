@@ -9,7 +9,7 @@ import Link from "next/link";
 
 function Dashboard() {
   return (
-    <div className="lg:px-28 px-8 2xl:px-80 py-8 flex md:flex-row flex-col gap-2 ">
+    <div className="lg:px-28 px-8 2xl:px-80 py-8 flex md:flex-row flex-col gap-12 ">
       <main className="lg:w-2/3 w-full">
         <h1 className="text-xl font-bold mb-4">Cours Actuels rachid</h1>
 
