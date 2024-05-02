@@ -1,3 +1,4 @@
+'use client'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -23,13 +24,14 @@ import {
   SelectValue,
 } from "@/Components/ui/select";
 import CarteTravailAR from "@/Components/ui/CarteTravailAR";
+import { useStore } from "@/store/zustand";
 
 //data
 import { todos } from "@/data/travailAR";
 import { Button } from "@/Components/ui/extension/button";
 
 function TravailArendre() {
-  const role = "student";
+  const role = useStore((state) => state.userRole);
   return (
     <div className="lg:px-20 px-8 2xl:px-80 py-8 flex flex-col gap-5 ">
       <Breadcrumb>

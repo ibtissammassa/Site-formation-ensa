@@ -1,3 +1,4 @@
+'use client'
 import Image from "next/image";
 import {
     Breadcrumb,
@@ -19,17 +20,18 @@ import file_down from "../../../../../public/file-down.svg";
 import Link from "next/link";
 import { Avatar, AvatarImage, AvatarFallback } from "@/Components/ui/avatar";
 import { Button } from "@/Components/ui/extension/button";
-
+import { Trash2 } from "lucide-react";
+import { useStore } from "@/store/zustand";
 //data
 import { courses } from "@/data/courses";
 import { todos } from "@/data/travailAR";
-import { Trash2 } from "lucide-react";
+
 
 
 function FormationPage({ params }) {
     const { slug } = params;
     const { courseName, profName, profImage, objectif, volume_horaire, date_debut, date_fin, chapitres } = courses.find((course) => course.slug === slug);
-    const role = "prof";
+    const role = useStore((state) => state.userRole);
     return (
         <div className="lg:px-28 px-8 2xl:px-80 py-8 flex gap-7 flex-col">
             <Breadcrumb>
@@ -51,6 +53,13 @@ function FormationPage({ params }) {
                 <h1 className="md:text-4xl text-3xl font-bold">{courseName}</h1>
                 <p className="text-slate-700 md:text-sm text-xs">Encadré par: {profName}</p>
             </div>
+
+            {role === "admin" && (<div className="inline-flex gap-3">
+                <Button className="w-40">Modifier</Button>
+                <Button variant="outline" className="w-40">Supprimer</Button>
+            </div>
+            )}
+
             <div className="flex md:flex-row flex-col gap-5 md:justify-between">
                 <main className="lg:w-[62%] w-full text-left">
                     <Accordion type="single" collapsible className="w-full">

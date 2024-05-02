@@ -75,18 +75,6 @@ function TravailDetail({ params }) {
                             {rendu ? <RenduFlag /> : <NonRenduFlag />}
                         </div>
                     </div>
-                    <div className="p-4 rounded-md border border-gray-200 shadow-md mb-4 flex flex-col gap-3 h-36">
-                        <div className="flex flex-row justify-between items-center">
-                            <h3 className="font-bold text-gray-900">Soumettez votre travail</h3>
-                            {rendu ? <RenduFlag /> : <NonRenduFlag />}
-                        </div>
-                    </div>
-                    <div className="p-4 rounded-md border border-gray-200 shadow-md mb-4 flex flex-col gap-3 h-36">
-                        <div className="flex flex-row justify-between items-center">
-                            <h3 className="font-bold text-gray-900">Soumettez votre travail</h3>
-                            {rendu ? <RenduFlag /> : <NonRenduFlag />}
-                        </div>
-                    </div>
                 </aside>
             </div>
         </div>

@@ -14,7 +14,7 @@ import { todos } from "@/data/travailAR";
 function Dashboard() {
   const user = useStore((state) => state.user);
   const isLoading = useStore((state) => state.isLoading);
-  const role = "admin";
+  const role = useStore((state) => state.userRole);
   console.log(user);
   console.log(isLoading);
 

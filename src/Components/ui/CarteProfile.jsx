@@ -1,7 +1,6 @@
 "use client";
 import { Avatar, AvatarImage, AvatarFallback } from "@/Components/ui/avatar";
 import { Button } from "@/Components/ui/extension/button";
-import { getDataFromToken } from "@/app/actions";
 import axios from "axios";
 import { LogOutIcon, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -9,30 +8,16 @@ import { useEffect, useState } from "react";
 import { useStore } from "@/store/zustand";
 
 function CarteProfile() {
-  const setUser = useStore((state) => state.setUser);
   const user = useStore((state) => state.user);
-  const setIsLoading = useStore((state) => state.setIsLoading);
   const isLoading = useStore((state) => state.isLoading);
   const [signingOut, setSigningOut] = useState(false);
   const router = useRouter();
-
-  useEffect(() => {
-    setIsLoading(true);
-    getDataFromToken().then((rs) => {
-      setUser(rs);
-      setIsLoading(false);
-    }).catch((error) => {
-      console.error(error.message);
-      setIsLoading(false);
-    });
-  }, [setUser, setIsLoading]);;
 
   const handleLogout = async () => {
     try {
       setSigningOut(true);
       await axios.get("/api/logout");
       router.refresh();
-      router.push("/");
     } catch (error) {
       console.log(error.message);
     } finally {
