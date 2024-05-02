@@ -6,23 +6,27 @@ import axios from "axios";
 import { LogOutIcon, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useStore } from "@/store/zustand";
 
 function CarteProfile() {
-  const [user, setUser] = useState({});
+  const setUser = useStore((state) => state.setUser);
+  const user = useStore((state) => state.user);
+  const setIsLoading = useStore((state) => state.setIsLoading);
+  const isLoading = useStore((state) => state.isLoading);
   const [signingOut, setSigningOut] = useState(false);
-  const [loadingData, setLoadingData] = useState(false);
   const router = useRouter();
+
   useEffect(() => {
-    try {
-      setLoadingData(true);
-      getDataFromToken().then((rs) => setUser(rs));
-    } catch (error) {
-      throw new Error(error.message);
-    } finally {
-      setLoadingData(false);
-    }
-  }, []);
-  // useEffect(() => console.log(user), [user]);
+    setIsLoading(true);
+    getDataFromToken().then((rs) => {
+      setUser(rs);
+      setIsLoading(false);
+    }).catch((error) => {
+      console.error(error.message);
+      setIsLoading(false);
+    });
+  }, [setUser, setIsLoading]);;
+
   const handleLogout = async () => {
     try {
       setSigningOut(true);
@@ -37,7 +41,7 @@ function CarteProfile() {
   };
   return (
     <div className="flex flex-col justify-center items-center gap-2 text-center">
-      {loadingData ? (
+      {isLoading ? (
         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
       ) : (
         <>
