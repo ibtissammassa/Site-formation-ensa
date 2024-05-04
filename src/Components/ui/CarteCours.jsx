@@ -1,9 +1,14 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/Components/ui/avatar";
 import { Progress } from "@/Components/ui/extension/progress";
 import Link from "next/link";
+import { SkeletonCard } from "@/Components/ui/SkeletonCard";
 
 function CarteCours({ data }) {
-  const { coverImage, profImage, profName, courseName, progress, slug } = data;
+  console.log('data', data);
+  const { coverImage, name: courseName, progress, slug, profInfo } = data;
+
+  if (!data || data.length == 0) return <SkeletonCard />
+
   return (
     <Link
       href={"/my/cours/" + slug}
@@ -17,15 +22,18 @@ function CarteCours({ data }) {
           "')]"
         }
       >
-        <div className="flex flex-row items-center gap-3 justify-start absolute top-[60px] left-4 z-10">
+        {profInfo && <div className="flex flex-row items-center gap-3 justify-start absolute top-[60px] left-4 z-10">
           <Avatar className="w-[60px] h-[60px]">
-            <AvatarImage src={profImage} />
-            <AvatarFallback>TM</AvatarFallback>
+            <AvatarImage src={profInfo.Image} />
+            <AvatarFallback>{`${profInfo.firstname.charAt(
+              0
+            )}${profInfo.lastname.charAt(0)}`}</AvatarFallback>
           </Avatar>
           <span id="nom-prof" className="font-semibold text-white text-sm">
-            {profName}
+            {`${profInfo.firstname} ${profInfo.lastname}`}
           </span>
-        </div>
+        </div>}
+
         <div className="h-[100px] bg-gradient-to-r from-red-900 to-black opacity-50 rounded-t-md" />
       </div>
 
@@ -38,6 +46,7 @@ function CarteCours({ data }) {
           <Progress value={progress} className="h-2" />
         </div>
       </div>
+
     </Link>
   );
 }

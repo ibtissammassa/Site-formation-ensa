@@ -17,7 +17,8 @@ const moduleSchema = new Schema({
     tp: Number,
   },
   chapitres: [Chapitre.schema],
-  //profName and profImage is needed
+  profId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  semester: { type: Number, required: true, enum: [1, 2, 3, 4] },
 });
 
 const Module = mongoose.models.Module || mongoose.model("Module", moduleSchema);

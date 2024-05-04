@@ -7,6 +7,7 @@ import { getDataFromToken } from "@/app/actions";
 export default function myLayout({ children }) {
     const setUser = useStore((state) => state.setUser);
     const setIsLoading = useStore((state) => state.setIsLoading);
+
     useEffect(() => {
         setIsLoading(true);
         getDataFromToken().then((rs) => {
@@ -17,6 +18,7 @@ export default function myLayout({ children }) {
             setIsLoading(false);
         });
     }, [setUser, setIsLoading]);
+
     return (
         <>
             {children}

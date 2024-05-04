@@ -1,3 +1,4 @@
+"use client"
 import CarteCours from "@/Components/ui/CarteCours";
 import {
   Breadcrumb,
@@ -23,12 +24,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/Components/ui/select";
-
-//data
-import { courses } from "@/data/courses";
+import { useStore } from "@/store/zustand";
+import { Loader } from "lucide-react";
+import { useEffect } from "react";
+import { SkeletonCard } from "@/Components/ui/SkeletonCard";
 
 function Cours() {
-  const role = "etudiant";
+  const courses = useStore((state) => state.courses);
+  const fetchCourses = useStore((state) => state.fetchCourses);
+
+  useEffect(() => {
+    fetchCourses();
+  }, []);
+
+  if (!courses) return <Loader />
 
   return (
     <div className="lg:px-10 px-8 2xl:px-80 py-8 flex flex-col gap-5 ">
@@ -57,9 +66,15 @@ function Cours() {
         </Select>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-2 gap-3 mb-1">
-        {courses.map((data, index) => (
-          <CarteCours key={index} data={data} />
-        ))}
+        {
+          courses.length === 0 ? (
+            <SkeletonCard />
+          ) : (
+            courses.map((data, index) => (
+              <CarteCours key={index} data={data} />
+            ))
+          )
+        }
       </div>
       <Pagination>
         <PaginationContent>

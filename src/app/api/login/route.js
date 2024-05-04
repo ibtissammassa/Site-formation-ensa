@@ -34,6 +34,7 @@ export async function POST(request) {
       firstname: user.firstname,
       lastname: user.lastname,
       email: user.email,
+      semester: user.semester,
     };
 
     const token = await jwt.sign(tokenData, process.env.JWT_SECRET_KEY, {

@@ -22,16 +22,38 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/Components/ui/avatar";
 import { Button } from "@/Components/ui/extension/button";
 import { Trash2 } from "lucide-react";
 import { useStore } from "@/store/zustand";
+import Loader from "@/app/loading";
+import { useEffect } from "react";
 //data
-import { courses } from "@/data/courses";
+// import { courses } from "@/data/courses";
 import { todos } from "@/data/travailAR";
 
 
 
 function FormationPage({ params }) {
     const { slug } = params;
-    const { courseName, profName, profImage, objectif, volume_horaire, date_debut, date_fin, chapitres } = courses.find((course) => course.slug === slug);
+    const courses = useStore((state) => state.courses);
+    const fetchCourses = useStore((state) => state.fetchCourses);
+    const currentCourse = courses.find((course) => course.slug === slug);
     const role = useStore((state) => state.userRole);
+    useEffect(() => {
+        if (!currentCourse) {
+            fetchCourses();
+        }
+    }, []);
+
+    if (!currentCourse) return <Loader />
+
+    const { name: courseName, objectif, volume_horaire, date_debut, date_fin, chapitres, profInfo } = currentCourse;
+    const datedebut = new Date(date_debut);
+    const datefin = new Date(date_fin);
+    // Extraire la date au format YYYY-MM-DD
+    const start_date = datedebut.toISOString().split('T')[0];
+    const end_date = datefin.toISOString().split('T')[0];
+    // Extraire l'heure au format HH:MM:SS
+    // const start_time = datedebut.toISOString().split('T')[1].split('.')[0];
+    // const end_time = datefin.toISOString().split('T')[1].split('.')[0];
+
     return (
         <div className="lg:px-28 px-8 2xl:px-80 py-8 flex gap-7 flex-col">
             <Breadcrumb>
@@ -51,7 +73,7 @@ function FormationPage({ params }) {
             </Breadcrumb>
             <div className="flex flex-col gap-3">
                 <h1 className="md:text-4xl text-3xl font-bold">{courseName}</h1>
-                <p className="text-slate-700 md:text-sm text-xs">Encadré par: {profName}</p>
+                <p className="text-slate-700 md:text-sm text-xs">Encadré par: {profInfo.firstname} {profInfo.lastname}</p>
             </div>
 
             {role === "admin" && (<div className="inline-flex gap-3">
@@ -102,9 +124,9 @@ function FormationPage({ params }) {
                                                         <div className="flex justify-between items-center" key={index}>
                                                             <div className="inline-flex items-center my-2">
                                                                 <Image src={file_down} width={20} alt="file-down" />
-                                                                <Link href={ressource.url} target="_blank" className="text-sm underline hover:text-red-400 ml-2">{ressource.title}</Link>
+                                                                <Link href={ressource.ressource.url} target="_blank" className="text-sm underline hover:text-red-400 ml-2">{ressource.ressource.title}</Link>
                                                             </div>
-                                                            {role === "prof" && <Link href='#' target="_blank"><Trash2 className="w-4 hover:text-red-600" /></Link>}
+                                                            {role === "teacher" && <Link href='#' target="_blank"><Trash2 className="w-4 hover:text-red-600" /></Link>}
                                                         </div>
                                                     ))
                                                 }
@@ -123,11 +145,13 @@ function FormationPage({ params }) {
                             <h3 className="font-semibold text-sm">Encadré par:</h3>
                             <div className="flex flex-row items-center gap-3 my-2">
                                 <Avatar className="w-[40px] h-[40px]">
-                                    <AvatarImage src={profImage} />
-                                    <AvatarFallback>TM</AvatarFallback>
+                                    <AvatarImage src={profInfo.Image} />
+                                    <AvatarFallback>{`${profInfo.firstname.charAt(
+                                        0
+                                    )}${profInfo.lastname.charAt(0)}`}</AvatarFallback>
                                 </Avatar>
                                 <span id="nom-prof" className="text-sm">
-                                    {profName}
+                                    {`${profInfo.firstname} ${profInfo.lastname}`}
                                 </span>
                             </div>
                         </div>
@@ -153,11 +177,11 @@ function FormationPage({ params }) {
                         </div>
                         <div className="inline-flex gap-5 font-semibold text-sm">
                             <h3 className="">Date début estimé :</h3>
-                            <h3>{date_debut}</h3>
+                            <h3>{start_date}</h3>
                         </div>
                         <div className="inline-flex gap-5 font-semibold text-sm">
                             <h3 className="">Date fin estimé : </h3>
-                            <h3>{date_fin}</h3>
+                            <h3>{end_date}</h3>
                         </div>
                     </div>
                     <div className="p-4 rounded-md border border-gray-200 shadow-md">

@@ -62,7 +62,7 @@ function TravailDetail({ params }) {
                                         <Image src={file_down} width={20} alt="file-down" />
                                         <Link href={ressource.url} target="_blank" className="text-sm underline hover:text-red-400 ml-2">{ressource.title}</Link>
                                     </div>
-                                    {role === "prof" && <Link href='#' target="_blank"><Trash2 className="w-4 hover:text-red-600" /></Link>}
+                                    {role === "teacher" && <Link href='#' target="_blank"><Trash2 className="w-4 hover:text-red-600" /></Link>}
                                 </div>
                             ))
                         }

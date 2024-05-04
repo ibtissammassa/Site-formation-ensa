@@ -59,7 +59,7 @@ function TravailArendre() {
         </Select>
       </div>
 
-      {role === "prof" && (
+      {role === "teacher" && (
         <Button className="w-52">Ajouter un travail a rendre</Button>
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-1">
