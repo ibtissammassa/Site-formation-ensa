@@ -11,8 +11,17 @@ connect();
 export async function POST(request) {
   try {
     const reqBody = await request.json();
-    const { nom, prenom, numeroTele, cin, email, motDePass, role } = reqBody;
-    console.log("request body : ", reqBody);
+    const {
+      nom,
+      prenom,
+      numeroTele,
+      cin,
+      email,
+      motDePass,
+      role,
+      semester,
+    } = reqBody;
+    console.log(reqBody);
     const user = await User.findOne({ email });
     if (user) {
       return NextResponse.json(
@@ -34,6 +43,7 @@ export async function POST(request) {
       password: hashedPassword,
       isVerified: false,
       role: role,
+      semester: semester,
     });
     const savedUser = await newUser.save();
     console.log("saved user : ", savedUser);

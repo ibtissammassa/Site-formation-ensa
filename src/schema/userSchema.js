@@ -43,9 +43,9 @@ const userSchema = new mongoose.Schema({
   },
   semester: {
     type: Number,
-    required: function () {
-      return this.role === "verified student"; // Required if role is verified student
-    },
+    // required: function () {
+    //   return this.role === "verified student"; // Required if role is verified student
+    // },
     enum: [1, 2, 3, 4],
   },
   forgotPasswordToken: String,

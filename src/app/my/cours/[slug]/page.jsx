@@ -29,7 +29,6 @@ import { useEffect } from "react";
 import { todos } from "@/data/travailAR";
 
 
-
 function FormationPage({ params }) {
     const { slug } = params;
     const courses = useStore((state) => state.courses);
@@ -45,6 +44,7 @@ function FormationPage({ params }) {
     if (!currentCourse) return <Loader />
 
     const { name: courseName, objectif, volume_horaire, date_debut, date_fin, chapitres, profInfo } = currentCourse;
+    console.log("currentCourse", currentCourse)
     const datedebut = new Date(date_debut);
     const datefin = new Date(date_fin);
     // Extraire la date au format YYYY-MM-DD

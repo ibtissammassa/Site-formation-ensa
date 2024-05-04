@@ -32,6 +32,7 @@ function FormulaireInscription() {
   async function onSubmit(values) {
     const { nom, prenom, numeroTele, cin, email, motDePass } = values;
     const role = UserRoles.UnverifiedStudent;
+    const semester = 1;
     const newUser = {
       nom,
       prenom,
@@ -40,6 +41,7 @@ function FormulaireInscription() {
       email,
       motDePass,
       role,
+      semester,
     };
     try {
       setLoading(true);
