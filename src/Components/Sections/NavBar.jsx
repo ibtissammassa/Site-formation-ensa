@@ -50,7 +50,7 @@ export default function NavBar({ session }) {
       <div
         className={
           translation +
-          " transition-transform duration-300 transform flex justify-between py-5 items-center px-12 border-b shadow-sm sticky top-0 bg-white z-50"
+          "transition-transform duration-300 transform flex justify-between py-5 items-center px-12 border-b shadow-sm sticky top-0 bg-white z-50"
         }
       >
         <Link href="/">
@@ -139,7 +139,7 @@ export default function NavBar({ session }) {
               <div
                 className={
                   (showMenu ? "flex " : "hidden ") +
-                  "flex-col p-7 gap-5 absolute top-20 py-9 bg-white w-full shadow-md z-50"
+                  "flex-col p-7 gap-5 absolute top-20 left-0 py-9 bg-white w-full shadow-md z-50"
                 }
               >
                 <ul className="flex flex-col gap-3">
