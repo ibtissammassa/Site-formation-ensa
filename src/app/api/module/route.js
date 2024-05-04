@@ -17,6 +17,8 @@ export async function POST(request) {
       objectif,
       volume_horaire,
       chapitres,
+      profId,
+      semester,
     } = reqBody;
 
     const module = await Module.findOne({ slug });
@@ -38,6 +40,8 @@ export async function POST(request) {
       objectif,
       volume_horaire,
       chapitres,
+      profId,
+      semester,
     });
 
     const savedModule = await newModule.save();
