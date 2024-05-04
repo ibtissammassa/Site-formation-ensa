@@ -4,7 +4,7 @@ import Link from "next/link";
 import { SkeletonCard } from "@/Components/ui/SkeletonCard";
 
 function CarteCours({ data }) {
-  console.log('data', data);
+  // console.log('data', data);
   const { coverImage, name: courseName, progress, slug, profInfo } = data;
 
   if (!data || data.length == 0) return <SkeletonCard />
