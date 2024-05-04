@@ -9,7 +9,16 @@ connect();
 export async function POST(request) {
   try {
     const reqBody = await request.json();
-    const { nom, prenom, numeroTele, cin, email, motDePass, role } = reqBody;
+    const {
+      nom,
+      prenom,
+      numeroTele,
+      cin,
+      email,
+      motDePass,
+      role,
+      semester,
+    } = reqBody;
     console.log(reqBody);
     const user = await User.findOne({ email });
     if (user) {
@@ -31,6 +40,7 @@ export async function POST(request) {
       email: email,
       password: hashedPassword,
       role: role,
+      semester: semester,
     });
     const savedUser = await newUser.save();
     const userId = savedUser._id;

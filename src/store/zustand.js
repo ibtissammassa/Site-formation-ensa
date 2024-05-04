@@ -1,4 +1,5 @@
 import { create } from "zustand";
+// import { FetchProfInforsFromModule, FetchResourceById } from "@/utils/apiUtils";
 import { getDataFromToken } from "@/app/actions";
 
 const store = (set, get) => ({
@@ -9,20 +10,25 @@ const store = (set, get) => ({
   user: {},
   setUser: (user) => set({ user }),
   //Role
-  userRole: "admin",
+  userRole: "teacher",
   setUserRole: (userRole) => set({ userRole }),
   //Courses
   courses: [],
   setCourses: (courses) => set({ courses }),
   fetchCourses: async () => {
     let { user, userRole } = get();
-    // while (!user || !user.id || !user.semester) {
-    //   user = await getDataFromToken();
-    //   set({ user: user });
-    //   console.log("user", user);
-    // }
+    if (!user || !user.semester || !user.id) {
+      await getDataFromToken()
+        .then((rs) => {
+          user = rs;
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
+      set({ user });
+    }
     const endpoint = ModulesEndpoint(userRole, user);
-    console.log("user", user);
+    console.log("endpoint", endpoint);
     try {
       const response = await fetch(endpoint);
       if (!response.ok) {
@@ -32,35 +38,15 @@ const store = (set, get) => ({
       if (data && data.modules) {
         const updatedCourses = await Promise.all(
           data.modules.map(async (module) => {
-            // Fetch professor infos
-            const profResponse = await fetch(`/api/prof/${module.profId}`);
-            if (!profResponse.ok) {
-              throw new Error("Failed to fetch professor data");
-            }
-            const profData = await profResponse.json();
-            if (profData && profData.prof) {
-              const { firstname, lastname, Image } = profData.prof;
-              module.profInfo = { firstname, lastname, Image };
-            } else {
-              console.error("Prof data not found in API response");
-            }
-
-            // // Fetch resources for each chapter
+            module.profInfo = await FetchProfInforsFromModule(module);
+            // Fetch resources for each chapter
             const chaptersWithResources = await Promise.all(
               module.chapitres.map(async (chapter) => {
                 const chapterWithResources = { ...chapter };
                 if (chapter.ressources) {
                   const ressources = await Promise.all(
                     chapter.ressources.map(async (ressource) => {
-                      const resourceResponse = await fetch(
-                        `/api/ressource/${ressource}`
-                      );
-                      if (!resourceResponse.ok) {
-                        throw new Error(
-                          `Failed to fetch resource with ID: ${ressource}`
-                        );
-                      }
-                      const resourceData = await resourceResponse.json();
+                      const resourceData = await FetchResourceById(ressource);
                       return resourceData;
                     })
                   );
@@ -70,7 +56,6 @@ const store = (set, get) => ({
               })
             );
             module.chapitres = chaptersWithResources;
-
             return module;
           })
         );
@@ -84,15 +69,39 @@ const store = (set, get) => ({
   },
 });
 
-const ModulesEndpoint = (userRole, user, profId) => {
+const ModulesEndpoint = (userRole, user) => {
+  console.log("user", user);
   switch (userRole) {
     case "admin":
       return "/api/module";
     case "teacher":
-      return `/api/module/prof/${profId}`;
+      return `/api/module/prof/${user.id}`;
     case "student":
       return `/api/module/semester/${user.semester}`;
   }
+};
+
+const FetchProfInforsFromModule = async (module) => {
+  const profResponse = await fetch(`/api/prof/${module.profId}`);
+  if (!profResponse.ok) {
+    throw new Error("Failed to fetch professor data");
+  }
+  const profData = await profResponse.json();
+  if (profData && profData.prof) {
+    const { firstname, lastname, Image } = profData.prof;
+    return { firstname, lastname, Image };
+  } else {
+    console.error("Prof data not found in API response");
+  }
+};
+
+const FetchResourceById = async (ressourceId) => {
+  const resourceResponse = await fetch(`/api/ressource/${ressourceId}`);
+  if (!resourceResponse.ok) {
+    throw new Error(`Failed to fetch resource with ID: ${ressourceId}`);
+  }
+  const resourceData = await resourceResponse.json();
+  return resourceData;
 };
 
 export const useStore = create(store);
