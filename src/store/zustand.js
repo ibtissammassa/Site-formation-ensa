@@ -1,6 +1,7 @@
 import { create } from "zustand";
-// import { FetchProfInforsFromModule, FetchResourceById } from "@/utils/apiUtils";
+import { FetchProfInforsFromModule, FetchResourceById } from "@/utils/apiUtils";
 import { getDataFromToken } from "@/app/actions";
+import { UserRoles } from "@/schema/userRoles";
 
 const store = (set, get) => ({
   //Loading user data
@@ -10,7 +11,7 @@ const store = (set, get) => ({
   user: {},
   setUser: (user) => set({ user }),
   //Role
-  userRole: "teacher",
+  userRole: "admin",
   setUserRole: (userRole) => set({ userRole }),
   //Courses
   courses: [],
@@ -28,7 +29,6 @@ const store = (set, get) => ({
       set({ user });
     }
     const endpoint = ModulesEndpoint(userRole, user);
-    console.log("endpoint", endpoint);
     try {
       const response = await fetch(endpoint);
       if (!response.ok) {
@@ -76,32 +76,9 @@ const ModulesEndpoint = (userRole, user) => {
       return "/api/module";
     case "teacher":
       return `/api/module/prof/${user.id}`;
-    case "student":
+    case "verified student":
       return `/api/module/semester/${user.semester}`;
   }
-};
-
-const FetchProfInforsFromModule = async (module) => {
-  const profResponse = await fetch(`/api/prof/${module.profId}`);
-  if (!profResponse.ok) {
-    throw new Error("Failed to fetch professor data");
-  }
-  const profData = await profResponse.json();
-  if (profData && profData.prof) {
-    const { firstname, lastname, Image } = profData.prof;
-    return { firstname, lastname, Image };
-  } else {
-    console.error("Prof data not found in API response");
-  }
-};
-
-const FetchResourceById = async (ressourceId) => {
-  const resourceResponse = await fetch(`/api/ressource/${ressourceId}`);
-  if (!resourceResponse.ok) {
-    throw new Error(`Failed to fetch resource with ID: ${ressourceId}`);
-  }
-  const resourceData = await resourceResponse.json();
-  return resourceData;
 };
 
 export const useStore = create(store);
