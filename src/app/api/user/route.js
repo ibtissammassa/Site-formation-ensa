@@ -6,7 +6,7 @@ import { sendEmail } from "@/lib/mailer";
 import axios from "axios";
 import jwt from "jsonwebtoken";
 
-connect();
+await connect();
 
 export async function POST(request) {
   try {
