@@ -49,16 +49,17 @@ function FormulaireInscription() {
           "Vous avez terminé la pre-inscription avec succes, vouz pouvez accédez votre espace connecté.",
         variant: "success",
       });
-      router.push("/Login");
+      router.refresh();
     } catch (error) {
       console.log(error);
       if (error.response.status === 400)
         form.setError("email", { message: "Ce email est deja enregistré !" });
       else if (error.response.status === 500)
-        form.setError("email", {
+        form.setError("root", {
           message:
             "Une probleme a étais rencontré pendant l'inscription, ressayé puls tards.",
         });
+      console.log(error.message);
     } finally {
       setLoading(false);
     }

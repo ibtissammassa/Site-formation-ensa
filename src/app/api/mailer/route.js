@@ -1,22 +1,15 @@
 import { connect } from "@/dbConfig/dbConfig";
 import { sendEmail } from "@/lib/mailer";
-import User from "@/schema/userSchema";
 import { NextResponse } from "next/server";
 
 connect();
-
-export async function POST(request) {
+export async function GET() {
   try {
-    const { email } = request.json();
-    const user = User({
-      prenom: "Hossam",
-      nom: "Tamawi",
-      email: "Naoufaljrh2000@gmail.com",
-      motDePass: "password",
-      role: "unverified student",
+    await sendEmail({
+      email: "naoufaljrh2000@gmail.com",
+      emailType: "verify",
+      userId: "6633acf6bef88208e48c9530",
     });
-    const saveduser = user.save();
-    await sendEmail({ email, emailType: "verify", userId: saveduser._id });
     return NextResponse.json({
       message: "email sent seccusfully",
       status: 200,
