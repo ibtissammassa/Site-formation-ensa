@@ -34,6 +34,7 @@ export async function POST(request) {
       firstname: user.firstname,
       lastname: user.lastname,
       email: user.email,
+      role: user.role,
       semester: user.semester,
     };
 

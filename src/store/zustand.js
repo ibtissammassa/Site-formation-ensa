@@ -11,22 +11,24 @@ const store = (set, get) => ({
   user: {},
   setUser: (user) => set({ user }),
   //Role
-  userRole: "verified student",
+  userRole: "",
   setUserRole: (userRole) => set({ userRole }),
   //Courses
   courses: [],
   setCourses: (courses) => set({ courses }),
   fetchCourses: async () => {
     let { user, userRole } = get();
-    if (!user || !user.semester || !user.id) {
+    if (!user || !user.semester || !user.id || !userRole) {
       await getDataFromToken()
         .then((rs) => {
           user = rs;
+          userRole = rs.role;
         })
         .catch((error) => {
           console.error(error.message);
         });
       set({ user });
+      set({ userRole });
     }
     const endpoint = ModulesEndpoint(userRole, user);
     console.log("endpoint", endpoint);
