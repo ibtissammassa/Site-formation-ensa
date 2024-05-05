@@ -34,6 +34,8 @@ export async function POST(request) {
       firstname: user.firstname,
       lastname: user.lastname,
       email: user.email,
+      isVerified: user.isVerified,
+      role: user.role,
     };
 
     const token = await jwt.sign(tokenData, process.env.JWT_SECRET_KEY, {
@@ -50,7 +52,7 @@ export async function POST(request) {
     return responce;
   } catch (error) {
     return NextResponse.json(
-      { error: "There was a proble in login route" },
+      { error: "There was a problem in login route" },
       { status: 500 }
     );
   }
