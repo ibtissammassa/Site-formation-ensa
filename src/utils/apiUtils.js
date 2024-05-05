@@ -3,7 +3,6 @@ import axios from "axios";
 export async function FetchProfInforsFromModule(module) {
   try {
     const profResponse = await axios.get(`/api/prof/${module.profId}`);
-    console.log("profResponse", profResponse);
     if (profResponse.status !== 200) {
       throw new Error("Failed to fetch professor data");
     }

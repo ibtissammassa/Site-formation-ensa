@@ -11,7 +11,7 @@ const store = (set, get) => ({
   user: {},
   setUser: (user) => set({ user }),
   //Role
-  userRole: "admin",
+  userRole: "verified student",
   setUserRole: (userRole) => set({ userRole }),
   //Courses
   courses: [],
@@ -29,6 +29,7 @@ const store = (set, get) => ({
       set({ user });
     }
     const endpoint = ModulesEndpoint(userRole, user);
+    console.log("endpoint", endpoint);
     try {
       const response = await fetch(endpoint);
       if (!response.ok) {
