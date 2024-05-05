@@ -8,6 +8,7 @@ import { Button } from "@/Components/ui/button";
 export default function myLayout({ children }) {
   const [showVerifyMessage, setShowVerifyMessage] = useState(true);
   const setUser = useStore((state) => state.setUser);
+  const setUserRole = useStore((state) => state.setUserRole);
   const user = useStore((state) => state.user);
   const setIsLoading = useStore((state) => state.setIsLoading);
   useEffect(() => {
@@ -15,13 +16,14 @@ export default function myLayout({ children }) {
     getDataFromToken()
       .then((rs) => {
         setUser(rs);
+        setUserRole(rs.role);
         setIsLoading(false);
       })
       .catch((error) => {
         console.error(error.message);
         setIsLoading(false);
       });
-  }, [setUser, setIsLoading]);
+  }, [setUser, setIsLoading, setUserRole]);
   console.log("user : ", user);
   return (
     <>
