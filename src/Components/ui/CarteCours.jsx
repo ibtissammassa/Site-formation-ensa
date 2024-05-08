@@ -4,8 +4,7 @@ import Link from "next/link";
 import { SkeletonCard } from "@/Components/ui/SkeletonCard";
 
 function CarteCours({ data }) {
-  // console.log('data', data);
-  const { coverImage, name: courseName, progress, slug, profInfo } = data;
+  const { coverImage, name: courseName, progress, slug, prof } = data;
 
   if (!data || data.length == 0) return <SkeletonCard />
 
@@ -22,15 +21,15 @@ function CarteCours({ data }) {
           "')]"
         }
       >
-        {profInfo && <div className="flex flex-row items-center gap-3 justify-start absolute top-[60px] left-4 z-10">
+        {prof && <div className="flex flex-row items-center gap-3 justify-start absolute top-[60px] left-4 z-10">
           <Avatar className="w-[60px] h-[60px]">
-            <AvatarImage src={profInfo.Image} />
-            <AvatarFallback>{`${profInfo.firstname.charAt(
+            <AvatarImage src={prof.Image} />
+            <AvatarFallback>{`${prof.firstname.charAt(
               0
-            )}${profInfo.lastname.charAt(0)}`}</AvatarFallback>
+            )}${prof.lastname.charAt(0)}`}</AvatarFallback>
           </Avatar>
           <span id="nom-prof" className="font-semibold text-white text-sm">
-            {`${profInfo.firstname} ${profInfo.lastname}`}
+            {`${prof.firstname} ${prof.lastname}`}
           </span>
         </div>}
 

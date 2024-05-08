@@ -8,16 +8,12 @@ import { useStore } from "@/store/zustand";
 import Loader from "@/app/loading";
 import { useEffect, useState } from "react";
 import { SkeletonCard } from "@/Components/ui/SkeletonCard";
-
-
-//data
-import { todos } from "@/data/travailAR";
+import { SkeletonList } from "@/Components/ui/SkeletonList";
 
 function Dashboard() {
   const user = useStore((state) => state.user);
   const isLoading = useStore((state) => state.isLoading);
   const role = useStore((state) => state.userRole);
-  const [isCoursesLoading, setIsCoursesLoading] = useState(true);
 
   const firstName = user.firstname || '';
   const lastName = user.lastname || '';
@@ -26,10 +22,13 @@ function Dashboard() {
   console.log("courses", courses);
   const fetchCourses = useStore((state) => state.fetchCourses);
 
+  const travailAR = useStore((state) => state.travailAR);
+  console.log("travailAR", travailAR);
+  const fetchTravailAR = useStore((state) => state.fetchTravailAR);
+
   useEffect(() => {
-    setIsCoursesLoading(true);
     fetchCourses();
-    setIsCoursesLoading(false);
+    fetchTravailAR();
   }, []);
 
   if (isLoading) {
@@ -46,19 +45,13 @@ function Dashboard() {
             <Button className="w-52">Ajouter un Module</Button>
           )}
         </div>
-        {
-          isCoursesLoading ? (<Loader />) : (<div className="grid lg:grid-cols-2 grid-cols-1 gap-3 mb-5">
-            {
-              courses.length === 0 ? (
-                <SkeletonCard />
-              ) : (
-                courses.map((data, index) => (
-                  <CarteCours key={index} data={data} />
-                ))
-              )
-            }
-          </div>)
-        }
+        <div className="grid lg:grid-cols-2 grid-cols-1 gap-3 mb-5">
+          {
+            courses.map((data, index) => (
+              <CarteCours key={index} data={data} />
+            ))
+          }
+        </div>
         <Link className="underline text-red-600 font-semibold" href="/my/cours">
           Voir tous les cours
         </Link>
@@ -73,9 +66,14 @@ function Dashboard() {
           </div>
           <ScrollArea className="h-[400px]">
             <div className="mr-3">
-              {todos.map((todo, index) => (
-                <CarteActiviteARendre key={index} data={todo} />
-              ))}
+              {
+                travailAR.length === 0 ? (<SkeletonList />) : (
+                  travailAR.map((todo, index) => (
+                    <CarteActiviteARendre key={index} data={todo} />
+                  ))
+                )
+              }
+
             </div>
           </ScrollArea>
         </div>

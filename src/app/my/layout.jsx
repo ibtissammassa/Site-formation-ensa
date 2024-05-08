@@ -25,7 +25,6 @@ export default function myLayout({ children }) {
         setIsLoading(false);
       });
   }, [setUser, setIsLoading, setUserRole]);
-  console.log("user : ", user);
   return (
     <>
       {user.isVerified === true && showVerifyMessage ? (

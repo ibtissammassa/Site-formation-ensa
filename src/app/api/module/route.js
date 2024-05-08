@@ -17,8 +17,8 @@ export async function POST(request) {
       objectif,
       volume_horaire,
       chapitres,
-      profId,
       semester,
+      prof,
     } = reqBody;
 
     const module = await Module.findOne({ slug });
@@ -40,8 +40,8 @@ export async function POST(request) {
       objectif,
       volume_horaire,
       chapitres,
-      profId,
       semester,
+      prof,
     });
 
     const savedModule = await newModule.save();
@@ -58,7 +58,17 @@ export async function POST(request) {
 
 export async function GET(request) {
   try {
-    const modules = await Module.find();
+    const { searchParams } = new URL(request.url);
+    const prof = searchParams.get("prof");
+    const semester = searchParams.get("semester");
+    let modules;
+    if (prof) {
+      modules = await Module.find({ "prof.profId": prof });
+    } else if (semester) {
+      modules = await Module.find({ semester: { $lte: semester } });
+    } else {
+      modules = await Module.find();
+    }
     return NextResponse.json({ modules });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

@@ -23,36 +23,29 @@ import { Button } from "@/Components/ui/extension/button";
 import { Trash2 } from "lucide-react";
 import { useStore } from "@/store/zustand";
 import Loader from "@/app/loading";
-import { useEffect } from "react";
-//data
-// import { courses } from "@/data/courses";
-import { todos } from "@/data/travailAR";
+import { useEffect, useState } from "react";
+import { SkeletonList } from "@/Components/ui/SkeletonList";
 
 
 function FormationPage({ params }) {
     const { slug } = params;
-    const courses = useStore((state) => state.courses);
-    const fetchCourses = useStore((state) => state.fetchCourses);
-    const currentCourse = courses.find((course) => course.slug === slug);
+    const [course, setCourse] = useState(null);
     const role = useStore((state) => state.userRole);
+
     useEffect(() => {
-        if (!currentCourse) {
-            fetchCourses();
-        }
+        fetch(`/api/module/${slug}`).then((res) => res.json()).then((data) => {
+            setCourse(data.module);
+        });
     }, []);
 
-    if (!currentCourse) return <Loader />
+    if (!course) return <Loader />
 
-    const { name: courseName, objectif, volume_horaire, date_debut, date_fin, chapitres, profInfo } = currentCourse;
-    console.log("currentCourse", currentCourse)
+    const { name, objectif, volume_horaire, date_debut, date_fin, chapitres, prof } = course;
     const datedebut = new Date(date_debut);
     const datefin = new Date(date_fin);
     // Extraire la date au format YYYY-MM-DD
     const start_date = datedebut.toISOString().split('T')[0];
     const end_date = datefin.toISOString().split('T')[0];
-    // Extraire l'heure au format HH:MM:SS
-    // const start_time = datedebut.toISOString().split('T')[1].split('.')[0];
-    // const end_time = datefin.toISOString().split('T')[1].split('.')[0];
 
     return (
         <div className="lg:px-28 px-8 2xl:px-80 py-8 flex gap-7 flex-col">
@@ -67,13 +60,13 @@ function FormationPage({ params }) {
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                        <BreadcrumbPage>{courseName}</BreadcrumbPage>
+                        <BreadcrumbPage>{name}</BreadcrumbPage>
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
             <div className="flex flex-col gap-3">
-                <h1 className="md:text-4xl text-3xl font-bold">{courseName}</h1>
-                <p className="text-slate-700 md:text-sm text-xs">Encadré par: {profInfo.firstname} {profInfo.lastname}</p>
+                <h1 className="md:text-4xl text-3xl font-bold">{name}</h1>
+                <p className="text-slate-700 md:text-sm text-xs">Encadré par: {prof.firstname} {prof.lastname}</p>
             </div>
 
             {role === "admin" && (<div className="inline-flex gap-3">
@@ -124,7 +117,7 @@ function FormationPage({ params }) {
                                                         <div className="flex justify-between items-center" key={index}>
                                                             <div className="inline-flex items-center my-2">
                                                                 <Image src={file_down} width={20} alt="file-down" />
-                                                                <Link href={ressource.ressource.url} target="_blank" className="text-sm underline hover:text-red-400 ml-2">{ressource.ressource.title}</Link>
+                                                                <Link href={ressource.url} target="_blank" className="text-sm underline hover:text-red-400 ml-2">{ressource.title}</Link>
                                                             </div>
                                                             {role === "teacher" && <Link href='#' target="_blank"><Trash2 className="w-4 hover:text-red-600" /></Link>}
                                                         </div>
@@ -145,13 +138,13 @@ function FormationPage({ params }) {
                             <h3 className="font-semibold text-sm">Encadré par:</h3>
                             <div className="flex flex-row items-center gap-3 my-2">
                                 <Avatar className="w-[40px] h-[40px]">
-                                    <AvatarImage src={profInfo.Image} />
-                                    <AvatarFallback>{`${profInfo.firstname.charAt(
+                                    <AvatarImage src={prof.Image} />
+                                    <AvatarFallback>{`${prof.firstname.charAt(
                                         0
-                                    )}${profInfo.lastname.charAt(0)}`}</AvatarFallback>
+                                    )}${prof.lastname.charAt(0)}`}</AvatarFallback>
                                 </Avatar>
                                 <span id="nom-prof" className="text-sm">
-                                    {`${profInfo.firstname} ${profInfo.lastname}`}
+                                    {`${prof.firstname} ${prof.lastname}`}
                                 </span>
                             </div>
                         </div>
@@ -187,11 +180,18 @@ function FormationPage({ params }) {
                     <div className="p-4 rounded-md border border-gray-200 shadow-md">
                         <h1 className="text-lg font-semibold mb-4">Activité A Rendre</h1>
                         <ScrollArea className="h-[400px]">
-                            <div className="mr-3">
-                                {todos.map((todo) => (
-                                    <CarteActiviteARendre data={todo} />
-                                ))}
-                            </div>
+                            {/* {
+                                <div className="mr-3">
+                                    {
+                                        travailAR.length === 0 ? (<SkeletonList />) : (
+                                            travailAR.map((todo, index) => (
+                                                <CarteActiviteARendre key={index} data={todo} />
+                                            ))
+                                        )
+                                    }
+
+                                </div>
+                            } */}
                         </ScrollArea>
                     </div>
                 </aside>
