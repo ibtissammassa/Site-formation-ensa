@@ -36,6 +36,7 @@ export async function POST(request) {
       email: user.email,
       isVerified: user.isVerified,
       role: user.role,
+      semester: user.semester,
     };
 
     const token = await jwt.sign(tokenData, process.env.JWT_SECRET_KEY, {

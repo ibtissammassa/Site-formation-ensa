@@ -31,6 +31,23 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  Image: {
+    type: String,
+  },
+  year: {
+    type: Number,
+    required: function () {
+      return this.role === "verified student"; // Required if role is verified student
+    },
+    enum: [1, 2],
+  },
+  semester: {
+    type: Number,
+    // required: function () {
+    //   return this.role === "verified student"; // Required if role is verified student
+    // },
+    enum: [1, 2, 3, 4],
+  },
   forgotPasswordToken: String,
   forgotPasswordTokenExpiry: Date,
   verifyToken: String,

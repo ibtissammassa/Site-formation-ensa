@@ -6,20 +6,31 @@ import Link from "next/link";
 import { Button } from "@/Components/ui/extension/button";
 import { useStore } from "@/store/zustand";
 import Loader from "@/app/loading";
+import { useEffect, useState } from "react";
+import { SkeletonCard } from "@/Components/ui/SkeletonCard";
+
 
 //data
-import { courses } from "@/data/courses";
 import { todos } from "@/data/travailAR";
 
 function Dashboard() {
   const user = useStore((state) => state.user);
   const isLoading = useStore((state) => state.isLoading);
   const role = useStore((state) => state.userRole);
-  console.log(user);
-  console.log(isLoading);
+  const [isCoursesLoading, setIsCoursesLoading] = useState(true);
 
   const firstName = user.firstname || '';
   const lastName = user.lastname || '';
+
+  const courses = useStore((state) => state.courses);
+  console.log("courses", courses);
+  const fetchCourses = useStore((state) => state.fetchCourses);
+
+  useEffect(() => {
+    setIsCoursesLoading(true);
+    fetchCourses();
+    setIsCoursesLoading(false);
+  }, []);
 
   if (isLoading) {
     return <Loader />;
@@ -35,11 +46,19 @@ function Dashboard() {
             <Button className="w-52">Ajouter un Module</Button>
           )}
         </div>
-        <div className="grid lg:grid-cols-2 grid-cols-1 gap-3 mb-1">
-          {courses.map((data, index) => (
-            <CarteCours key={index} data={data} />
-          ))}
-        </div>
+        {
+          isCoursesLoading ? (<Loader />) : (<div className="grid lg:grid-cols-2 grid-cols-1 gap-3 mb-5">
+            {
+              courses.length === 0 ? (
+                <SkeletonCard />
+              ) : (
+                courses.map((data, index) => (
+                  <CarteCours key={index} data={data} />
+                ))
+              )
+            }
+          </div>)
+        }
         <Link className="underline text-red-600 font-semibold" href="/my/cours">
           Voir tous les cours
         </Link>
