@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { getUser } from "./lib/auth";
 export async function middleware(request) {
   const path = request.nextUrl.pathname;
   const isPublicPath =
