@@ -29,6 +29,9 @@ export default function MyLayout({ children }) {
       })
       .catch((error) => {
         console.error(error.message);
+      })
+      .finally(() => {
+        if (path !== "/my/unverified") setIsLoading(false);
       });
   }, [setUser, setUserRole, setIsLoading]);
 
@@ -68,8 +71,9 @@ export default function MyLayout({ children }) {
           </Button>
         </div>
       ) : (
-        <>{children}</>
+        <></>
       )}
+      {children}
     </>
   );
 }
