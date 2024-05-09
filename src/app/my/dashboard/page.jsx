@@ -9,6 +9,7 @@ import Loader from "@/app/loading";
 import { useEffect, useState } from "react";
 import { SkeletonCard } from "@/Components/ui/SkeletonCard";
 import { SkeletonList } from "@/Components/ui/SkeletonList";
+import { UserRoles } from "@/schema/userRoles";
 
 function Dashboard() {
   const user = useStore((state) => state.user);
@@ -28,7 +29,9 @@ function Dashboard() {
   useEffect(() => {
     fetchCourses();
     fetchTravailAR();
-    travailAR = travailAR.filter((item) => item.rendu === false);
+    if (role == 'verified student') {
+      travailAR = travailAR.filter((item) => item.rendu === false);
+    }
   }, []);
 
   console.log("travailAR", travailAR);

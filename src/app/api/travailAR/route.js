@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { connect } from "@/dbConfig/dbConfig";
 import Module from "@/schema/moduleSchema";
 import Ressources from "@/schema/ressourcesSchema";
+import mongoose from "mongoose";
 
 await connect();
 
@@ -52,6 +53,7 @@ export async function POST(request) {
 
 export async function GET(request) {
   try {
+    var ObjectId = mongoose.Types.ObjectId;
     let travailARs = await TravailAR.find()
       .populate("module")
       .populate("ressources");
@@ -60,10 +62,10 @@ export async function GET(request) {
     let semester = searchParams.get("semester");
 
     if (prof) {
-      prof = parseInt(prof);
-      travailARs = travailARs.filter(
-        (travailAR) => travailAR.module.prof.profId === prof
-      );
+      prof = new ObjectId(prof);
+      travailARs = travailARs.filter((travailAR) => {
+        return travailAR.module.prof.profId.equals(prof);
+      });
     } else if (semester) {
       semester = parseInt(semester);
       travailARs = travailARs.filter((travailAR) => {

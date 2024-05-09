@@ -14,6 +14,7 @@ import { useStore } from "@/store/zustand";
 import { useEffect, useState } from "react";
 import Loader from "@/app/loading";
 import { Input } from "@/Components/ui/input";
+import { Trash2 } from "lucide-react";
 
 function TravailDetail({ params }) {
     const role = useStore((state) => state.userRole);

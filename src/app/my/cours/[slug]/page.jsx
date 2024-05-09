@@ -25,7 +25,7 @@ import { useStore } from "@/store/zustand";
 import Loader from "@/app/loading";
 import { useEffect, useState } from "react";
 import { SkeletonList } from "@/Components/ui/SkeletonList";
-
+import { UserRoles } from "@/schema/userRoles";
 
 function FormationPage({ params }) {
     const { slug } = params;
@@ -39,7 +39,9 @@ function FormationPage({ params }) {
             setCourse(data.module);
         });
         fetchTravailAR();
-        travailAR = travailAR.filter((item) => item.module.slug === slug);
+        if (role == 'verified student') {
+            travailAR = travailAR.filter((item) => item.module.slug === slug);
+        }
     }, []);
 
     if (!course) return <Loader />
