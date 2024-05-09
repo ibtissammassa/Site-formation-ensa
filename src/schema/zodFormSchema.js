@@ -12,6 +12,16 @@ export const FormInscriptionSchema = z.object({
   motDePass: z.string(),
   confirmationMotDePass: z.string(),
 });
+export const FormProfSchema = z.object({
+  nom: z.string(),
+  prenom: z.string(),
+  numeroTele: z.string(),
+  cin: z
+    .string()
+    .regex(new RegExp("^[a-zA-Z]{2}\\d{3,5}"), { message: "Invalid CIN" }),
+  email: z.string().email(),
+  motDePass: z.string(),
+});
 //   .superRefine(({ motDePass }, checkPassComplexity) => {
 //     const containsUppercase = (ch) => /[A-Z]/.test(ch);
 //     const containsLowercase = (ch) => /[a-z]/.test(ch);
@@ -72,4 +82,16 @@ export const FormInscriptionSchema = z.object({
 export const FormConnectionSchema = z.object({
   email: z.string().email(),
   password: z.string(),
+});
+
+export const FromModuleSchema = z.object({
+  name: z.string(),
+  date_debut: z.string().datetime(),
+  date_fin: z.string().datetime(),
+  objectif: z.string(),
+  volumeTotal: z.number(),
+  volumeTd: z.number(),
+  volumeTp: z.number(),
+  prof: z.string(),
+  semester: z.number(),
 });

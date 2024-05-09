@@ -1,55 +1,74 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useStore } from "@/store/zustand";
 import { getDataFromToken } from "@/app/actions";
-import { X } from "lucide-react";
+import { Loader2Icon, X } from "lucide-react";
 import { Button } from "@/Components/ui/button";
 
-export default function myLayout({ children }) {
-  const [showVerifyMessage, setShowVerifyMessage] = useState(true);
-  const setUser = useStore((state) => state.setUser);
-  const setUserRole = useStore((state) => state.setUserRole);
-  const user = useStore((state) => state.user);
-  const setIsLoading = useStore((state) => state.setIsLoading);
-  const IsLoading = useStore((state) => state.isLoading);
+export default function MyLayout({ children }) {
+  const router = useRouter();
+  const [hideVerifyMessage, setHideVerifyMessage] = useState(false);
+  const { setUser, setUserRole, user, setIsLoading, isLoading } = useStore(
+    (state) => ({
+      isLoading: state.isLoading,
+      setUser: state.setUser,
+      setUserRole: state.setUserRole,
+      user: state.user,
+      setIsLoading: state.setIsLoading,
+    })
+  );
+
   useEffect(() => {
     setIsLoading(true);
+    console.log("is loading 1 : ", isLoading);
     getDataFromToken()
-      .then((rs) => {
-        setUser(rs);
-        setUserRole(rs.role);
-        setIsLoading(false);
+      .then((res) => {
+        setUser(res);
+        setUserRole(res.role);
       })
       .catch((error) => {
         console.error(error.message);
-        setIsLoading(false);
       });
-  }, [setUser, setIsLoading, setUserRole]);
-  console.log("user : ", user);
+  }, [setUser, setUserRole, setIsLoading]);
+
+  // Redirect unverified users immediately after loading user information
+  useEffect(() => {
+    if (user.role === "unverified student") {
+      router.push("/my/unverified");
+      setIsLoading(false);
+      console.log("is loading 2 : ", isLoading);
+    }
+  }, [user]);
+
+  if (isLoading) {
+    return (
+      <div className="h-[80vh] w-full flex justify-center items-center">
+        <Loader2Icon className="h-9 w-9 animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <>
-      {user.isVerified === true && showVerifyMessage ? (
-        <></>
+      {!user.isVerified && !hideVerifyMessage ? (
+        <div className="flex flex-row justify-between items-center bg-amber-200 text-gray-700 capitalize p-4 text-sm">
+          <p>
+            Vous avez encoure pas verifier votre email:{" "}
+            <span className="underline">{user.email}</span>
+          </p>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="hover:bg-amber-100"
+            onClick={() => setHideVerifyMessage(!hideVerifyMessage)}
+          >
+            <X width={20} height={20} />
+          </Button>
+        </div>
       ) : (
-        !IsLoading && (
-          <div className="flex flex-row justify-between items-center bg-amber-200 text-gray-700 capitalize p-4 text-sm">
-            <p>
-              Vous avez encoure pas verifier votre email :{" "}
-              <span className="underline"> {user.email}</span>
-            </p>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="hover:bg-amber-100"
-              onClick={() => {
-                setShowVerifyMessage(false);
-              }}
-            >
-              <X width={20} height={20} />
-            </Button>
-          </div>)
+        <>{children}</>
       )}
-      {children}
     </>
   );
 }
