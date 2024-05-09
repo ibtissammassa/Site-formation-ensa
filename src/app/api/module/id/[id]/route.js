@@ -4,15 +4,15 @@ import { NextRequest, NextResponse } from "next/server";
 
 await connect();
 
-// Get modules of a prof
+// Get module by id
 export async function GET(request, { params }) {
   try {
-    const { prof_id } = params;
-    const modules = await Module.find({ profId: prof_id });
-    if (!modules) {
-      return NextResponse.json({ error: "Modules not found" }, { status: 404 });
+    const { id } = params;
+    const module = await Module.findOne({ _id: id });
+    if (!module) {
+      return NextResponse.json({ error: "Module not found" }, { status: 404 });
     }
-    return NextResponse.json({ modules });
+    return NextResponse.json({ module });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

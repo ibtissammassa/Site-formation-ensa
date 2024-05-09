@@ -1,6 +1,9 @@
 import TravailAR from "@/schema/travailARSchema";
 import { NextRequest, NextResponse } from "next/server";
 import { connect } from "@/dbConfig/dbConfig";
+import Module from "@/schema/moduleSchema";
+import Ressources from "@/schema/ressourcesSchema";
+import mongoose from "mongoose";
 
 await connect();
 
@@ -50,7 +53,25 @@ export async function POST(request) {
 
 export async function GET(request) {
   try {
-    const travailARs = await TravailAR.find();
+    var ObjectId = mongoose.Types.ObjectId;
+    let travailARs = await TravailAR.find()
+      .populate("module")
+      .populate("ressources");
+    const { searchParams } = new URL(request.url);
+    let prof = searchParams.get("prof");
+    let semester = searchParams.get("semester");
+
+    if (prof) {
+      prof = new ObjectId(prof);
+      travailARs = travailARs.filter((travailAR) => {
+        return travailAR.module.prof.profId.equals(prof);
+      });
+    } else if (semester) {
+      semester = parseInt(semester);
+      travailARs = travailARs.filter((travailAR) => {
+        return travailAR.module.semester === semester;
+      });
+    }
 
     return NextResponse.json({ travailARs });
   } catch (error) {

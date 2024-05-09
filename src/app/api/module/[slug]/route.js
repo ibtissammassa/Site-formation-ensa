@@ -8,7 +8,11 @@ await connect();
 export async function GET(request, { params }) {
   try {
     const { slug } = params;
-    const module = await Module.findOne({ slug });
+    const module = await Module.findOne({ slug }).populate({
+      path: "chapitres",
+      populate: { path: "ressources" },
+    });
+
     if (!module) {
       return NextResponse.json({ error: "Module not found" }, { status: 404 });
     }

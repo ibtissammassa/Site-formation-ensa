@@ -17,7 +17,12 @@ const moduleSchema = new Schema({
     tp: Number,
   },
   chapitres: [Chapitre.schema],
-  profId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  prof: {
+    profId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    firstname: { type: String, required: true },
+    lastname: { type: String, required: true },
+    Image: { type: String, required: true },
+  },
   semester: { type: Number, required: true, enum: [1, 2, 3, 4] },
 });
 

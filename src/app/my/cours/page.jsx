@@ -67,13 +67,9 @@ function Cours() {
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-2 gap-3 mb-1">
         {
-          courses.length === 0 ? (
-            <SkeletonCard />
-          ) : (
-            courses.map((data, index) => (
-              <CarteCours key={index} data={data} />
-            ))
-          )
+          courses.map((data, index) => (
+            <CarteCours key={index} data={data} />
+          ))
         }
       </div>
       <Pagination>

@@ -25,13 +25,22 @@ import {
 } from "@/Components/ui/select";
 import CarteTravailAR from "@/Components/ui/CarteTravailAR";
 import { useStore } from "@/store/zustand";
-
-//data
-import { todos } from "@/data/travailAR";
 import { Button } from "@/Components/ui/extension/button";
+import { SkeletonCarteTravailAR } from "@/Components/ui/SkeletonCarteTravailAR";
+import { useEffect } from "react";
 
 function TravailArendre() {
   const role = useStore((state) => state.userRole);
+  const travailAR = useStore((state) => state.travailAR);
+  const fetchTravailAR = useStore((state) => state.fetchTravailAR);
+
+
+  useEffect(() => {
+    fetchTravailAR();
+  }, []);
+
+  if (!travailAR) return <Loader />
+
   return (
     <div className="lg:px-20 px-8 2xl:px-80 py-8 flex flex-col gap-5 ">
       <Breadcrumb>
@@ -60,12 +69,18 @@ function TravailArendre() {
       </div>
 
       {role === "teacher" && (
-        <Button className="w-52">Ajouter un travail a rendre</Button>
+        <Button href='/my/prof/AddTravail' className="w-52">Ajouter un travail a rendre</Button>
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-1">
-        {todos.map((data, index) => (
-          <CarteTravailAR key={index} data={data} />
-        ))}
+        {
+          travailAR.length === 0 ? (
+            <SkeletonCarteTravailAR />
+          ) : (
+            travailAR.map((data, index) => (
+              <CarteTravailAR key={index} data={data} />
+            ))
+          )
+        }
       </div>
       <Pagination>
         <PaginationContent>

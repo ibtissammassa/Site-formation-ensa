@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { FetchProfInforsFromModule, FetchResourceById } from "@/utils/apiUtils";
 import { getDataFromToken } from "@/app/actions";
 import { UserRoles } from "@/schema/userRoles";
 
@@ -30,39 +29,16 @@ const store = (set, get) => ({
       set({ user });
       set({ userRole });
     }
-    const endpoint = ModulesEndpoint(userRole, user);
-    console.log("endpoint", endpoint);
+    const query = Query(userRole, user);
     try {
-      const response = await fetch(endpoint);
+      const response = await fetch(`/api/module${query}`);
       if (!response.ok) {
         throw new Error("Failed to fetch courses");
       }
       const data = await response.json();
       if (data && data.modules) {
-        const updatedCourses = await Promise.all(
-          data.modules.map(async (module) => {
-            module.profInfo = await FetchProfInforsFromModule(module);
-            // Fetch resources for each chapter
-            const chaptersWithResources = await Promise.all(
-              module.chapitres.map(async (chapter) => {
-                const chapterWithResources = { ...chapter };
-                if (chapter.ressources) {
-                  const ressources = await Promise.all(
-                    chapter.ressources.map(async (ressource) => {
-                      const resourceData = await FetchResourceById(ressource);
-                      return resourceData;
-                    })
-                  );
-                  chapterWithResources.ressources = ressources;
-                }
-                return chapterWithResources;
-              })
-            );
-            module.chapitres = chaptersWithResources;
-            return module;
-          })
-        );
-        set({ courses: updatedCourses });
+        const courses = data.modules;
+        set({ courses: courses });
       } else {
         console.error("Courses data not found in API response");
       }
@@ -70,17 +46,49 @@ const store = (set, get) => ({
       console.error(error.message);
     }
   },
+  //TravailAR
+  travailAR: [],
+  setTravailAR: (travailAR) => set({ travailAR }),
+  fetchTravailAR: async () => {
+    let { user, userRole } = get();
+    if (!user || !user.semester || !user.id || !userRole) {
+      await getDataFromToken()
+        .then((rs) => {
+          user = rs;
+          userRole = rs.role;
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
+      set({ user });
+      set({ userRole });
+    }
+    const query = Query(userRole, user);
+    try {
+      const response = await fetch(`/api/travailAR${query}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch TravailAR");
+      }
+      const data = await response.json();
+      if (data && data.travailARs) {
+        set({ travailAR: data.travailARs });
+      } else {
+        console.error("TravailAR data not found in API response");
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  },
 });
 
-const ModulesEndpoint = (userRole, user) => {
-  console.log("user", user);
+const Query = (userRole, user) => {
   switch (userRole) {
     case "admin":
-      return "/api/module";
+      return "";
     case "teacher":
-      return `/api/module/prof/${user.id}`;
+      return `?prof=${user.id}`;
     case "verified student":
-      return `/api/module/semester/${user.semester}`;
+      return `?semester=${user.semester}`;
   }
 };
 

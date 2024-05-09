@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image";
 import {
     Breadcrumb,
@@ -9,17 +10,39 @@ import {
 } from "@/Components/ui/breadcrumb"
 import file_down from "../../../../../public/file-down.svg";
 import Link from "next/link";
-
-//data
-import { todos } from "@/data/travailAR";
-import { courses } from "@/data/courses";
+import { useStore } from "@/store/zustand";
+import { useEffect, useState } from "react";
+import Loader from "@/app/loading";
+import { Input } from "@/Components/ui/input";
+import { Trash2 } from "lucide-react";
 
 function TravailDetail({ params }) {
-    const role = "student";
+    const role = useStore((state) => state.userRole);
+    const [travailAR, setTravailAR] = useState(null);
     const { slug } = params;
-    const { title, detail, cours, delais, rendu } = todos.find((todo) => todo.slug === slug);
-    const course = courses.find((course) => course.courseName === cours);
-    const coursSlug = course.slug;
+
+    useEffect(() => {
+        fetch(`/api/travailAR/${slug}`)
+            .then((res) => res.json())
+            .then((data) => {
+                console.log("data", data);
+                setTravailAR(data.travail);
+                console.log("travailAR", travailAR);
+            })
+            .catch((error) => {
+                console.error("Error fetching travailAR:", error);
+            });
+    }, []);
+    if (!travailAR) return <Loader />
+    const { title, detail, module, delais, rendu, ressources } = travailAR;
+    const courSlug = module.slug;
+    const cours = module.name;
+
+    // Extraire la date au format YYYY-MM-DD
+    const date_delais = new Date(delais).toISOString().split('T')[0];
+    // Extraire l'heure au format HH:MM:SS
+    const time_delais = new Date(delais).toISOString().split('T')[1].split('.')[0];
+
     return (
         <div className="lg:px-28 px-8 2xl:px-80 py-8 flex gap-7 flex-col">
             <Breadcrumb>
@@ -33,7 +56,7 @@ function TravailDetail({ params }) {
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                        <BreadcrumbLink href={"/my/cours/" + coursSlug}>{cours}</BreadcrumbLink>
+                        <BreadcrumbLink href={"/my/cours/" + courSlug}>{cours}</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
@@ -50,13 +73,13 @@ function TravailDetail({ params }) {
                     </div>
                     <div className="flex flex-row justify-between">
                         <span className="text-gray-500 font-semibold">A rendre avant :</span>
-                        <span className="text-muted-foreground">{delais}</span>
+                        <span className="text-muted-foreground">{date_delais} {time_delais}s</span>
                     </div>
                     <p className="text-sm text-gray-900">{detail}</p>
                     <div>
                         <h2 className="font-bold md:text-lg text-left">Ressourses :</h2>
                         {
-                            course.chapitres[0].ressources.map((ressource, index) => (
+                            ressources.map((ressource, index) => (
                                 <div className="flex justify-between items-center" key={index}>
                                     <div className="inline-flex items-center my-2">
                                         <Image src={file_down} width={20} alt="file-down" />
@@ -74,6 +97,7 @@ function TravailDetail({ params }) {
                             <h3 className="font-bold text-gray-900">Soumettez votre travail</h3>
                             {rendu ? <RenduFlag /> : <NonRenduFlag />}
                         </div>
+                        <Input type="file" className='cursor-pointer' multiple={true} />
                     </div>
                 </aside>
             </div>
