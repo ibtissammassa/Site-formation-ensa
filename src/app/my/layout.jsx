@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useStore } from "@/store/zustand";
 import { getDataFromToken } from "@/app/actions";
 import { Loader2Icon, X } from "lucide-react";
@@ -8,6 +8,7 @@ import { Button } from "@/Components/ui/button";
 
 export default function MyLayout({ children }) {
   const router = useRouter();
+  const path = usePathname();
   const [hideVerifyMessage, setHideVerifyMessage] = useState(false);
   const { setUser, setUserRole, user, setIsLoading, isLoading } = useStore(
     (state) => ({
@@ -21,7 +22,6 @@ export default function MyLayout({ children }) {
 
   useEffect(() => {
     setIsLoading(true);
-    console.log("is loading 1 : ", isLoading);
     getDataFromToken()
       .then((res) => {
         setUser(res);
@@ -36,10 +36,11 @@ export default function MyLayout({ children }) {
   useEffect(() => {
     if (user.role === "unverified student") {
       router.push("/my/unverified");
-      setIsLoading(false);
-      console.log("is loading 2 : ", isLoading);
+      if (path === "/my/unverified") {
+        setIsLoading(false);
+      }
     }
-  }, [user]);
+  }, [user, path]);
 
   if (isLoading) {
     return (

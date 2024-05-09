@@ -4,20 +4,19 @@ import { useStore } from "@/store/zustand";
 function UnverifiedStudentPage() {
   const user = useStore((state) => state.user);
   return (
-    <div>
-      <h1>Bonjour {user.firstname + "" + user.lastname}</h1>
-      <p>
+    <div className="flex flex-col justify-center text-center gap-4">
+      <h1 className="text-4xl font-bold mb-6 mt-4">
+        Bienvenu{" "}
+        <span className="text-red-500">
+          {user.firstname} {user.lastname}
+        </span>
+      </h1>
+      <p className="my-4 text-gray-700">
         Votre compte est pas encore verifier, vous devez terminer le processus
         d'inscription.
       </p>
       <ProcessusInscription />
-      <ol>
-        <li>Pre-inscription par site</li>
-        <li>Deposer le dossier d'inscription</li>
-        <li>Validation de dossier</li>
-        <li>Validation de compte (espace connecté)</li>
-      </ol>
-      <div className="w-full bg-red-50 rounded-md flex flex-col gap-4 shadow-md lg:p-9 p-6">
+      <div className="w-full bg-red-50 rounded-md flex flex-col gap-4 shadow-md lg:p-9 p-6 text-left">
         <h2 className="font-bold text-xl text-red-600">
           Dossier de condidature
         </h2>
