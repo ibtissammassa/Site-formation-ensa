@@ -52,25 +52,26 @@ export async function POST(request) {
 
 export async function GET(request) {
   try {
-    const travailARs = await TravailAR.find();
-    const updatedTravailARs = await Promise.all(
-      travailARs.map(async (travailAR) => {
-        const moduleId = travailAR.module;
-        const course = await Module.findOne({ _id: moduleId });
-        travailAR.module = course;
-        const updatedRessources = await Promise.all(
-          travailAR.ressources.map(async (ressourceId) => {
-            const resourceData = await Ressources.findById(ressourceId);
-            return resourceData;
-          })
-        );
+    let travailARs = await TravailAR.find()
+      .populate("module")
+      .populate("ressources");
+    const { searchParams } = new URL(request.url);
+    let prof = searchParams.get("prof");
+    let semester = searchParams.get("semester");
 
-        travailAR.ressources = updatedRessources;
-        return travailAR;
-      })
-    );
+    if (prof) {
+      prof = parseInt(prof);
+      travailARs = travailARs.filter(
+        (travailAR) => travailAR.module.prof.profId === prof
+      );
+    } else if (semester) {
+      semester = parseInt(semester);
+      travailARs = travailARs.filter((travailAR) => {
+        return travailAR.module.semester === semester;
+      });
+    }
 
-    return NextResponse.json({ travailARs: updatedTravailARs });
+    return NextResponse.json({ travailARs });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

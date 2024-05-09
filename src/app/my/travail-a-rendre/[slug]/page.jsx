@@ -13,6 +13,7 @@ import Link from "next/link";
 import { useStore } from "@/store/zustand";
 import { useEffect, useState } from "react";
 import Loader from "@/app/loading";
+import { Input } from "@/Components/ui/input";
 
 function TravailDetail({ params }) {
     const role = useStore((state) => state.userRole);
@@ -95,6 +96,7 @@ function TravailDetail({ params }) {
                             <h3 className="font-bold text-gray-900">Soumettez votre travail</h3>
                             {rendu ? <RenduFlag /> : <NonRenduFlag />}
                         </div>
+                        <Input type="file" className='cursor-pointer' multiple={true} />
                     </div>
                 </aside>
             </div>

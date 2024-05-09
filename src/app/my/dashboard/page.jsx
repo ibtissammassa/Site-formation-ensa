@@ -22,14 +22,17 @@ function Dashboard() {
   console.log("courses", courses);
   const fetchCourses = useStore((state) => state.fetchCourses);
 
-  const travailAR = useStore((state) => state.travailAR);
-  console.log("travailAR", travailAR);
+  let travailAR = useStore((state) => state.travailAR);
   const fetchTravailAR = useStore((state) => state.fetchTravailAR);
 
   useEffect(() => {
     fetchCourses();
     fetchTravailAR();
+    travailAR = travailAR.filter((item) => item.rendu === false);
   }, []);
+
+  console.log("travailAR", travailAR);
+
 
   if (isLoading) {
     return <Loader />;

@@ -29,7 +29,7 @@ const store = (set, get) => ({
       set({ user });
       set({ userRole });
     }
-    const query = ModulesQuery(userRole, user);
+    const query = Query(userRole, user);
     try {
       const response = await fetch(`/api/module${query}`);
       if (!response.ok) {
@@ -50,8 +50,22 @@ const store = (set, get) => ({
   travailAR: [],
   setTravailAR: (travailAR) => set({ travailAR }),
   fetchTravailAR: async () => {
+    let { user, userRole } = get();
+    if (!user || !user.semester || !user.id || !userRole) {
+      await getDataFromToken()
+        .then((rs) => {
+          user = rs;
+          userRole = rs.role;
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
+      set({ user });
+      set({ userRole });
+    }
+    const query = Query(userRole, user);
     try {
-      const response = await fetch("/api/travailAR");
+      const response = await fetch(`/api/travailAR${query}`);
       if (!response.ok) {
         throw new Error("Failed to fetch TravailAR");
       }
@@ -67,7 +81,7 @@ const store = (set, get) => ({
   },
 });
 
-const ModulesQuery = (userRole, user) => {
+const Query = (userRole, user) => {
   switch (userRole) {
     case "admin":
       return "";

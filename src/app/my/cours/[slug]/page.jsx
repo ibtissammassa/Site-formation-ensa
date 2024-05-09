@@ -31,11 +31,15 @@ function FormationPage({ params }) {
     const { slug } = params;
     const [course, setCourse] = useState(null);
     const role = useStore((state) => state.userRole);
+    let travailAR = useStore((state) => state.travailAR);
+    const fetchTravailAR = useStore((state) => state.fetchTravailAR);
 
     useEffect(() => {
         fetch(`/api/module/${slug}`).then((res) => res.json()).then((data) => {
             setCourse(data.module);
         });
+        fetchTravailAR();
+        travailAR = travailAR.filter((item) => item.module.slug === slug);
     }, []);
 
     if (!course) return <Loader />
@@ -180,10 +184,10 @@ function FormationPage({ params }) {
                     <div className="p-4 rounded-md border border-gray-200 shadow-md">
                         <h1 className="text-lg font-semibold mb-4">Activité A Rendre</h1>
                         <ScrollArea className="h-[400px]">
-                            {/* {
+                            {
                                 <div className="mr-3">
                                     {
-                                        travailAR.length === 0 ? (<SkeletonList />) : (
+                                        !travailAR ? (<SkeletonList />) : (
                                             travailAR.map((todo, index) => (
                                                 <CarteActiviteARendre key={index} data={todo} />
                                             ))
@@ -191,7 +195,7 @@ function FormationPage({ params }) {
                                     }
 
                                 </div>
-                            } */}
+                            }
                         </ScrollArea>
                     </div>
                 </aside>
