@@ -1,26 +1,20 @@
 import { connect } from "@/dbConfig/dbConfig";
-import User, { UserRoles } from "@/schema/userSchema";
+import User from "@/schema/userSchema";
+import UserRoles from "@/schema/userRoles";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import { sendEmail } from "@/lib/mailer";
 import axios from "axios";
 import jwt from "jsonwebtoken";
+import next from "next";
 
 await connect();
 
 export async function POST(request) {
   try {
     const reqBody = await request.json();
-    const {
-      nom,
-      prenom,
-      numeroTele,
-      cin,
-      email,
-      motDePass,
-      role,
-      semester,
-    } = reqBody;
+    const { nom, prenom, numeroTele, cin, email, motDePass, role, semester } =
+      reqBody;
     console.log(reqBody);
     const user = await User.findOne({ email });
     if (user) {
@@ -70,6 +64,15 @@ export async function POST(request) {
     });
     response.cookies.set("token", token, { httpOnly: true });
     return response;
+  } catch (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
+
+export async function GET(request) {
+  try {
+    const users = await User.find({ role: UserRoles.UnverifiedStudent });
+    return NextResponse.json({ users: users, status: 200 });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

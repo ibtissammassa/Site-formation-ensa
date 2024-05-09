@@ -18,27 +18,10 @@ export async function GET(request) {
 export async function POST(request) {
   try {
     const role = UserRoles.VerifiedStudent;
-    const {
-      firstname,
-      lastname,
-      email,
-      password,
-      Image,
-    } = await request.json();
-
-    const user = new User({
-      firstname,
-      lastname,
-      email,
-      password,
-      role,
-      Image,
-    });
-
-    await user.save();
-
+    const { studentId } = await request.json();
+    await User.findByIdAndUpdate(studentId, { role: role });
     return NextResponse.json({
-      message: "Verified Student created successfully",
+      message: "Student verified successfuly",
     });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
