@@ -97,7 +97,7 @@ export default function NavBar({ session }) {
                   <AvatarFallback>TM</AvatarFallback>
                 </Avatar>
               </PopoverTrigger>
-              <PopoverContent>
+              <PopoverContent className="bg-white">
                 <CarteProfile />
               </PopoverContent>
             </Popover>
