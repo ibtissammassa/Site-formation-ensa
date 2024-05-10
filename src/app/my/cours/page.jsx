@@ -26,15 +26,25 @@ import {
 } from "@/Components/ui/select";
 import { useStore } from "@/store/zustand";
 import { Loader } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SkeletonCard } from "@/Components/ui/SkeletonCard";
 
 function Cours() {
   const courses = useStore((state) => state.courses);
   const fetchCourses = useStore((state) => state.fetchCourses);
+  const [coursesLoading, setCoursesLoading] = useState(true);
+
 
   useEffect(() => {
-    fetchCourses();
+    async function fetchData() {
+      setCoursesLoading(true);
+
+      await fetchCourses();
+
+      setCoursesLoading(false);
+    }
+
+    fetchData();
   }, []);
 
   if (!courses) return <Loader />
@@ -67,9 +77,14 @@ function Cours() {
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-2 gap-3 mb-1">
         {
-          courses.map((data, index) => (
-            <CarteCours key={index} data={data} />
-          ))
+          coursesLoading ? (
+            Array(8).fill().map((_, index) => <SkeletonCard key={index} />)
+          ) :
+            courses.length === 0 ? (
+              <p>Aucune cours pour le moment.</p>
+            ) : (
+              courses.map((data, index) => <CarteCours key={index} data={data} />)
+            )
         }
       </div>
       <Pagination>

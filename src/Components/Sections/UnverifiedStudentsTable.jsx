@@ -13,6 +13,7 @@ import { Button } from "../ui/extension/button";
 import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Skeleton } from "../ui/extension/skeleton";
 
 function UnverifiedStudentsTable({ students, loading }) {
   const router = useRouter();
@@ -41,11 +42,14 @@ function UnverifiedStudentsTable({ students, loading }) {
       </TableHeader>
       {loading ? (
         <TableCaption>
-          <Loader2Icon className="h-4 w-4 animate-spin mx-[50vw] my-8" />
+          <div className="space-y-2 w-full">
+            <Skeleton className="h-4 w-w-full" />
+            <Skeleton className="h-4 w-w-full" />
+          </div>
         </TableCaption>
       ) : students.length === 0 ? (
         <TableCaption className="mb-6">
-          Tous les étudiant sont verifier !
+          Tous les étudiants sont verifiés !
         </TableCaption>
       ) : (
         <TableBody>
