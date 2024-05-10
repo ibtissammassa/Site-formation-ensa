@@ -29,13 +29,12 @@ function Dashboard() {
   useEffect(() => {
     fetchCourses();
     fetchTravailAR();
-    if (role == 'verified student') {
+    if (role == "verified student") {
       travailAR = travailAR.filter((item) => item.rendu === false);
     }
   }, []);
 
   console.log("travailAR", travailAR);
-
 
   if (isLoading) {
     return <Loader />;
@@ -59,11 +58,11 @@ function Dashboard() {
           )}
         </div>
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-3 mb-5">
-          {
-            courses.map((data, index) => (
-              <CarteCours key={index} data={data} />
-            ))
-          }
+          {courses.length === 0 ? (
+            <p>Aucune cours pour le moment.</p>
+          ) : (
+            courses.map((data, index) => <CarteCours key={index} data={data} />)
+          )}
         </div>
         <Link className="underline text-red-600 font-semibold" href="/my/cours">
           Voir tous les cours
@@ -82,14 +81,13 @@ function Dashboard() {
           </div>
           <ScrollArea className="h-[400px]">
             <div className="mr-3">
-              {
-                travailAR.length === 0 ? (<SkeletonList />) : (
-                  travailAR.map((todo, index) => (
-                    <CarteActiviteARendre key={index} data={todo} />
-                  ))
-                )
-              }
-
+              {travailAR.length === 0 ? (
+                <p>Aucune activité à rendre pour le moment.</p>
+              ) : (
+                travailAR.map((todo, index) => (
+                  <CarteActiviteARendre key={index} data={todo} />
+                ))
+              )}
             </div>
           </ScrollArea>
         </div>
