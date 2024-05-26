@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const submissionsSchema = new Schema({
-  module: {
+  travail: {
     type: Schema.Types.ObjectId,
-    ref: "Module",
+    ref: "TravailAR",
     required: true,
   },
   submissionDate: { type: Date, required: true },

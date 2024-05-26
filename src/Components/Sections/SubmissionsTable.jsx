@@ -15,19 +15,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "../ui/extension/skeleton";
 
-export default function SubmissionsTable({ submissions = [], loading }) {
+export default function SubmissionsTable({ submissions, loading }) {
     const router = useRouter();
-    //   const verifyStudent = async (id) => {
-    //     try {
-    //       setVerifing(true);
-    //       await axios.post("/api/submissions", { studentId: id });
-    //     } catch (error) {
-    //       console.log(error.message);
-    //     } finally {
-    //       setVerifing(false);
-    //       router.refresh();
-    //     }
-    //   };
     return (
         <Table>
             <TableHeader>
@@ -60,11 +49,6 @@ export default function SubmissionsTable({ submissions = [], loading }) {
                                 <Button
                                     onClick={() => { }}
                                 >
-                                    {verifing ? (
-                                        <Loader2Icon className="h-4 w-4 animate-spin" />
-                                    ) : (
-                                        <></>
-                                    )}
                                     Voir la soumission
                                 </Button>
                             </TableCell>

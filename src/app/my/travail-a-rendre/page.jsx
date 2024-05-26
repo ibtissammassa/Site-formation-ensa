@@ -28,6 +28,7 @@ import { useStore } from "@/store/zustand";
 import { Button } from "@/Components/ui/extension/button";
 import { SkeletonCarteTravailAR } from "@/Components/ui/SkeletonCarteTravailAR";
 import { useEffect, useState } from "react";
+import Loader from "@/app/loading";
 
 function TravailArendre() {
   const role = useStore((state) => state.userRole);
@@ -35,6 +36,9 @@ function TravailArendre() {
   const fetchTravailAR = useStore((state) => state.fetchTravailAR);
   const [travailARLoading, setTravailARLoading] = useState(true);
 
+  // State for pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
 
   useEffect(() => {
     async function fetchData() {
@@ -47,6 +51,14 @@ function TravailArendre() {
   }, []);
 
   if (!travailAR) return <Loader />
+
+  const totalPages = Math.ceil(travailAR.length / itemsPerPage);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const paginatedTravailAR = travailAR.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
     <div className="lg:px-20 px-8 2xl:px-80 py-8 flex flex-col gap-5 ">
@@ -81,10 +93,10 @@ function TravailArendre() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-1">
         {
           travailARLoading ? Array(4).fill().map((_, index) => <SkeletonCarteTravailAR key={index} />) :
-            travailAR.length === 0 ? (
+            paginatedTravailAR.length === 0 ? (
               <p>Aucune activité à rendre pour le moment.</p>
             ) : (
-              travailAR.map((todo, index) => (
+              paginatedTravailAR.map((todo, index) => (
                 <CarteTravailAR key={index} data={todo} />
               ))
             )
@@ -93,16 +105,27 @@ function TravailArendre() {
       <Pagination>
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious href="#" />
+            <PaginationPrevious
+              href="#"
+              onClick={() => handlePageChange(currentPage > 1 ? currentPage - 1 : 1)}
+            />
           </PaginationItem>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <PaginationItem key={i}>
+              <PaginationLink
+                href="#"
+                onClick={() => handlePageChange(i + 1)}
+                className={currentPage === i + 1 ? 'active' : ''}
+              >
+                {i + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
           <PaginationItem>
-            <PaginationLink href="#">1</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href="#" />
+            <PaginationNext
+              href="#"
+              onClick={() => handlePageChange(currentPage < totalPages ? currentPage + 1 : totalPages)}
+            />
           </PaginationItem>
         </PaginationContent>
       </Pagination>

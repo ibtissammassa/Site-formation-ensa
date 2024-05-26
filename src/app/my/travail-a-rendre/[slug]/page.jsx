@@ -21,6 +21,7 @@ function TravailDetail({ params }) {
     const role = useStore((state) => state.userRole);
     const [travailAR, setTravailAR] = useState(null);
     const { slug } = params;
+    const [loadingSubscriptions, setloadingSubscriptions] = useState(false);
 
     useEffect(() => {
         fetch(`/api/travailAR/${slug}`)
@@ -33,7 +34,14 @@ function TravailDetail({ params }) {
             .catch((error) => {
                 console.error("Error fetching travailAR:", error);
             });
+
+        fetch(`/api/submissions`).then((res) => res.json()).then((data) => {
+            setSubmissions(data.submissions);
+        }).catch((error) => {
+            console.error("Error fetching submissions:", error);
+        });
     }, []);
+    const [submissions, setSubmissions] = useState([]);
     if (!travailAR) return <Loader />
     const { title, detail, module, delais, rendu, ressources } = travailAR;
     const courSlug = module.slug;
@@ -94,7 +102,8 @@ function TravailDetail({ params }) {
                     <div>
                         {
                             role === "teacher" && <div>
-                                <SubmissionsTable />
+                                <h2 className="font-bold md:text-lg text-left">Soumissions :</h2>
+                                <SubmissionsTable submissions={submissions} loading={loadingSubscriptions} />
                             </div>
                         }
                     </div>

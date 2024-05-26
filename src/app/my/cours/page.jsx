@@ -1,4 +1,4 @@
-"use client"
+'use client'
 import CarteCours from "@/Components/ui/CarteCours";
 import {
   Breadcrumb,
@@ -34,6 +34,9 @@ function Cours() {
   const fetchCourses = useStore((state) => state.fetchCourses);
   const [coursesLoading, setCoursesLoading] = useState(true);
 
+  // State for pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
 
   useEffect(() => {
     async function fetchData() {
@@ -48,6 +51,14 @@ function Cours() {
   }, []);
 
   if (!courses) return <Loader />
+
+  const totalPages = Math.ceil(courses.length / itemsPerPage);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const paginatedCourses = courses.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
     <div className="lg:px-10 px-8 2xl:px-80 py-8 flex flex-col gap-5 ">
@@ -79,27 +90,37 @@ function Cours() {
         {
           coursesLoading ? (
             Array(8).fill().map((_, index) => <SkeletonCard key={index} />)
-          ) :
-            courses.length === 0 ? (
-              <p>Aucune cours pour le moment.</p>
-            ) : (
-              courses.map((data, index) => <CarteCours key={index} data={data} />)
-            )
+          ) : paginatedCourses.length === 0 ? (
+            <p>Aucun cours pour le moment.</p>
+          ) : (
+            paginatedCourses.map((data, index) => <CarteCours key={index} data={data} />)
+          )
         }
       </div>
       <Pagination>
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious href="#" />
+            <PaginationPrevious
+              href="#"
+              onClick={() => handlePageChange(currentPage > 1 ? currentPage - 1 : 1)}
+            />
           </PaginationItem>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <PaginationItem key={i}>
+              <PaginationLink
+                href="#"
+                onClick={() => handlePageChange(i + 1)}
+                className={currentPage === i + 1 ? 'active' : ''}
+              >
+                {i + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
           <PaginationItem>
-            <PaginationLink href="#">1</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href="#" />
+            <PaginationNext
+              href="#"
+              onClick={() => handlePageChange(currentPage < totalPages ? currentPage + 1 : totalPages)}
+            />
           </PaginationItem>
         </PaginationContent>
       </Pagination>
