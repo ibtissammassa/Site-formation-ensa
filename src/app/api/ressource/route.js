@@ -7,25 +7,27 @@ await connect();
 export async function POST(request) {
   try {
     const reqBody = await request.json();
-    const { title, url } = reqBody;
+    const { ressources } = reqBody;
 
-    const ressource = await Ressources.findOne({ title, url });
+    // const ressource = await Ressources.findOne({ title, url });
 
-    if (ressource) {
-      return NextResponse.json(
-        { error: "Ressource already exists" },
-        { status: 400 }
-      );
-    }
+    // if (ressource) {
+    //   return NextResponse.json(
+    //     { error: "Ressource already exists" },
+    //     { status: 400 }
+    //   );
+    // }
 
-    const newRessource = new Ressources({ title, url });
+    // const newRessource = new Ressources({ title, url });
 
-    const savedRessource = await newRessource.save();
+    // const savedRessource = await newRessource.save();
+
+    const savedRessources = await Ressources.insertMany(ressources);
 
     return NextResponse.json({
-      message: "Ressource created successfully",
+      message: "Ressources created successfully",
       success: true,
-      savedRessource,
+      savedRessources,
     });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

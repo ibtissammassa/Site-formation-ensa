@@ -10,25 +10,20 @@ await connect();
 export async function POST(request) {
   try {
     const requestBody = await request.json();
-    const {
-      title,
-      slug,
-      moduleId,
-      delais,
-      rendu,
-      detail,
-      ressources,
-    } = requestBody;
+    const { title, slug, moduleName, delais, rendu, detail, ressources } =
+      requestBody;
 
     const travail = await TravailAR.findOne({ slug });
-
     if (travail) {
       return NextResponse.json(
         { error: "TravailAR already exists" },
         { status: 400 }
       );
     }
+    const module = await Module.findOne({ name: moduleName });
+    const moduleId = module.id;
 
+    // add the homework
     const newTravailAR = new TravailAR({
       title,
       slug,
