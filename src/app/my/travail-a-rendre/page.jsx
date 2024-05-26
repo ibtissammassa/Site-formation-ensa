@@ -27,16 +27,23 @@ import CarteTravailAR from "@/Components/ui/CarteTravailAR";
 import { useStore } from "@/store/zustand";
 import { Button } from "@/Components/ui/extension/button";
 import { SkeletonCarteTravailAR } from "@/Components/ui/SkeletonCarteTravailAR";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function TravailArendre() {
   const role = useStore((state) => state.userRole);
   const travailAR = useStore((state) => state.travailAR);
   const fetchTravailAR = useStore((state) => state.fetchTravailAR);
+  const [travailARLoading, setTravailARLoading] = useState(true);
 
 
   useEffect(() => {
-    fetchTravailAR();
+    async function fetchData() {
+      setTravailARLoading(true);
+      await fetchTravailAR();
+      setTravailARLoading(false);
+    }
+
+    fetchData();
   }, []);
 
   if (!travailAR) return <Loader />
@@ -73,13 +80,14 @@ function TravailArendre() {
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-1">
         {
-          travailAR.length === 0 ? (
-            <SkeletonCarteTravailAR />
-          ) : (
-            travailAR.map((data, index) => (
-              <CarteTravailAR key={index} data={data} />
-            ))
-          )
+          travailARLoading ? Array(4).fill().map((_, index) => <SkeletonCarteTravailAR key={index} />) :
+            travailAR.length === 0 ? (
+              <p>Aucune activité à rendre pour le moment.</p>
+            ) : (
+              travailAR.map((todo, index) => (
+                <CarteTravailAR key={index} data={todo} />
+              ))
+            )
         }
       </div>
       <Pagination>

@@ -58,7 +58,7 @@ export default function MyLayout({ children }) {
       {!user.isVerified && !hideVerifyMessage ? (
         <div className="flex flex-row justify-between items-center bg-amber-200 text-gray-700 capitalize p-4 text-sm">
           <p>
-            Vous avez encoure pas verifier votre email:{" "}
+            Vous avez encore pas verifié votre email:{" "}
             <span className="underline">{user.email}</span>
           </p>
           <Button

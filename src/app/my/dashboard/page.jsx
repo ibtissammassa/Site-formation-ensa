@@ -15,6 +15,8 @@ function Dashboard() {
   const user = useStore((state) => state.user);
   const isLoading = useStore((state) => state.isLoading);
   const role = useStore((state) => state.userRole);
+  const [coursesLoading, setCoursesLoading] = useState(true);
+  const [travailARLoading, setTravailARLoading] = useState(true);
 
   const firstName = user.firstname || "";
   const lastName = user.lastname || "";
@@ -27,11 +29,21 @@ function Dashboard() {
   const fetchTravailAR = useStore((state) => state.fetchTravailAR);
 
   useEffect(() => {
-    fetchCourses();
-    fetchTravailAR();
-    if (role == "verified student") {
-      travailAR = travailAR.filter((item) => item.rendu === false);
+    async function fetchData() {
+      setCoursesLoading(true);
+      setTravailARLoading(true);
+
+      await fetchCourses();
+      await fetchTravailAR();
+
+      setCoursesLoading(false);
+      if (role === "verified student") {
+        travailAR = travailAR.filter(item => item.rendu === false);
+      }
+      setTravailARLoading(false);
     }
+
+    fetchData();
   }, []);
 
   console.log("travailAR", travailAR);
@@ -49,20 +61,28 @@ function Dashboard() {
             {firstName} {lastName}
           </span>
         </h1>
+        {role === "admin" && (<div className="flex gap-3 justify-end">
+          <Button className="w-48" href="/my/admin/addModule">
+            Ajouter un Module
+          </Button>
+          <Button variant='green' className="w-48" href="/my/admin/verifyStudents">
+            Verifier Etudiants
+          </Button></div>
+        )}
         <div className="flex justify-between mb-6 items-center">
           <h1 className="text-xl font-bold ">Cours Actuels</h1>
-          {role === "admin" && (
-            <Button className="w-52" href="/my/admin/addModule">
-              Ajouter un Module
-            </Button>
-          )}
         </div>
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-3 mb-5">
-          {courses.length === 0 ? (
-            <p>Aucune cours pour le moment.</p>
-          ) : (
-            courses.map((data, index) => <CarteCours key={index} data={data} />)
-          )}
+          {
+            coursesLoading ? (
+              Array(2).fill().map((_, index) => <SkeletonCard key={index} />)
+            ) :
+              courses.length === 0 ? (
+                <p>Aucune cours pour le moment.</p>
+              ) : (
+                courses.map((data, index) => <CarteCours key={index} data={data} />)
+              )
+          }
         </div>
         <Link className="underline text-red-600 font-semibold" href="/my/cours">
           Voir tous les cours
@@ -81,13 +101,17 @@ function Dashboard() {
           </div>
           <ScrollArea className="h-[400px]">
             <div className="mr-3">
-              {travailAR.length === 0 ? (
-                <p>Aucune activité à rendre pour le moment.</p>
-              ) : (
-                travailAR.map((todo, index) => (
-                  <CarteActiviteARendre key={index} data={todo} />
-                ))
-              )}
+              {
+                travailARLoading ? <SkeletonList /> :
+                  travailAR.length === 0 ? (
+                    <p>Aucune activité à rendre pour le moment.</p>
+                  ) : (
+                    travailAR.map((todo, index) => (
+                      <CarteActiviteARendre key={index} data={todo} />
+                    ))
+                  )
+              }
+
             </div>
           </ScrollArea>
         </div>
