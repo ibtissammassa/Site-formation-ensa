@@ -3,6 +3,7 @@ import "../styles/globals.css";
 import NavBar from "../Components/Sections/NavBar";
 import Footer from "../Components/Sections/Footer";
 import { Toaster } from "@/Components/ui/toaster";
+import { EdgeStoreProvider } from "@/lib/edgestore";
 
 const poppins = Poppins({
   weight: ["400", "700"],
@@ -24,7 +25,7 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body className={poppins.className + " relative"}>
-        {children}
+        <EdgeStoreProvider>{children}</EdgeStoreProvider>
         <Footer />
         <Toaster />
       </body>

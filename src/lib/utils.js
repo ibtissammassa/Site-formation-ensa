@@ -1,6 +1,19 @@
-import { clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
+}
+
+export function removeExtension(fileName) {
+  // Find the last occurrence of '.' to get the position of the file extension
+  const dotIndex = fileName.lastIndexOf(".");
+
+  // If a dot is found and it's not the first character (i.e., not a hidden file), remove the extension
+  if (dotIndex !== -1 && dotIndex > 0) {
+    return fileName.substring(0, dotIndex);
+  }
+
+  // If no extension found or the dot is the first character (hidden file), return the original file name
+  return fileName;
 }

@@ -1,5 +1,35 @@
 import { z } from "zod";
 
+export const fileSchema = z.instanceof(File).refine(
+  (file) => {
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    return file.size <= maxSize;
+  },
+  {
+    message: "Each file must be less than 5MB",
+  }
+);
+
+export const addTARSchema = z.object({
+  title: z.string().min(5, { message: "Title is required" }),
+  description: z
+    .string()
+    .min(1, { message: "Description is required" })
+    .max(500, { message: "Description must be less than 500 characters" }),
+  limitDateAndTime: z.date().refine((date) => date >= new Date(), {
+    message: "Date must be in the future",
+  }),
+  resources: z
+    .union([
+      fileSchema,
+      z
+        .array(fileSchema)
+        .max(5, { message: "Cannot upload more than 5 files" }),
+    ])
+    .optional(),
+  module: z.string(),
+});
+
 export const FormInscriptionSchema = z.object({
   nom: z.string(),
   prenom: z.string(),
