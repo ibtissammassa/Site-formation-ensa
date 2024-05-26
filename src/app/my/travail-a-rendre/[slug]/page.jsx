@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import Loader from "@/app/loading";
 import { Input } from "@/Components/ui/input";
 import { Trash2 } from "lucide-react";
+import SubmissionsTable from "@/Components/Sections/SubmissionsTable";
 
 function TravailDetail({ params }) {
     const role = useStore((state) => state.userRole);
@@ -90,16 +91,26 @@ function TravailDetail({ params }) {
                             ))
                         }
                     </div>
-                </main>
-                <aside className="lg:w-1/3 w-full">
-                    <div className="p-4 rounded-md border border-gray-200 shadow-md mb-4 flex flex-col gap-3 h-36">
-                        <div className="flex flex-row justify-between items-center">
-                            <h3 className="font-bold text-gray-900">Soumettez votre travail</h3>
-                            {rendu ? <RenduFlag /> : <NonRenduFlag />}
-                        </div>
-                        <Input type="file" className='cursor-pointer' multiple={true} />
+                    <div>
+                        {
+                            role === "teacher" && <div>
+                                <SubmissionsTable />
+                            </div>
+                        }
                     </div>
-                </aside>
+                </main>
+                {
+                    role === "student" &&
+                    <aside className="lg:w-1/3 w-full">
+                        <div className="p-4 rounded-md border border-gray-200 shadow-md mb-4 flex flex-col gap-3 h-36">
+                            <div className="flex flex-row justify-between items-center">
+                                <h3 className="font-bold text-gray-900">Soumettez votre travail</h3>
+                                {rendu ? <RenduFlag /> : <NonRenduFlag />}
+                            </div>
+                            <Input type="file" className='cursor-pointer' multiple={true} />
+                        </div>
+                    </aside>
+                }
             </div>
         </div>
     );
