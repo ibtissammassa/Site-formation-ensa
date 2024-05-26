@@ -2,17 +2,17 @@
 
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
-import { Button as RedButton } from "@/components/ui/extension/button";
+import { Button } from "@/Components/ui/button";
+import { Button as RedButton } from "@/Components/ui/extension/button";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "@/Components/ui/calendar";
 import { format } from "date-fns";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from "@/Components/ui/popover";
 import {
   Form,
   FormControl,
@@ -21,8 +21,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from "@/Components/ui/form";
+import { Input } from "@/Components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TimePickerDemo } from "../ui/extension/time-picker-demo";
 import {
@@ -33,7 +33,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/Components/ui/select";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useStore } from "@/store/zustand";
