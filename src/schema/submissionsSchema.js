@@ -9,6 +9,7 @@ const submissionsSchema = new Schema({
   },
   submissionDate: { type: Date, required: true },
   student: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  ressources: [{ type: Schema.Types.ObjectId, ref: "Ressources" }],
 });
 
 const Submissions =
