@@ -1,8 +1,12 @@
+"use client";
+
 import { fileSchema } from "@/schema/zodFormSchema";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import { removeExtension } from "@/lib/utils";
+import axios from "axios";
 import {
   Form,
   FormControl,
@@ -15,6 +19,8 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/extension/button";
 import { useState } from "react";
+import { useEdgeStore } from "@/lib/edgestore";
+import { useRouter } from "next/navigation";
 const submissionSchema = z.object({
   submissions: z
     .union([
@@ -27,7 +33,9 @@ const submissionSchema = z.object({
 });
 
 function FormAddSubmission() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { edgestore } = useEdgeStore();
   const form = useForm({
     resolver: zodResolver(submissionSchema),
   });
@@ -35,34 +43,46 @@ function FormAddSubmission() {
     try {
       setLoading(true);
       // add files to the bucket
-
-      // format the data
-      // add soummession
-      const formattedsum = [];
-      if (values.resources) {
+      const formattedSubmissions = [];
+      if (values.submissions) {
         console.log("in loop");
-        if (values.resources instanceof File) {
+        if (values.submissions instanceof File) {
           const res = await edgestore.publicFiles.upload({
-            file: values.resources,
+            file: values.submissions,
           });
-          formattedResources.push({
-            title: removeExtension(values.resources.name),
+          formattedSubmissions.push({
+            title: removeExtension(values.submissions.name),
             url: res.url,
           });
         } else {
-          values.resources.map(async (file) => {
+          values.submissions.map(async (file) => {
             const res = await edgestore.publicFiles.upload({
               file,
             });
-            formattedResources.push({
+            formattedSubmissions.push({
               title: removeExtension(file.name),
               url: res.url,
             });
           });
         }
       }
-      console.log(values.submissions);
+      // add the ressources data to the database
+      const resourceObjs = await axios.post("/api/ressource", {
+        ressources: formattedSubmissions,
+      });
+      // fromat the soumession data object
+      const data = {
+        travail: slug,
+        submissionDate: Date.now(),
+        student: user.id,
+        ressources: resourceObjs.data.savedRessources.map((res) => res._id),
+      };
+      // add travailAR to the database
+      const newSoummession = await axios.post("/api/submissions", data);
+      router.refresh();
+      console.log("formated submissions : ", formattedSubmissions);
     } catch (error) {
+      console.log(error.message);
     } finally {
       setLoading(false);
     }
