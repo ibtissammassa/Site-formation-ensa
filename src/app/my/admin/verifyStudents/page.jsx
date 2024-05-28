@@ -22,7 +22,7 @@ function VerifyingStudentPage() {
 
   return (
     <div className="md:px-28 px-6 py-4">
-      <h1 className="font-semibold text-red-700 mb-4 text-lg">
+      <h1 className="font-semibold text-red-700 mb-4 text-2xl">
         Verification des étudiant
       </h1>
       <UnverifiedStudentsTable
