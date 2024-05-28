@@ -1,4 +1,6 @@
+"use client";
 import Link from "next/link";
+import { useStore } from "@/store/zustand";
 
 function CarteActiviteARendre({ data }) {
   const { title, slug, module, delais, rendu } = data;
@@ -6,12 +8,13 @@ function CarteActiviteARendre({ data }) {
   const date_delais = new Date(delais).toISOString().split('T')[0];
   // Extraire l'heure au format HH:MM:SS
   const time_delais = new Date(delais).toISOString().split('T')[1].split('.')[0];
+  const role = useStore((state) => state.userRole);
 
   return (
     <div className="border-b py-2 flex flex-col gap-2">
       <div className="flex flex-row justify-between">
         <Link href={'/my/travail-a-rendre/' + slug} className="font-bold text-gray-700 text-md hover:underline">{title}</Link>
-        {rendu ? <RenduFlag /> : <NonRenduFlag />}
+        {role === "teacher" ? (rendu ? <OuvertFlag /> : <FermeFlag />) : (rendu ? <RenduFlag /> : <NonRenduFlag />)}
       </div>
       <h2 className="text-sm">{module.name}</h2>
       <div className="flex flex-row justify-between">
@@ -27,6 +30,12 @@ function RenduFlag() {
 }
 function NonRenduFlag() {
   return <span className="text-red-400">Non Rendu</span>;
+}
+function OuvertFlag() {
+  return <span className="text-green-400">Ouvert</span>;
+}
+function FermeFlag() {
+  return <span className="text-red-400">Fermé</span>;
 }
 
 export default CarteActiviteARendre;
