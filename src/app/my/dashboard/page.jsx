@@ -78,9 +78,9 @@ function Dashboard() {
               Array(2).fill().map((_, index) => <SkeletonCard key={index} />)
             ) :
               courses.length === 0 ? (
-                <p>Aucune cours pour le moment.</p>
+                <p>Aucun cours pour le moment.</p>
               ) : (
-                courses.map((data, index) => <CarteCours key={index} data={data} />)
+                courses.slice(0, 4).map((data, index) => <CarteCours key={index} data={data} />)
               )
           }
         </div>
