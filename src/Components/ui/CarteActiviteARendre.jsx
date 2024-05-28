@@ -10,11 +10,13 @@ function CarteActiviteARendre({ data }) {
   const time_delais = new Date(delais).toISOString().split('T')[1].split('.')[0];
   const role = useStore((state) => state.userRole);
 
+  const ouvert = new Date() < new Date(delais);
+
   return (
     <div className="border-b py-2 flex flex-col gap-2">
       <div className="flex flex-row justify-between">
         <Link href={'/my/travail-a-rendre/' + slug} className="font-bold text-gray-700 text-md hover:underline">{title}</Link>
-        {role === "teacher" ? (rendu ? <OuvertFlag /> : <FermeFlag />) : (rendu ? <RenduFlag /> : <NonRenduFlag />)}
+        {role === "teacher" ? (ouvert ? <OuvertFlag /> : <FermeFlag />) : (rendu ? <RenduFlag /> : <NonRenduFlag />)}
       </div>
       <h2 className="text-sm">{module.name}</h2>
       <div className="flex flex-row justify-between">
