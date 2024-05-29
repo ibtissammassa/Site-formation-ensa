@@ -22,7 +22,7 @@ import {
   FormDescription,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+import { Button } from "../ui/extension/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
 import { CalendarIcon } from "lucide-react";
@@ -147,7 +147,7 @@ function FormAddModule() {
                 <FormLabel>Objectif de module</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="L'objectif attendu de cette module"
+                    placeholder="L'objectif attendu de ce module"
                     {...field}
                   />
                 </FormControl>
@@ -206,7 +206,7 @@ function FormAddModule() {
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Choisir le prof qui va encadrer cette module" />
+                      <SelectValue placeholder="Choisir le prof qui va encadrer ce module" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent className="bg-white">
@@ -245,7 +245,7 @@ function FormAddModule() {
               </FormItem>
             )}
           />
-          <Button variant="outline">Ajouté Module</Button>
+          <Button>Ajouter Module</Button>
         </form>
       </Form>
     </>
