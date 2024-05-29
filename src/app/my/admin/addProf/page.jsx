@@ -22,7 +22,7 @@ function AddProfPage() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <h1 className="md:text-4xl text-3xl font-bold mx-4">
+      <h1 className="md:text-4xl text-3xl font-bold my-5">
         Ajouter un Professeur :
       </h1>
       <FromAddProf />
