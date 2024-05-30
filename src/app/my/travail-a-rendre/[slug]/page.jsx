@@ -17,36 +17,69 @@ import { Input } from "@/Components/ui/input";
 import { Trash2 } from "lucide-react";
 import SubmissionsTable from "@/Components/Sections/SubmissionsTable";
 import FormAddSubmission from "@/Components/Forms/FormAddSubmission";
+import axios from "axios";
+import UserRoles from "@/schema/userRoles";
+import RessourceLink from "@/Components/ui/ressourceLink";
+import { set } from "mongoose";
 
 function TravailDetail({ params }) {
   const role = useStore((state) => state.userRole);
+  const user = useStore((state) => state.user);
+  const [isRendu, setIsRendu] = useState(false);
+  const [submissions, setSubmissions] = useState();
+  const [studentRessources, setStudentRessources] = useState([]);
   const [travailAR, setTravailAR] = useState(null);
   const { slug } = params;
   const [loadingSubscriptions, setloadingSubscriptions] = useState(false);
 
   useEffect(() => {
-    fetch(`/api/travailAR/${slug}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("data", data);
+    const fetchTravailAR = async () => {
+      try {
+        const { data } = await axios.get(`/api/travailAR/${slug}`);
         setTravailAR(data.travail);
-        console.log("travailAR", travailAR);
-      })
-      .catch((error) => {
-        console.error("Error fetching travailAR:", error);
-      });
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-    fetch(`/api/submissions`)
-      .then((res) => res.json())
-      .then((data) => {
-        setSubmissions(data.submissions);
-      })
-      .catch((error) => {
-        console.error("Error fetching submissions:", error);
-      });
+    fetchTravailAR();
   }, []);
-  const [submissions, setSubmissions] = useState([]);
+
+  useEffect(() => {
+    const fetchSubmissions = async () => {
+      if (role === UserRoles.Teacher) {
+        setloadingSubscriptions(true);
+        try {
+          const { data } = await axios.get(
+            `/api/submissions?travailId=${travailAR._id}`
+          );
+          setSubmissions(data.submissions);
+          console.log(data.submissions);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setloadingSubscriptions(false);
+        }
+      } else {
+        try {
+          const { data } = await axios.get(
+            `/api/submissions?travailId=${travailAR._id}&userId=${user.id}`
+          );
+          setStudentRessources(data.submissions[0].ressources);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+    fetchSubmissions();
+  }, [travailAR]);
+  useEffect(() => {
+    if (studentRessources.length > 0) {
+      setIsRendu(true);
+    }
+  }, [studentRessources]);
   if (!travailAR) return <Loader />;
+
   const { title, detail, module, delais, rendu, ressources } = travailAR;
   const courSlug = module.slug;
   const cours = module.name;
@@ -58,7 +91,6 @@ function TravailDetail({ params }) {
     .toISOString()
     .split("T")[1]
     .split(".")[0];
-
   return (
     <div className="lg:px-28 px-8 2xl:px-80 py-8 flex gap-7 flex-col">
       <Breadcrumb>
@@ -143,9 +175,25 @@ function TravailDetail({ params }) {
                 <h3 className="font-bold text-gray-900">
                   Soumettez votre travail
                 </h3>
-                {rendu ? <RenduFlag /> : <NonRenduFlag />}
+                {isRendu ? <RenduFlag /> : <NonRenduFlag />}
               </div>
-              <FormAddSubmission />
+              {studentRessources.length > 0 && (
+                <div>
+                  <h2 className="font-bold md:text-lg text-left">
+                    Vos soumissions :
+                  </h2>
+                  {studentRessources.map((ressource, index) => (
+                    <RessourceLink ressource={ressource} index={index} />
+                  ))}
+                </div>
+              )}
+              {new Date(travailAR.delais) > new Date() ? (
+                <FormAddSubmission />
+              ) : (
+                <p className="text-red-500">
+                  La date limite de soumission est dépassée
+                </p>
+              )}
             </div>
           </aside>
         )}

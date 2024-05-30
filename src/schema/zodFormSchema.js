@@ -16,9 +16,7 @@ export const addTARSchema = z.object({
     .string()
     .min(1, { message: "Description is required" })
     .max(500, { message: "Description must be less than 500 characters" }),
-  limitDateAndTime: z.date().refine((date) => date >= new Date(), {
-    message: "Date must be in the future",
-  }),
+  limitDateAndTime: z.date(),
   resources: z
     .union([
       fileSchema,

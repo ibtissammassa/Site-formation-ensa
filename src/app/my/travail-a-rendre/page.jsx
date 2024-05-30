@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -50,7 +50,7 @@ function TravailArendre() {
     fetchData();
   }, []);
 
-  if (!travailAR) return <Loader />
+  if (!travailAR) return <Loader />;
 
   const totalPages = Math.ceil(travailAR.length / itemsPerPage);
 
@@ -58,7 +58,10 @@ function TravailArendre() {
     setCurrentPage(page);
   };
 
-  const paginatedTravailAR = travailAR.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const paginatedTravailAR = travailAR.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="lg:px-20 px-8 2xl:px-80 py-8 flex flex-col gap-5 ">
@@ -88,26 +91,31 @@ function TravailArendre() {
       </div>
 
       {role === "teacher" && (
-        <Button href='/my/prof/AddTravail' className="w-52">Ajouter un travail a rendre</Button>
+        <Button href="/my/prof/AddTravail" className="w-52">
+          Ajouter un travail a rendre
+        </Button>
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-1">
-        {
-          travailARLoading ? Array(4).fill().map((_, index) => <SkeletonCarteTravailAR key={index} />) :
-            paginatedTravailAR.length === 0 ? (
-              <p>Aucune activité à rendre pour le moment.</p>
-            ) : (
-              paginatedTravailAR.map((todo, index) => (
-                <CarteTravailAR key={index} data={todo} />
-              ))
-            )
-        }
+        {travailARLoading ? (
+          Array(4)
+            .fill()
+            .map((_, index) => <SkeletonCarteTravailAR key={index} />)
+        ) : paginatedTravailAR.length === 0 ? (
+          <p>Aucune activité à rendre pour le moment.</p>
+        ) : (
+          paginatedTravailAR.map((todo, index) => (
+            <CarteTravailAR key={index} data={todo} role={role} />
+          ))
+        )}
       </div>
       <Pagination>
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
               href="#"
-              onClick={() => handlePageChange(currentPage > 1 ? currentPage - 1 : 1)}
+              onClick={() =>
+                handlePageChange(currentPage > 1 ? currentPage - 1 : 1)
+              }
             />
           </PaginationItem>
           {Array.from({ length: totalPages }, (_, i) => (
@@ -115,7 +123,7 @@ function TravailArendre() {
               <PaginationLink
                 href="#"
                 onClick={() => handlePageChange(i + 1)}
-                className={currentPage === i + 1 ? 'active' : ''}
+                className={currentPage === i + 1 ? "active" : ""}
               >
                 {i + 1}
               </PaginationLink>
@@ -124,7 +132,11 @@ function TravailArendre() {
           <PaginationItem>
             <PaginationNext
               href="#"
-              onClick={() => handlePageChange(currentPage < totalPages ? currentPage + 1 : totalPages)}
+              onClick={() =>
+                handlePageChange(
+                  currentPage < totalPages ? currentPage + 1 : totalPages
+                )
+              }
             />
           </PaginationItem>
         </PaginationContent>
