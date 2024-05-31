@@ -41,6 +41,28 @@ export async function PUT(request, { params }) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+// Add chapitre to module by slug
+export async function POST(request, { params }) {
+  try {
+    const { slug } = params;
+    const { chapitre } = await request.json();
+    const module = await Module.findOne({ slug });
+
+    if (!module) {
+      return NextResponse.json({ error: "Module not found" }, { status: 404 });
+    }
+
+    module.chapitres.push(chapitre);
+    await module.save();
+
+    return NextResponse.json({
+      message: "Chapitre added successfully",
+      module,
+    });
+  } catch (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
 
 // Delete module by slug
 export async function DELETE(request, { params }) {

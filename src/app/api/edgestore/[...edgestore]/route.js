@@ -7,6 +7,7 @@ const es = initEdgeStore.create();
 const edgeStoreRouter = es.router({
   publicFiles: es.fileBucket(),
   profilePictures: es.imageBucket(),
+  moduleCovers: es.imageBucket(),
 });
 const handler = createEdgeStoreNextHandler({
   router: edgeStoreRouter,

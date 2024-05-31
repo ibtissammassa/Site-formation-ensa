@@ -9,6 +9,29 @@ export const fileSchema = z.instanceof(File).refine(
     message: "Each file must be less than 5MB",
   }
 );
+export const imageSchema = z.instanceof(File).refine(
+  (file) => {
+    const allowedExtensions = ["jpg", "jpeg", "png", "gif"];
+    const maxSize = 5 * 1024 * 1024; // 5MB
+
+    // Check if the file is an image
+    const fileExtension = file.name.split(".").pop().toLowerCase();
+    if (!allowedExtensions.includes(fileExtension)) {
+      return false;
+    }
+
+    // Check if the file size is within the limit
+    if (file.size > maxSize) {
+      return false;
+    }
+
+    return true;
+  },
+  {
+    message:
+      "Invalid file. Please upload an image file (jpg, jpeg, png, gif) within 5MB.",
+  }
+);
 
 export const addTARSchema = z.object({
   title: z.string().min(5, { message: "Title is required" }),
@@ -112,14 +135,33 @@ export const FormConnectionSchema = z.object({
   password: z.string(),
 });
 
+const fileImageSchema = z
+  .instanceof(File)
+  .refine(
+    (file) => ["image/jpeg", "image/png", "image/gif"].includes(file.type),
+    {
+      message: "File must be an image (jpeg, png, gif)",
+    }
+  )
+  .refine((file) => file.size <= 5 * 1024 * 1024, {
+    message: "File size must be less than 5MB",
+  });
+
 export const FromModuleSchema = z.object({
   name: z.string(),
-  date_debut: z.string().datetime(),
-  date_fin: z.string().datetime(),
+  date_debut: z.date(),
+  date_fin: z.date(),
   objectif: z.string(),
-  volumeTotal: z.number(),
-  volumeTd: z.number(),
-  volumeTp: z.number(),
-  prof: z.string(),
-  semester: z.number(),
+  volumeCours: z.string().refine((value) => !isNaN(Number(value)), {
+    message: "Volume of courses must be a number",
+  }),
+  volumeTd: z.string().refine((value) => !isNaN(Number(value)), {
+    message: "Volume of tutorials must be a number",
+  }),
+  volumeTp: z.string().refine((value) => !isNaN(Number(value)), {
+    message: "Volume of practicals must be a number",
+  }),
+  prof: z.any(),
+  semester: z.string(),
+  cover_image: fileImageSchema,
 });

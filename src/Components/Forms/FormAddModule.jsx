@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+import slugify from "slugify";
 import {
   Select,
   SelectContent,
@@ -19,22 +20,76 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  FormDescription,
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { Button as RedButton } from "../ui/extension/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { Textarea } from "../ui/textarea";
+import ProfSelect from "./ProfSelect";
+import { useEdgeStore } from "@/lib/edgestore";
+import axios from "axios";
+import { useState } from "react";
 
 function FormAddModule() {
+  const [chapitres, setChapitres] = useState([]);
+  const { edgestore } = useEdgeStore();
   const form = useForm({
     resolver: zodResolver(FromModuleSchema),
   });
-  function onSubmit(values) {
-    console.log(values);
+
+  async function onSubmit(values) {
+    // add image to bucket
+    const image = values.cover_image;
+    const moduleCover = await edgestore.moduleCovers.upload({
+      file: image,
+    });
+    // create module object
+    const module = {
+      name: values.name,
+      slug: slugify(values.name),
+      objectif: values.objectif,
+      date_debut: values.date_debut,
+      date_fin: values.date_fin,
+      volume_horaire: {
+        total:
+          Number(values.volumeCours) +
+          Number(values.volumeTd) +
+          Number(values.volumeTp),
+        cours: Number(values.volumeCours),
+        td: Number(values.volumeTd),
+        tp: Number(values.volumeTp),
+      },
+      chapitres: [],
+      prof: {
+        profId: values.prof._id,
+        firstname: values.prof.firstname,
+        lastname: values.prof.lastname,
+        Image: values.prof.Image,
+      },
+      semester: Number(values.semester),
+      progress: 0,
+      coverImage: moduleCover.url,
+    };
+
+    // add module to db
+    try {
+      const response = await axios.post("/api/module", module);
+      console.log("module added succesfully");
+      console.log(response.data);
+    } catch (error) {
+      console.log("Error adding module:", error);
+    }
+    console.log(module);
   }
+
+  const handleFileChange = (e, field) => {
+    const file = e.target.files[0];
+    field.onChange(file instanceof File ? file : null);
+  };
+
   return (
     <>
       <Form {...form}>
@@ -43,13 +98,29 @@ function FormAddModule() {
           className="space-y-8 p-4 m-4"
         >
           <FormField
-            controle={form.control}
+            control={form.control} // Corrected spelling here
             name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Nom Module</FormLabel>
                 <FormControl>
                   <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="objectif"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Objectif de module</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="L'objectif attendu de cette module"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -139,82 +210,56 @@ function FormAddModule() {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="objectif"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Objectif de module</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="L'objectif attendu de cette module"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="volumeCours"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Volume horaire de cours</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="volumeTd"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Volume horaire totale</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="volumeTp"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Volume horaire totale</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="sm:flex sm:flex-row sm:w-full sm:justify-start sm:gap-6 gap-2 my-4">
+            <FormField
+              control={form.control}
+              name="volumeCours"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Volume horaire de cours</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="volumeTd"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Volume horaire TD</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="volumeTp"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Volume horaire TP</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <FormField
             control={form.control}
             name="prof"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Encadrent</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Choisir le prof qui va encadrer cette module" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent className="bg-white">
-                    <SelectItem value="prof_1">prof 1</SelectItem>
-                    <SelectItem value="prof_2">prof 2</SelectItem>
-                    <SelectItem value="prof_3">prof 3</SelectItem>
-                  </SelectContent>
-                </Select>
+                <FormControl>
+                  <ProfSelect onValueChange={field.onChange} />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
@@ -235,17 +280,38 @@ function FormAddModule() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent className="bg-white">
-                    <SelectItem value="semestre_1">semestre 1</SelectItem>
-                    <SelectItem value="semestre_2">semestre 2</SelectItem>
-                    <SelectItem value="semestre_3">semestre 3</SelectItem>
-                    <SelectItem value="semestre_4">semestre 4</SelectItem>
+                    <SelectItem value="1">semestre 1</SelectItem>
+                    <SelectItem value="2">semestre 2</SelectItem>
+                    <SelectItem value="3">semestre 3</SelectItem>
+                    <SelectItem value="4">semestre 4</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button variant="outline">Ajouté Module</Button>
+          <FormField
+            control={form.control}
+            name="cover_image"
+            onChange={(e) => {
+              const file = e.target.files[0];
+              field.onChange(file instanceof File ? file : null);
+            }}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Cover Image</FormLabel>
+                <FormControl>
+                  <Input
+                    id="image"
+                    type="file"
+                    onChange={(e) => handleFileChange(e, field)}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <RedButton type="submit">Ajouté Module</RedButton>
         </form>
       </Form>
     </>
