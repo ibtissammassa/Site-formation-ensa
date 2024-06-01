@@ -52,9 +52,6 @@ export async function POST(request) {
     responce.cookies.set("token", token, { httpOnly: true });
     return responce;
   } catch (error) {
-    return NextResponse.json(
-      { error: "There was a problem in login route" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

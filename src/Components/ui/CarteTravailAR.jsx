@@ -8,8 +8,7 @@ function CarteTravailAR({ data }) {
     const { title, detail, slug, module, delais, rendu } = data;
     const role = useStore((state) => state.userRole);
 
-    if (!data || data.length == 0) return <SkeletonCarteTravailAR />
-
+  if (!data || data.length == 0) return <SkeletonCarteTravailAR />;
     // Extraire la date au format YYYY-MM-DD
     const date_delais = new Date(delais).toISOString().split('T')[0];
     // Extraire l'heure au format HH:MM:SS
@@ -34,11 +33,19 @@ function CarteTravailAR({ data }) {
 }
 
 function RenduFlag() {
-    return <span className="rounded-lg bg-green-400 text-sm text-white p-1.5">Rendu</span>;
+  return (
+    <span className="rounded-lg bg-green-400 text-sm text-white p-1.5">
+      Rendu
+    </span>
+  );
 }
 
 function NonRenduFlag() {
-    return <span className="rounded-lg bg-red-400 text-sm text-white p-1.5">Non Rendu</span>;
+  return (
+    <span className="rounded-lg bg-red-400 text-sm text-white p-1.5">
+      Non Rendu
+    </span>
+  );
 }
 function OuvertFlag() {
     return <span className="text-green-400">Ouvert</span>;

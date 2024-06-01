@@ -9,18 +9,9 @@ await connect();
 export async function GET(request, { params }) {
   try {
     const { slug } = params;
-    const travail = await TravailAR.findOne({ slug });
-    const moduleId = travail.module;
-    const course = await Module.findOne({ _id: moduleId });
-    travail.module = course;
-    const updatedRessources = await Promise.all(
-      travail.ressources.map(async (ressourceId) => {
-        const resourceData = await Ressources.findById(ressourceId);
-        return resourceData;
-      })
-    );
-
-    travail.ressources = updatedRessources;
+    const travail = await TravailAR.findOne({ slug })
+      .populate("module")
+      .populate("ressources");
     if (!travail) {
       return NextResponse.json(
         { error: "TravailAR not found" },
