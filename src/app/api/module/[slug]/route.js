@@ -51,7 +51,6 @@ export async function POST(request, { params }) {
     if (!module) {
       return NextResponse.json({ error: "Module not found" }, { status: 404 });
     }
-
     module.chapitres.push(chapitre);
     await module.save();
 
