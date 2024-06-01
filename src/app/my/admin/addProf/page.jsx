@@ -1,9 +1,30 @@
 import FromAddProf from "@/Components/Forms/FormAddProf";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/Components/ui/breadcrumb";
 
 function AddProfPage() {
   return (
     <div className="mx-10 p-5 ">
-      <h1 className="text-lg">Ajouté Une Prof :</h1>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/my/dashboard">Dashboard</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Ajouter Prof</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+      <h1 className="md:text-4xl text-3xl font-bold my-5">
+        Ajouter un Professeur :
+      </h1>
       <FromAddProf />
     </div>
   );
