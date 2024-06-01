@@ -18,7 +18,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/Components/ui/dialog";
 import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
