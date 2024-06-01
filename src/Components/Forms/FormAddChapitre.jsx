@@ -30,6 +30,8 @@ import { fileSchema } from "@/schema/zodFormSchema";
 import { useEdgeStore } from "@/lib/edgestore";
 import axios from "axios";
 import { removeExtension } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { useToast } from "../ui/use-toast";
 
 const FormChapitreSchema = z.object({
   title: z.string(),
@@ -45,6 +47,8 @@ const FormChapitreSchema = z.object({
 });
 
 const FormAddChapitre = ({ slug }) => {
+  const router = useRouter();
+  const { toast } = useToast();
   const { edgestore } = useEdgeStore();
   const [elements, setElements] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -94,6 +98,11 @@ const FormAddChapitre = ({ slug }) => {
         const res = await axios.post(`/api/module/${slug}`, { chapitre });
         console.log(res.data);
         console.log("chapitre added successfully");
+        router.refresh();
+        toast({
+          description: "Chapitre a été ajouté avec succée.",
+          variant: "success",
+        });
       }
     } catch (error) {
       console.log(error);
