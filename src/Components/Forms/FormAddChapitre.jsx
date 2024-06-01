@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -46,11 +47,13 @@ const FormChapitreSchema = z.object({
 const FormAddChapitre = ({ slug }) => {
   const { edgestore } = useEdgeStore();
   const [elements, setElements] = useState([]);
+  const [loading, setLoading] = useState(false);
   const form = useForm({
     resolver: zodResolver(FormChapitreSchema),
   });
   const onSubmit = async (data) => {
     try {
+      setLoading(true);
       console.log("submitting ...");
       const formattedResources = [];
       if (data.ressources) {
@@ -94,6 +97,8 @@ const FormAddChapitre = ({ slug }) => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
   const handleFileChange = (e, field) => {
@@ -184,7 +189,10 @@ const FormAddChapitre = ({ slug }) => {
             </FormItem>
           )}
         />
-        <RedButton>Ajouté</RedButton>
+        <RedButton type="submit" size="lg" disabled={loading}>
+          {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <></>}
+          {loading ? "Attendez" : "Ajouter"}
+        </RedButton>
       </form>
     </Form>
   );
