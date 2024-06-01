@@ -188,7 +188,7 @@ function TravailDetail({ params }) {
                 </div>
               )}
               {new Date(travailAR.delais) > new Date() ? (
-                <FormAddSubmission />
+                <FormAddSubmission slug={slug} />
               ) : (
                 <p className="text-red-500">
                   La date limite de soumission est dépassée

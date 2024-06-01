@@ -10,14 +10,27 @@ await connect();
 export async function POST(request) {
   try {
     const reqBody = await request.json();
-    const { submissions } = reqBody;
+    const { travailSlug, submissionDate, student, ressources } = reqBody;
+    const travail = await TravailAR.findOne({ slug: travailSlug });
+    if (!travail) {
+      return NextResponse.json(
+        { error: "Travail not found slug : " + travailSlug },
+        { status: 404 }
+      );
+    }
+    const submissions = new Submissions({
+      travail: travail.id,
+      submissionDate,
+      student,
+      ressources,
+    });
 
-    const savedSubmissions = await Submissions.insertMany(submissions);
+    const savedSubmission = await submissions.save();
 
     return NextResponse.json({
       message: "Submissions created successfully",
       success: true,
-      savedSubmissions,
+      savedSubmission,
     });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

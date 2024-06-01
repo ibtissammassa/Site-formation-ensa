@@ -4,9 +4,7 @@ import UserRoles from "@/schema/userRoles";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import { sendEmail } from "@/lib/mailer";
-import axios from "axios";
 import jwt from "jsonwebtoken";
-import next from "next";
 
 await connect();
 

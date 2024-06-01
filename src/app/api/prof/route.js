@@ -2,6 +2,7 @@ import User from "@/schema/userSchema";
 import UserRoles from "@/schema/userRoles";
 import { NextRequest, NextResponse } from "next/server";
 import { connect } from "@/dbConfig/dbConfig";
+import bcryptjs from "bcryptjs";
 
 await connect();
 
@@ -19,20 +20,21 @@ export async function GET(request) {
 export async function POST(request) {
   try {
     const role = UserRoles.Teacher;
-    const {
-      firstname,
-      lastname,
-      email,
-      password,
-      Image,
-    } = await request.json();
+    const { nom, prenom, numeroTele, cin, email, motDePass, Image } =
+      await request.json();
+
+    // hash password
+    const salt = await bcryptjs.genSalt(10);
+    const hashedPassword = await bcryptjs.hash(motDePass, salt);
 
     const user = new User({
-      firstname,
-      lastname,
-      email,
-      password,
-      role,
+      firstname: prenom,
+      lastname: nom,
+      phoneNumber: numeroTele,
+      cin: cin,
+      email: email,
+      password: hashedPassword,
+      role: role,
       Image,
     });
 

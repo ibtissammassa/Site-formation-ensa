@@ -59,6 +59,7 @@ const FormAddChapitre = ({ slug }) => {
           const res = await edgestore.publicFiles.upload({
             file: data.ressources,
           });
+          console.log("file uploaded");
           formattedResources.push({
             title: removeExtension(data.ressources.name),
             url: res.url,
@@ -68,28 +69,29 @@ const FormAddChapitre = ({ slug }) => {
             const res = await edgestore.publicFiles.upload({
               file,
             });
+            console.log("file uploaded");
             formattedResources.push({
               title: removeExtension(file.name),
               url: res.url,
             });
           });
         }
+        // add the ressources data to the database
+        const resourceObjs = await axios.post("/api/ressource", {
+          ressources: formattedResources,
+        });
+        console.log("ressources added successfuly");
+        const chapitre = {
+          num: 3,
+          title: data.title,
+          description: data.description,
+          elements,
+          ressources: resourceObjs.data.savedRessources.map((res) => res._id),
+        };
+        const res = await axios.post(`/api/module/${slug}`, { chapitre });
+        console.log(res.data);
+        console.log("chapitre added successfully");
       }
-      // add the ressources data to the database
-      const resourceObjs = await axios.post("/api/ressource", {
-        ressources: formattedResources,
-      });
-      console.log("ressources added successfuly");
-      const chapitre = {
-        num: 3,
-        title: data.title,
-        description: data.description,
-        elements,
-        ressources: resourceObjs.data.savedRessources.map((res) => res._id),
-      };
-      const res = await axios.post(`/api/module/${slug}`, chapitre);
-      console.log(res.data);
-      console.log("chapitre added successfully");
     } catch (error) {
       console.log(error);
     }
