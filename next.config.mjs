@@ -8,6 +8,15 @@ const nextConfig = {
   //   };
   //   return config;
   // },
+  // next.config.js
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

@@ -1,5 +1,17 @@
 import { z } from "zod";
 
+const fileImageSchema = z
+  .instanceof(File)
+  .refine(
+    (file) => ["image/jpeg", "image/png", "image/gif"].includes(file.type),
+    {
+      message: "File must be an image (jpeg, png, gif)",
+    }
+  )
+  .refine((file) => file.size <= 5 * 1024 * 1024, {
+    message: "File size must be less than 5MB",
+  });
+
 export const fileSchema = z.instanceof(File).refine(
   (file) => {
     const maxSize = 5 * 1024 * 1024; // 5MB
@@ -9,29 +21,29 @@ export const fileSchema = z.instanceof(File).refine(
     message: "Each file must be less than 5MB",
   }
 );
-export const imageSchema = z.instanceof(File).refine(
-  (file) => {
-    const allowedExtensions = ["jpg", "jpeg", "png", "gif"];
-    const maxSize = 5 * 1024 * 1024; // 5MB
+// export const imageSchema = z.instanceof(File).refine(
+//   (file) => {
+//     const allowedExtensions = ["jpg", "jpeg", "png", "gif"];
+//     const maxSize = 5 * 1024 * 1024; // 5MB
 
-    // Check if the file is an image
-    const fileExtension = file.name.split(".").pop().toLowerCase();
-    if (!allowedExtensions.includes(fileExtension)) {
-      return false;
-    }
+//     // Check if the file is an image
+//     const fileExtension = file.name.split(".").pop().toLowerCase();
+//     if (!allowedExtensions.includes(fileExtension)) {
+//       return false;
+//     }
 
-    // Check if the file size is within the limit
-    if (file.size > maxSize) {
-      return false;
-    }
+//     // Check if the file size is within the limit
+//     if (file.size > maxSize) {
+//       return false;
+//     }
 
-    return true;
-  },
-  {
-    message:
-      "Invalid file. Please upload an image file (jpg, jpeg, png, gif) within 5MB.",
-  }
-);
+//     return true;
+//   },
+//   {
+//     message:
+//       "Invalid file. Please upload an image file (jpg, jpeg, png, gif) within 5MB.",
+//   }
+// );
 
 export const addTARSchema = z.object({
   title: z.string().min(5, { message: "Title is required" }),
@@ -71,7 +83,8 @@ export const FormProfSchema = z.object({
     .string()
     .regex(new RegExp("^[a-zA-Z]{2}\\d{3,5}"), { message: "Invalid CIN" }),
   email: z.string().email(),
-  motDePass: z.string(),
+  motDePass: z.string().min(8),
+  Image: fileImageSchema,
 });
 //   .superRefine(({ motDePass }, checkPassComplexity) => {
 //     const containsUppercase = (ch) => /[A-Z]/.test(ch);
@@ -134,18 +147,6 @@ export const FormConnectionSchema = z.object({
   email: z.string().email(),
   password: z.string(),
 });
-
-const fileImageSchema = z
-  .instanceof(File)
-  .refine(
-    (file) => ["image/jpeg", "image/png", "image/gif"].includes(file.type),
-    {
-      message: "File must be an image (jpeg, png, gif)",
-    }
-  )
-  .refine((file) => file.size <= 5 * 1024 * 1024, {
-    message: "File size must be less than 5MB",
-  });
 
 export const FromModuleSchema = z.object({
   name: z.string(),

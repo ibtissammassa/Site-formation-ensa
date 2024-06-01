@@ -21,6 +21,7 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
+import { Loader2 } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Button as RedButton } from "../ui/extension/button";
@@ -32,55 +33,68 @@ import ProfSelect from "./ProfSelect";
 import { useEdgeStore } from "@/lib/edgestore";
 import axios from "axios";
 import { useState } from "react";
+import { useToast } from "../ui/use-toast";
+import { useRouter } from "next/navigation";
 
 function FormAddModule() {
   const [chapitres, setChapitres] = useState([]);
+  const router = useRouter();
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
   const { edgestore } = useEdgeStore();
   const form = useForm({
     resolver: zodResolver(FromModuleSchema),
   });
 
   async function onSubmit(values) {
-    // add image to bucket
-    const image = values.cover_image;
-    const moduleCover = await edgestore.moduleCovers.upload({
-      file: image,
-    });
-    // create module object
-    const module = {
-      name: values.name,
-      slug: slugify(values.name),
-      objectif: values.objectif,
-      date_debut: values.date_debut,
-      date_fin: values.date_fin,
-      volume_horaire: {
-        total:
-          Number(values.volumeCours) +
-          Number(values.volumeTd) +
-          Number(values.volumeTp),
-        cours: Number(values.volumeCours),
-        td: Number(values.volumeTd),
-        tp: Number(values.volumeTp),
-      },
-      chapitres: [],
-      prof: {
-        profId: values.prof._id,
-        firstname: values.prof.firstname,
-        lastname: values.prof.lastname,
-        Image: values.prof.Image,
-      },
-      semester: Number(values.semester),
-      progress: 0,
-      coverImage: moduleCover.url,
-    };
-
     // add module to db
     try {
+      setLoading(true);
+      // add image to bucket
+      const image = values.cover_image;
+      const moduleCover = await edgestore.moduleCovers.upload({
+        file: image,
+      });
+      // create module object
+      const module = {
+        name: values.name,
+        slug: slugify(values.name),
+        objectif: values.objectif,
+        date_debut: values.date_debut,
+        date_fin: values.date_fin,
+        volume_horaire: {
+          total:
+            Number(values.volumeCours) +
+            Number(values.volumeTd) +
+            Number(values.volumeTp),
+          cours: Number(values.volumeCours),
+          td: Number(values.volumeTd),
+          tp: Number(values.volumeTp),
+        },
+        chapitres: [],
+        prof: {
+          profId: values.prof._id,
+          firstname: values.prof.firstname,
+          lastname: values.prof.lastname,
+          Image: values.prof.Image,
+        },
+        semester: Number(values.semester),
+        progress: 0,
+        coverImage: moduleCover.url,
+      };
+
       const response = await axios.post("/api/module", module);
       console.log("module added succesfully");
       console.log(response.data);
+      router.refresh();
+      toast({
+        description: "Module a été ajouté avec succée.",
+        variant: "success",
+      });
     } catch (error) {
       console.log("Error adding module:", error);
+    } finally {
+      setLoading(false);
     }
     console.log(module);
   }
@@ -311,7 +325,14 @@ function FormAddModule() {
               </FormItem>
             )}
           />
-          <RedButton type="submit">Ajouté Module</RedButton>
+          <RedButton type="submit" size="lg" disabled={loading}>
+            {loading ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <></>
+            )}
+            {loading ? "Attendez" : "Ajouter Module"}
+          </RedButton>
         </form>
       </Form>
     </>

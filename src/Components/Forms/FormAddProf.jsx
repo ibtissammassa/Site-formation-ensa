@@ -2,6 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import HorizontalInputGroup from "../ui/extension/horizontalInputGroup";
+import { Loader2 } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -14,15 +15,53 @@ import { Input } from "../../Components/ui/input";
 import { FormProfSchema } from "@/schema/zodFormSchema";
 import { Button } from "../ui/extension/button";
 import PasswordInput from "../ui/extension/passwordInput";
+import UserRoles from "@/schema/userRoles";
+import { useEdgeStore } from "@/lib/edgestore";
+import axios from "axios";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useToast } from "../ui/use-toast";
 
 function FormAddProf() {
+  const { edgestore } = useEdgeStore();
+  const { toast } = useToast();
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const form = useForm({
     resolver: zodResolver(FormProfSchema),
   });
 
   async function onSubmit(values) {
-    console.log(values);
+    try {
+      setLoading(true);
+      // add image to edge bucket
+      const image = values.Image;
+      const profileImage = await edgestore.profilePictures.upload({
+        file: image,
+      });
+      // get url
+      values.Image = profileImage.url;
+      const data = { ...values, role: UserRoles.Teacher };
+      const res = await axios.post("/api/prof", data);
+      router.refresh();
+      toast({
+        description: "Prof a été ajouté avec succée.",
+        variant: "success",
+      });
+      console.log("prof added succesfully");
+      console.log(res.data);
+    } catch (error) {
+      console.log("Source FromAddProf : ", error);
+    } finally {
+      setLoading(false);
+    }
   }
+
+  const handleFileChange = (e, field) => {
+    const file = e.target.files[0];
+    field.onChange(file instanceof File ? file : null);
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -108,8 +147,30 @@ function FormAddProf() {
             </FormItem>
           )}
         />
-        <Button type="submit" size="lg">
-          Ajouté prof
+        <FormField
+          control={form.control}
+          name="Image"
+          onChange={(e) => {
+            const file = e.target.files[0];
+            field.onChange(file instanceof File ? file : null);
+          }}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Image de profile</FormLabel>
+              <FormControl>
+                <Input
+                  id="image"
+                  type="file"
+                  onChange={(e) => handleFileChange(e, field)}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit" size="lg" disabled={loading}>
+          {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <></>}
+          {loading ? "Attendez" : "Ajouter Prof"}
         </Button>
       </form>
     </Form>

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import CarteCours from "@/Components/ui/CarteCours";
 import {
   Breadcrumb,
@@ -50,7 +50,11 @@ function Cours() {
     fetchData();
   }, []);
 
-  if (!courses) return <Loader />
+  useEffect(() => {
+    console.log("courses : ", courses);
+  }, [courses]);
+
+  if (!courses) return <Loader />;
 
   const totalPages = Math.ceil(courses.length / itemsPerPage);
 
@@ -58,7 +62,10 @@ function Cours() {
     setCurrentPage(page);
   };
 
-  const paginatedCourses = courses.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const paginatedCourses = courses.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="lg:px-10 px-8 2xl:px-80 py-8 flex flex-col gap-5 ">
@@ -87,22 +94,26 @@ function Cours() {
         </Select>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-2 gap-3 mb-1">
-        {
-          coursesLoading ? (
-            Array(8).fill().map((_, index) => <SkeletonCard key={index} />)
-          ) : paginatedCourses.length === 0 ? (
-            <p>Aucun cours pour le moment.</p>
-          ) : (
-            paginatedCourses.map((data, index) => <CarteCours key={index} data={data} />)
-          )
-        }
+        {coursesLoading ? (
+          Array(8)
+            .fill()
+            .map((_, index) => <SkeletonCard key={index} />)
+        ) : paginatedCourses.length === 0 ? (
+          <p>Aucun cours pour le moment.</p>
+        ) : (
+          paginatedCourses.map((data, index) => (
+            <CarteCours key={index} data={data} />
+          ))
+        )}
       </div>
       <Pagination>
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
               href="#"
-              onClick={() => handlePageChange(currentPage > 1 ? currentPage - 1 : 1)}
+              onClick={() =>
+                handlePageChange(currentPage > 1 ? currentPage - 1 : 1)
+              }
             />
           </PaginationItem>
           {Array.from({ length: totalPages }, (_, i) => (
@@ -110,7 +121,7 @@ function Cours() {
               <PaginationLink
                 href="#"
                 onClick={() => handlePageChange(i + 1)}
-                className={currentPage === i + 1 ? 'active' : ''}
+                className={currentPage === i + 1 ? "active" : ""}
               >
                 {i + 1}
               </PaginationLink>
@@ -119,7 +130,11 @@ function Cours() {
           <PaginationItem>
             <PaginationNext
               href="#"
-              onClick={() => handlePageChange(currentPage < totalPages ? currentPage + 1 : totalPages)}
+              onClick={() =>
+                handlePageChange(
+                  currentPage < totalPages ? currentPage + 1 : totalPages
+                )
+              }
             />
           </PaginationItem>
         </PaginationContent>
