@@ -54,7 +54,7 @@ export default function SubmissionsTable({ submissions, loading }) {
             <Skeleton className="h-4 w-w-full" />
           </div>
         </TableCaption>
-      ) : submissions.length === 0 ? (
+      ) : !submissions ? (
         <TableCaption className="mb-6">
           Pas de soumissions pour le moment !
         </TableCaption>
