@@ -76,12 +76,12 @@ export default function NavBar({ session }) {
             >
               Enseignants
             </Link>
-            <Link
+            {/* <Link
               href="/"
               className="text-sm hover:text-red-600 inline-block mx-5"
             >
               Forum
-            </Link>
+            </Link> */}
           </ul>
         ) : (
           <></>
@@ -161,12 +161,12 @@ export default function NavBar({ session }) {
                   >
                     Enseignants
                   </Link>
-                  <Link
+                  {/* <Link
                     href="/"
                     className=" hover:text-red-600 inline-block mx-5"
                   >
                     Forum
-                  </Link>
+                  </Link> */}
                 </ul>
                 <div className="flex flex-col gap-2 px-5">
                   <Button className="px-7" href="/Inscription">
