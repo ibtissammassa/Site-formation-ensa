@@ -85,7 +85,7 @@ const FormAddChapitre = ({ slug }) => {
         });
         console.log("ressources added successfuly");
         const chapitre = {
-          num: 3,
+          num: 1,
           title: data.title,
           description: data.description,
           elements,
