@@ -65,6 +65,9 @@ function Dashboard() {
           <Button className="w-48" href="/my/admin/addModule">
             Ajouter un Module
           </Button>
+          <Button className="w-48" variant='outline' href="/my/admin/addProf">
+            Ajouter un Prof
+          </Button>
           <Button variant='green' className="w-48" href="/my/admin/verifyStudents">
             Verifier Etudiants
           </Button></div>

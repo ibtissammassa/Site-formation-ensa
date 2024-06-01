@@ -32,7 +32,7 @@ function UnverifiedStudentsTable({ students, loading }) {
   return (
     <Table>
       <TableHeader>
-        <TableRow>
+        <TableRow className="font-bold">
           <TableHead>Prenom</TableHead>
           <TableHead>Nom</TableHead>
           <TableHead>Num Tele</TableHead>
